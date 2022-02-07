@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Let\'s Eat</string>
+
+    <string name="menu_bar_settings_button">Settings Button</string>
 </resources>
