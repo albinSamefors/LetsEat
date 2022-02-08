@@ -15,8 +15,5 @@
     </style>
 
     <!--Customizing the action-bar font-->
-    <style name="TextAppearance.AppCompat.W" >
-        <item name="android:fontFamily"></item>
-        <!-- TODO Note to self fix the font and add a font folder to contain the main font-->
-    </style>
+
 </resources>
