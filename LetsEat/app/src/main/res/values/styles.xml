@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="taskBarTitleTextAppearance" parent="android:TextAppearance">
-        <item name="android:fontFamily"></item>
-        <item name="android:textSize"></item>
-        <item name="android:textColor"></item>
-
+        <item name="android:fontFamily">@font/sarina</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/White</item>
     </style>
 
 </resources>
