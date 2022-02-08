@@ -5,11 +5,13 @@
     <item android:id="@+id/settingsButton"
           android:title="@string/menu_bar_settings_button"
           android:icon="@drawable/ic_baseline_settings_24"
-          app:showAsAction="always"
+          app:showAsAction="ifRoom"
         />
     <item android:id="@+id/mapButton"
           android:title=""
           android:icon="@drawable/ic_baseline_map_24"
-          app:showAsAction="always"
+          app:showAsAction="ifRoom"
         />
+        <!--TODO make both items clickable in the MainActivity File-->
+
 </menu>
