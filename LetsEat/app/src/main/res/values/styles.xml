@@ -4,7 +4,7 @@
         <item name="android:fontFamily"></item>
         <item name="android:textSize"></item>
         <item name="android:textColor"></item>
-        <item></item>
+
     </style>
 
 </resources>
