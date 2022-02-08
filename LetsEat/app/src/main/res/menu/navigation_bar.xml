@@ -7,4 +7,9 @@
           android:icon="@drawable/ic_baseline_settings_24"
           app:showAsAction="always"
         />
+    <item android:id="@+id/mapButton"
+          android:title=""
+          android:icon="@drawable/ic_baseline_map_24"
+          app:showAsAction="always"
+        />
 </menu>
