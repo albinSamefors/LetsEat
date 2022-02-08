@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.LetsEat" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/Red</item>
+        <item name="colorPrimary">@color/Blue</item>
         <item name="colorPrimaryVariant">@color/Blue</item>
         <item name="colorOnPrimary">@color/White</item>
         <!-- Secondary brand color. -->
