@@ -8,7 +8,7 @@
           app:showAsAction="ifRoom"
         />
     <item android:id="@+id/mapButton"
-          android:title=""
+          android:title="@string/menu_bar_map_button"
           android:icon="@drawable/ic_baseline_map_24"
           app:showAsAction="ifRoom"
         />
