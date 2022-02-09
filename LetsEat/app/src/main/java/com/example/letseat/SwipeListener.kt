@@ -1,22 +1,26 @@
 package com.example.letseat
 
+import androidx.core.content.ContextCompat.startActivity
+import android.content.Intent
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+
 import java.lang.Exception
 
-private class SwipeListener : View.OnTouchListener {
+ class SwipeListener : View.OnTouchListener {
+     lateinit var gestureDetector: GestureDetector
 
 
-    fun SwipeListener(view: View)
+
+     fun SwipeListener(view: View ,leftSwipeIntent : Intent, rightSwipeIntent : Intent )
     {
-        val gestureDetector: GestureDetector
 
         val threshold = 100
         val velocity_threshold = 100
         val listener = object: GestureDetector.SimpleOnGestureListener(){
             override fun onDown(e: MotionEvent?): Boolean {
-                return super.onDown(e)
+                return true
             }
 
             override fun onFling(
@@ -39,11 +43,11 @@ private class SwipeListener : View.OnTouchListener {
                             //When x velocity is greater then threshold
                             if(xDiff > 0)
                             {
-                                //Right swipe
+                                rightSwipe(rightSwipeIntent)
                             }
                             else
                             {
-                                //Left swipe
+                                leftSwipe(leftSwipeIntent)
                             }
                             return true
                         }
@@ -78,7 +82,14 @@ private class SwipeListener : View.OnTouchListener {
         view.setOnTouchListener(this)
 
     }
-    override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
-        return gestureDetect
+     private fun leftSwipe(leftSwipeIntent: Intent): Intent {
+        return leftSwipeIntent
+     }
+     private fun rightSwipe(rightSwipeIntent: Intent): Intent {
+        return rightSwipeIntent
+     }
+
+    override fun onTouch(p0: View?, motionEvent: MotionEvent?): Boolean {
+        return gestureDetector.onTouchEvent(motionEvent)
     }
 }
