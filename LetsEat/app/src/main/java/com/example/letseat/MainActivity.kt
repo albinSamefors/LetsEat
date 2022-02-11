@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         swipeListener.SwipeListener(container,rightIntent,true,this)
 
 
-      
+        // TODO: Implement reading of the restaurants in the global variable and show them on the home screen 
 
 
 
