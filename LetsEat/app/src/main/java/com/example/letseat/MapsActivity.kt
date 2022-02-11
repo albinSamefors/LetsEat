@@ -1,7 +1,11 @@
 package com.example.letseat
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -9,6 +13,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.letseat.databinding.ActivityMapsBinding
+import com.google.android.gms.location.places.Place
+import com.google.android.gms.location.places.Places
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -25,6 +31,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        val leftIntent = Intent(this, MainActivity::class.java)
+        val container = findViewById<FragmentContainerView>(R.id.map)
+        var swipeListener : SwipeListener = SwipeListener()
+        swipeListener.SwipeListener(container,leftIntent,false,this)
+
+        Places.
     }
 
     /**
@@ -43,5 +56,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val sydney = LatLng(-34.0, 151.0)
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+
     }
+
 }
