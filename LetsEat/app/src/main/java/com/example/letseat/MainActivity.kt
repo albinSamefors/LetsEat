@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         val rightIntent = Intent(this, MapsActivity::class.java)
         val container = findViewById<ConstraintLayout>(R.id.mainContainer)
         var swipeListener : SwipeListener = SwipeListener()
-        swipeListener.SwipeListener(container,rightIntent,true,baseContext)
+        swipeListener.SwipeListener(container,rightIntent,true,this)
 
 
 
