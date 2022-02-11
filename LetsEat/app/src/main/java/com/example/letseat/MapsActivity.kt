@@ -37,7 +37,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         var swipeListener : SwipeListener = SwipeListener()
         swipeListener.SwipeListener(container,leftIntent,false,this)
 
-        Places.
+
     }
 
     /**

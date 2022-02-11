@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.view.GestureDetector
+import android.widget.ListAdapter
+import android.widget.ScrollView
 import androidx.constraintlayout.widget.ConstraintLayout
 
 
@@ -20,6 +22,10 @@ class MainActivity : AppCompatActivity() {
         val container = findViewById<ConstraintLayout>(R.id.mainContainer)
         var swipeListener : SwipeListener = SwipeListener()
         swipeListener.SwipeListener(container,rightIntent,true,this)
+
+
+      
+
 
 
 
