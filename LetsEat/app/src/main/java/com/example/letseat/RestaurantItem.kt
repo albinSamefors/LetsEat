@@ -1,6 +1,6 @@
 package com.example.letseat
 
-data class restaurantItem(
+data class RestaurantItem(
     val id : Int,
     val restaurantName : String,
     val restaurantType : String,

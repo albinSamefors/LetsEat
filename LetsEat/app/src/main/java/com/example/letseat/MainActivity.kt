@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.view.GestureDetector
+import android.widget.ArrayAdapter
 import android.widget.ListAdapter
+import android.widget.ListView
 import android.widget.ScrollView
 import androidx.constraintlayout.widget.ConstraintLayout
 
@@ -25,6 +27,10 @@ class MainActivity : AppCompatActivity() {
 
 
         // TODO: Implement reading of the restaurants in the global variable and show them on the home screen 
+        val listView = findViewById<ListView>(R.id.restaurantView)
+        val restaurantListAdapter : RestaurantListAdapter = RestaurantListAdapter(this,R.layout.restaurant_item,
+            restaurantRepository.getAllRestaurants())
+        listView.adapter=restaurantListAdapter
 
 
 

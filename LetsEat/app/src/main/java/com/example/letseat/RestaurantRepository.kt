@@ -8,7 +8,7 @@ val restaurantRepository = RestaurantRepository().apply {
 }
 
 class RestaurantRepository {
-    private val restaurants = mutableListOf<restaurantItem>()
+    private val restaurants = mutableListOf<RestaurantItem>()
 
     fun addRestaurant(restaurantName : String, restaurantType : String, rating : Float, distanceFromUser : Float) : Int
     {
@@ -16,7 +16,7 @@ class RestaurantRepository {
             restaurants.count() == 0 -> 1
             else -> restaurants.last().id+1
         }
-        restaurants.add(restaurantItem(id,restaurantName,restaurantType,rating,distanceFromUser))
+        restaurants.add(RestaurantItem(id,restaurantName,restaurantType,rating,distanceFromUser))
         return id
     }
     fun getAllRestaurants() = restaurants
