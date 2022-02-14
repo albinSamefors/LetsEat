@@ -5,6 +5,9 @@
         <item name="android:textSize">25sp</item>
         <item name="android:textColor">@color/White</item>
     </style>
-
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/Red_Blurred</item>
+        <item name="android:colorControlActivated">@color/Yellow</item>
+    </style>
 
 </resources>

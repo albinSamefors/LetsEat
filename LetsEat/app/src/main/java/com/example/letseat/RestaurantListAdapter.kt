@@ -20,7 +20,6 @@ class RestaurantListAdapter(context: Context, resource: Int, objects: MutableLis
         val rating : Float = getItem(position)!!.rating
         val distance : Float = getItem(position)!!.distance
 
-        var restaurantItem : RestaurantItem = RestaurantItem(position,name,type,rating,distance)
 
         val inflater : LayoutInflater = LayoutInflater.from(mContext)
         val convertView = inflater.inflate(mResource, parent,false)

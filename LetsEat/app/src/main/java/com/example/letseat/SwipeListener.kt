@@ -115,15 +115,19 @@ class SwipeListener() : View.OnTouchListener  {
                          {
                              //When x difference is greater then threshold
                              //When x velocity is greater then threshold
-                             if((xDiff > 0) && isRight)
+                             if((xDiff > 0))
                              {
-                                 startActivity(context,swipeIntent,null)
-                                 rightSwipe(swipeIntent)
+                                 if(isRight) {
+                                     startActivity(context, swipeIntent, null)
+                                     rightSwipe(swipeIntent)
+                                 }
                              }
                              else
                              {
-                                 startActivity(context,swipeIntent,null)
-                                 leftSwipe(swipeIntent)
+                                 if(!isRight) {
+                                     startActivity(context, swipeIntent, null)
+                                     leftSwipe(swipeIntent)
+                                 }
                              }
                              return true
                          }

@@ -21,12 +21,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val rightIntent = Intent(this, MapsActivity::class.java)
-        val container = findViewById<ConstraintLayout>(R.id.mainContainer)
+        val container = findViewById<ListView>(R.id.restaurantView)
         var swipeListener : SwipeListener = SwipeListener()
-        swipeListener.SwipeListener(container,rightIntent,true,this)
+        swipeListener.SwipeListener(container,rightIntent,false,this)
 
-
-        // TODO: Implement reading of the restaurants in the global variable and show them on the home screen 
+        // Adds the restaurants to the main screen
         val listView = findViewById<ListView>(R.id.restaurantView)
         val restaurantListAdapter : RestaurantListAdapter = RestaurantListAdapter(this,R.layout.restaurant_item,
             restaurantRepository.getAllRestaurants())

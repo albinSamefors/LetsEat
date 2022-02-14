@@ -32,10 +32,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+        val mapContainer = findViewById<ConstraintLayout>(R.id.mapConstraintLayout)
         val leftIntent = Intent(this, MainActivity::class.java)
-        val container = findViewById<FragmentContainerView>(R.id.map)
         var swipeListener : SwipeListener = SwipeListener()
-        swipeListener.SwipeListener(container,leftIntent,false,this)
+        swipeListener.SwipeListener(mapContainer,leftIntent,false,this)
 
 
     }

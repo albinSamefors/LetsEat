@@ -9,8 +9,8 @@
 
     <TextView
         android:id="@+id/title_box"
-        android:layout_width="159dp"
-        android:layout_height="121dp"
+        android:layout_width="146dp"
+        android:layout_height="91dp"
         android:layout_marginStart="150dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="150dp"
@@ -26,7 +26,7 @@
 
     <ListView
         android:id="@+id/restaurantView"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="588dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
