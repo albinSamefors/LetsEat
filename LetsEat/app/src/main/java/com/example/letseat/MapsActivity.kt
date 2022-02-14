@@ -1,6 +1,9 @@
 package com.example.letseat
 
+import android.content.Context
 import android.content.Intent
+import android.location.LocationListener
+import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -20,6 +23,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
+    // TODO: Fixa så¨att kartan fokuserar på användarens position 
+  // lateinit var locationManager : LocationManager
+   //lateinit var locationListener: LocationListener
+   //lateinit var latLng: LatLng
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,10 +40,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        val mapContainer = findViewById<ConstraintLayout>(R.id.mapConstraintLayout)
+
+
+        /*
         val leftIntent = Intent(this, MainActivity::class.java)
         var swipeListener : SwipeListener = SwipeListener()
         swipeListener.SwipeListener(mapContainer,leftIntent,false,this)
+        */
+
 
 
     }
@@ -51,6 +63,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+
+      //  locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        
 
         // Add a marker in Sydney and move the camera
         val sydney = LatLng(-34.0, 151.0)

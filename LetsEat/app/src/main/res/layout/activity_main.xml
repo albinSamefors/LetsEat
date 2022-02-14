@@ -41,4 +41,19 @@
 
     </ListView>
 
+    <ImageButton
+        android:id="@+id/mapButton"
+        android:background="@null"
+        android:layout_width="45dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="44dp"
+        app:layout_constraintBottom_toTopOf="@+id/restaurantView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/title_box"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_map_24" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
