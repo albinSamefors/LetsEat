@@ -9,7 +9,7 @@ import android.view.GestureDetector
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 
-
+// TODO: Ändra så att alla färger hämtas ifrån temat istället för de hårdkodade färgerna Samt fixa darkmode
 class MainActivity : AppCompatActivity() {
 
 
@@ -24,6 +24,8 @@ class MainActivity : AppCompatActivity() {
        mapButton.setOnClickListener{
            startActivity(rightIntent)
        }
+
+        // TODO: lägg till en login knapp så man kan navigera till sitt konto och logga in
         /*
         var swipeListener : SwipeListener = SwipeListener()
         swipeListener.SwipeListener(container,rightIntent,false,this)

@@ -65,8 +65,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
 
       //  locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        
 
+        // TODO: Ändra stilen på pinsen så att det stämmer överens med temat 
         // Add a marker in Sydney and move the camera
         val sydney = LatLng(-34.0, 151.0)
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
