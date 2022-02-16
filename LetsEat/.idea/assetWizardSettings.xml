@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/map/baseline_map_24.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/account_circle/baseline_account_circle_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -29,7 +29,7 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="e64755" />
-                            <entry key="outputName" value="ic_baseline_map_24" />
+                            <entry key="outputName" value="ic_baseline_account_circle_24" />
                             <entry key="sourceFile" value="C:\Users\logik\OneDrive - Jonkoping University\Dokument\GitHub\LetsEat\LetsEat" />
                           </map>
                         </option>
