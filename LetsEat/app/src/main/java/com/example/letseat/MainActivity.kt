@@ -8,6 +8,7 @@ import android.view.View
 import android.view.GestureDetector
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.letseat.ui.login.LoginActivity
 
 // TODO: Ändra så att alla färger hämtas ifrån temat istället för de hårdkodade färgerna Samt fixa darkmode
 class MainActivity : AppCompatActivity() {
@@ -18,14 +19,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val rightIntent = Intent(this, MapsActivity::class.java)
+        val logInIntent = Intent(this, LoginActivity::class.java)
         val container = findViewById<ListView>(R.id.restaurantView)
         val mapButton = findViewById<ImageButton>(R.id.mapButton)
-
+        val loginButton = findViewById<ImageButton>(R.id.logInButton)
        mapButton.setOnClickListener{
            startActivity(rightIntent)
        }
+        loginButton.setOnClickListener{
+            startActivity(logInIntent)
+        }
 
-        // TODO: lägg till en login knapp så man kan navigera till sitt konto och logga in
+
+
         /*
         var swipeListener : SwipeListener = SwipeListener()
         swipeListener.SwipeListener(container,rightIntent,false,this)

@@ -59,7 +59,7 @@
         app:srcCompat="@drawable/ic_baseline_map_24" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/logInButton"
         android:layout_width="45sp"
         android:layout_height="45sp"
         android:layout_marginStart="24dp"
