@@ -36,6 +36,11 @@ class MainActivity : AppCompatActivity() {
         var swipeListener : SwipeListener = SwipeListener()
         swipeListener.SwipeListener(container,rightIntent,false,this)
         */
+        val loginButton = findViewById<ImageButton>(R.id.imageButton)
+        loginButton.setOnClickListener{
+            val intent =Intent (this, LoginActivity::class.java)
+            startActivity(intent)
+        }
 
 
         // Adds the restaurants to the main screen
