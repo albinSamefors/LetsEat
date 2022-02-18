@@ -13,14 +13,11 @@ import com.example.letseat.ui.login.LoginActivity
 // TODO: Ändra så att alla färger hämtas ifrån temat istället för de hårdkodade färgerna Samt fixa darkmode
 class MainActivity : AppCompatActivity() {
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val rightIntent = Intent(this, MapsActivity::class.java)
         val logInIntent = Intent(this, LoginActivity::class.java)
-        val container = findViewById<ListView>(R.id.restaurantView)
         val mapButton = findViewById<ImageButton>(R.id.mapButton)
         val loginButton = findViewById<ImageButton>(R.id.logInButton)
        mapButton.setOnClickListener{
@@ -30,17 +27,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(logInIntent)
         }
 
-
-
-        /*
-        var swipeListener : SwipeListener = SwipeListener()
-        swipeListener.SwipeListener(container,rightIntent,false,this)
-        */
-        val loginButton = findViewById<ImageButton>(R.id.imageButton)
-        loginButton.setOnClickListener{
-            val intent =Intent (this, LoginActivity::class.java)
-            startActivity(intent)
-        }
 
 
         // Adds the restaurants to the main screen
