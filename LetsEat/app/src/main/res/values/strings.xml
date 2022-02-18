@@ -20,4 +20,6 @@
     <string name="confirm_password">confirm password</string>
     <string name="signed">signed</string>
     <string name="already_have_an_account_login">already have an account? Login</string>
+    <string name="login">Login</string>
+    <string name="don_t_have_an_account_sign_in">Don\'t have an account? Sign in</string>
 </resources>

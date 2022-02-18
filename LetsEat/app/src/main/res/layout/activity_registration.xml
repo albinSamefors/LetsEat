@@ -92,7 +92,8 @@
             android:background="@color/White"
             android:backgroundTint="@color/White"
             android:text="@string/signed"
-            android:textColor="@color/White" />
+            android:textColor="@color/White"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/tvRedirectLogin"

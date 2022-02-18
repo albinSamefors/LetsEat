@@ -42,7 +42,7 @@ class RegistrationActivity : AppCompatActivity() {
             signUpUser()
         }
 
-        // switching from signUp Acitity to Login Activity
+        // switching from RegistrationActivity to LoginActivity
         tvRedirectLogin.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
