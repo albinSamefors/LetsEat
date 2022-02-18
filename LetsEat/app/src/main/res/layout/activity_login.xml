@@ -11,16 +11,12 @@
         android:id="@+id/title_box"
         android:layout_width="146dp"
         android:layout_height="91dp"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="150dp"
         android:fontFamily="@font/sarina"
         android:text="@string/app_name"
         android:textAlignment="center"
         android:textColor="@color/White"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,7 +41,8 @@
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:minHeight="48dp"
-            android:textColorHint="@color/White" />
+            android:textColorHint="@color/White"
+            android:textColor="@color/White"/>
 
         <EditText
             android:id="@+id/etPassword"
@@ -59,7 +56,8 @@
             android:hint="@string/password"
             android:inputType="textPassword"
             android:minHeight="48dp"
-            android:textColorHint="@color/White" />
+            android:textColorHint="@color/White"
+            android:textColor="@color/White"/>
 
 
         <Button
