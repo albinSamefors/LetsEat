@@ -7,6 +7,7 @@ import android.location.LocationListener
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageButton
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
@@ -37,6 +38,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var locationManager : LocationManager
+
 
 
 
@@ -79,7 +81,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         swipeListener.SwipeListener(mapContainer,leftIntent,false,this)
         */
 
+        val listViewButton = findViewById<ImageButton>(R.id.listViewButton)
+        listViewButton.setOnClickListener{
+            val intent =Intent (this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
+        val accountButton = findViewById<ImageButton>(R.id.AccountButton)
+        accountButton.setOnClickListener{
+            val intent =Intent (this, AccountActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 
