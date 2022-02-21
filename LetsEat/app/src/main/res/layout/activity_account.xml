@@ -2,10 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mapConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MapsActivity">
+    tools:context=".AccountActivity"
+    android:background="@color/Red">
+
+
     <TextView
         android:id="@+id/title_box"
         android:layout_width="146dp"
@@ -16,28 +18,15 @@
         android:fontFamily="@font/sarina"
         android:text="@string/app_name"
         android:textAlignment="center"
-        android:textColor="@color/Red"
+        android:textColor="@color/White"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="600sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_box"
-        app:layout_constraintVertical_bias="0.2"
-        tools:context=".MapsActivity" />
-
     <ImageButton
-        android:id="@+id/listViewButton"
+        android:id="@+id/accountListViewButton"
         android:layout_width="45sp"
         android:layout_height="45sp"
         android:layout_marginStart="24dp"
@@ -45,25 +34,23 @@
         android:layout_marginEnd="60dp"
         android:layout_marginBottom="40dp"
         android:background="@null"
-        app:layout_constraintBottom_toTopOf="@+id/map"
         app:layout_constraintEnd_toStartOf="@+id/title_box"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_list_24" />
+        app:srcCompat="@drawable/ic_baseline_listwhite_24" />
 
     <ImageButton
-        android:id="@+id/AccountButton"
+        android:id="@+id/accountMapButton"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="42dp"
+        android:layout_marginBottom="44dp"
         android:background="@null"
-        app:layout_constraintBottom_toTopOf="@+id/map"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/title_box"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_account_circle_24" />
+        app:srcCompat="@drawable/ic_baseline_mapwhite_24" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

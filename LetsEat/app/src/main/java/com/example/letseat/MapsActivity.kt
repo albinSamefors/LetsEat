@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
+import android.widget.ImageButton
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -27,6 +28,27 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var location : Location
 
 
+<<<<<<< HEAD
+=======
+
+       val locationPermissionRequest = registerForActivityResult(
+           ActivityResultContracts.RequestMultiplePermissions())
+       {permissions ->
+           when{
+               permissions.getOrDefault(android.Manifest.permission.ACCESS_FINE_LOCATION, false) ->{
+                   // Precise location granted
+               }
+               permissions.getOrDefault(android.Manifest.permission.ACCESS_COARSE_LOCATION, false) ->{
+                   //Limited location granted
+               }
+               else ->{
+                   //No location granted
+               }
+
+           }
+       }
+       // locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10,1,
+>>>>>>> origin/main
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +65,28 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
 
+<<<<<<< HEAD
+=======
+
+        /*
+        val leftIntent = Intent(this, MainActivity::class.java)
+        var swipeListener : SwipeListener = SwipeListener()
+        swipeListener.SwipeListener(mapContainer,leftIntent,false,this)
+        */
+
+        val listViewButton = findViewById<ImageButton>(R.id.listViewButton)
+        listViewButton.setOnClickListener{
+            val intent =Intent (this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        val accountButton = findViewById<ImageButton>(R.id.AccountButton)
+        accountButton.setOnClickListener{
+            val intent =Intent (this, AccountActivity::class.java)
+            startActivity(intent)
+        }
+
+>>>>>>> origin/main
     }
 
     /**
