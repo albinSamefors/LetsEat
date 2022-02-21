@@ -1,65 +1,36 @@
 package com.example.letseat
 
-import android.content.Context
-import android.content.Intent
+import android.Manifest
+import android.content.ContentProviderClient
 import android.content.pm.PackageManager
-import android.location.LocationListener
+import android.location.Location
 import android.location.LocationManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
+import com.example.letseat.databinding.ActivityMapsBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.example.letseat.databinding.ActivityMapsBinding
-import com.google.android.gms.location.places.Place
-import com.google.android.gms.location.places.Places
-import java.util.jar.Manifest
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
-    // TODO: Fixa så¨att kartan fokuserar på användarens position 
-  // lateinit var locationManager : LocationManager
-   //lateinit var locationListener: LocationListener
-   //lateinit var latLng: LatLng
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var location : Location
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var locationManager : LocationManager
-
-
-
-
-       val locationPermissionRequest = registerForActivityResult(
-           ActivityResultContracts.RequestMultiplePermissions())
-       {permissions ->
-           when{
-               permissions.getOrDefault(android.Manifest.permission.ACCESS_FINE_LOCATION, false) ->{
-                   // Precise location granted
-               }
-               permissions.getOrDefault(android.Manifest.permission.ACCESS_COARSE_LOCATION, false) ->{
-                   //Limited location granted
-               }
-               else ->{
-                   //No location granted
-               }
-
-           }
-       }
-       // locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10,1,
-
-
 
 
 
@@ -70,15 +41,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
-
-
-        /*
-        val leftIntent = Intent(this, MainActivity::class.java)
-        var swipeListener : SwipeListener = SwipeListener()
-        swipeListener.SwipeListener(mapContainer,leftIntent,false,this)
-        */
-
 
 
     }
@@ -94,15 +56,31 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.INTERNET)
+            requestPermissions(permissions,5)
+
+        } else {
+            if(fusedLocationProviderClient.lastLocation.isSuccessful)
+            {
+                location = fusedLocationProviderClient.lastLocation.result
+            }
+            else{
+                //FIX THIS WATCH THIS VIDEO https://www.youtube.com/watch?v=XwW7WDOAiWE
+            }
+        }
+        val userLatLng = LatLng(location.latitude, location.longitude)
       //  locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         // TODO: Ändra stilen på pinsen så att det stämmer överens med temat 
         // Add a marker in Sydney and move the camera
-        val sydney = LatLng(57.778394, 14.163911)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        mMap.addMarker(MarkerOptions().position(userLatLng))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(userLatLng))
 
     }
+
 
 }
