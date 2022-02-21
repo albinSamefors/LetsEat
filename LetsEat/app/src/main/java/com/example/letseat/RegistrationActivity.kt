@@ -72,14 +72,12 @@ class RegistrationActivity : AppCompatActivity() {
         // email and pass in it.
         auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(this) {
             if (it.isSuccessful) {
-                Toast.makeText(this, "Successfully Singed Up", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Successfully Signed Up", Toast.LENGTH_SHORT).show()
                 startActivity(Intent (this, LoginActivity::class.java))
                 finish()
             } else {
-                Toast.makeText(this, "Singed Up Failed!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Sign Up Failed!", Toast.LENGTH_SHORT).show()
             }
         }
     }
-
-
 }
