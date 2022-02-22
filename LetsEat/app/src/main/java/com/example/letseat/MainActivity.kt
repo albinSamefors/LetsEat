@@ -58,6 +58,20 @@ private var fineLocationPermissionGranted = false
             restaurantRepository.getAllRestaurants())
         listView.adapter=restaurantListAdapter
 
+        val restaurantItem = ArrayAdapter(
+            this,
+            android.R.layout.simple_list_item_1,
+            android.R.id.text1,
+            restaurantRepository.getAllRestaurants()
+        )
+        listView.setOnItemClickListener { parent,view,position,id->
+            val clickRestaurant = restaurantItem.getItem(position)
+            val listId = clickRestaurant?.id
+
+            val intent = Intent(this, RestaurantActivity::class.java)
+            intent.putExtra("id",listId)
+            startActivity(intent)
+        }
 
 
 

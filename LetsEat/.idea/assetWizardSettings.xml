@@ -316,7 +316,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:$USER_HOME$/Library/Android/sdk/icons/material/materialicons/map/baseline_map_24.xml" />
+                                      <entry key="url" value="file:$USER_HOME$/Library/Android/sdk/icons/material/materialicons/star_border/baseline_star_border_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -326,8 +326,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="fffffa" />
-                            <entry key="outputName" value="ic_baseline_mapwhite_24" />
+                            <entry key="color" value="e84855" />
+                            <entry key="outputName" value="ic_baseline_star_border_24" />
                             <entry key="sourceFile" value="/C:\Users\logik\OneDrive - Jonkoping University\Dokument\GitHub\LetsEat\LetsEat" />
                           </map>
                         </option>
