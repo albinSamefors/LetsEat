@@ -75,7 +75,8 @@
             android:gravity="center_horizontal"
             android:text="@string/don_t_have_an_account_sign_in"
             android:textColor="@color/Blue"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:ignore="DuplicateIds" />
 
     </LinearLayout>
 
