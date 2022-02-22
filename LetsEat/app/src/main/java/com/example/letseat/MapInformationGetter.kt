@@ -5,7 +5,7 @@ import com.google.android.gms.maps.GoogleMap
 
 
 class MapInformationGetter(googleMap: GoogleMap) {
-// TODO: Importera information ifrån places och lägg i en global variabel
+
 
 
 }
