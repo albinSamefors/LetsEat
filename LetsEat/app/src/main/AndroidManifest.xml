@@ -23,17 +23,12 @@
         <activity
             android:name=".AccountActivity"
             android:exported="false" />
-        <activity
-            android:name=".data.AccountActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
+
         <activity
             android:name=".RegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name=".LoginActivity"
             android:exported="false"
             android:label="@string/title_activity_login" />
         <!--
@@ -64,7 +59,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GoogleSignInActivity" />
+
     </application>
 
 </manifest>

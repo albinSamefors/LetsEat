@@ -1,4 +1,7 @@
 package com.example.letseat
+
+import android.location.Location
+
 //Placeholder class for creating restaurant items
 
 val restaurantRepository = RestaurantRepository().apply {
@@ -24,6 +27,15 @@ class RestaurantRepository {
     fun getItemCount() : Int
     {
         return restaurants.size
+
+    }
+    fun updateRestaurantList(location: Location, radius : Float)
+    {
+        val url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
+                "?location=" + location.latitude + ',' + location.longitude + //Longitude latitude
+        "&radius=" + radius + "&type=restaurant" + "&key=" + R.string.google_maps_key
+
+       // Create a request listener that gets the response from google.
 
     }
 

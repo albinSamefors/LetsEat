@@ -18,11 +18,9 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 
@@ -64,7 +62,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         if(ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
 
             getCurrentPosition()
-
+// TODO: Update the position with a set interval 
         }
         else{
             // When permission denied
@@ -96,6 +94,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 14.5f))
                             //Place Marker
                             gMap.addMarker(markerOptions)
+                            // TODO: Fix these hardcoded values so they get their source from variable places
+                            var circleOptions = CircleOptions()
+                            circleOptions.center(userLatLng)
+                            circleOptions.radius(150.0)
+                            circleOptions.strokeColor(R.color.Red_Blurred)
+                            circleOptions.fillColor(R.color.Transparent_Red)
+                            circleOptions.strokeWidth(5f)
+
+                            gMap.addCircle(circleOptions)
                         }
 
                     })
