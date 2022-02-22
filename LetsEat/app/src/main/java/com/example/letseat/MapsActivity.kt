@@ -1,7 +1,9 @@
 package com.example.letseat
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ContentProviderClient
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
@@ -10,6 +12,7 @@ import android.widget.ImageButton
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import com.example.letseat.databinding.ActivityMapsBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -19,60 +22,29 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.gms.tasks.Task
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var client: FusedLocationProviderClient
     private lateinit var location : Location
-
-
-<<<<<<< HEAD
-=======
-
-       val locationPermissionRequest = registerForActivityResult(
-           ActivityResultContracts.RequestMultiplePermissions())
-       {permissions ->
-           when{
-               permissions.getOrDefault(android.Manifest.permission.ACCESS_FINE_LOCATION, false) ->{
-                   // Precise location granted
-               }
-               permissions.getOrDefault(android.Manifest.permission.ACCESS_COARSE_LOCATION, false) ->{
-                   //Limited location granted
-               }
-               else ->{
-                   //No location granted
-               }
-
-           }
-       }
-       // locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10,1,
->>>>>>> origin/main
-
+    private lateinit var mapFragment : SupportMapFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
 
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = supportFragmentManager
+         mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-
-<<<<<<< HEAD
-=======
-
-        /*
-        val leftIntent = Intent(this, MainActivity::class.java)
-        var swipeListener : SwipeListener = SwipeListener()
-        swipeListener.SwipeListener(mapContainer,leftIntent,false,this)
-        */
 
         val listViewButton = findViewById<ImageButton>(R.id.listViewButton)
         listViewButton.setOnClickListener{
@@ -82,40 +54,65 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val accountButton = findViewById<ImageButton>(R.id.AccountButton)
         accountButton.setOnClickListener{
-            val intent =Intent (this, AccountActivity::class.java)
+            val intent = Intent (this, AccountActivity::class.java)
             startActivity(intent)
         }
 
->>>>>>> origin/main
+        client = LocationServices.getFusedLocationProviderClient(this)
+
+        //Permission check
+        if(ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
+
+            getCurrentPosition()
+
+        }
+        else{
+            // When permission denied
+            // Request permission
+            ActivityCompat.requestPermissions(this,)
+        }
+
+
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+    @SuppressLint("MissingPermission")
+    private fun getCurrentPosition() {
+        var task : Task<Location> = client.lastLocation
+
+
+        task.addOnSuccessListener(object : OnSuccessListener<Location> {
+            override fun onSuccess(location: Location?) {
+                if(location != null)
+                {
+                    //Location Success
+                    mapFragment.getMapAsync(object : OnMapReadyCallback{
+                        override fun onMapReady(gMap: GoogleMap) {
+                            //init LatLng
+                            var userLatLng : LatLng = LatLng(location.latitude,location.longitude)
+                            var markerOptions = MarkerOptions().position(userLatLng).title("Your Location")
+
+                            //zoom camera
+                            gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 10f))
+                            //Place Marker
+                            gMap.addMarker(markerOptions)
+                        }
+
+                    })
+                }
+
+
+            }
+
+
+        })
+
+    }
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.INTERNET)
-            requestPermissions(permissions,5)
 
-        } else {
-            if(fusedLocationProviderClient.lastLocation.isSuccessful)
-            {
-                location = fusedLocationProviderClient.lastLocation.result
-            }
-            else{
-                //FIX THIS WATCH THIS VIDEO https://www.youtube.com/watch?v=XwW7WDOAiWE
-            }
-        }
+
         val userLatLng = LatLng(location.latitude, location.longitude)
       //  locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
