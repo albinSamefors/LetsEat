@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LetsEat">
         <activity
+            android:name=".RestaurantActivity"
+            android:exported="false" />
+        <activity
             android:name=".AccountActivity"
             android:exported="false" />
         <activity
