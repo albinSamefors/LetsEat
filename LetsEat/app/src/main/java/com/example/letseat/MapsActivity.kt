@@ -69,7 +69,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         else{
             // When permission denied
             // Request permission
-            ActivityCompat.requestPermissions(this,)
+               ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),44)
+
         }
 
 
@@ -92,7 +93,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             var markerOptions = MarkerOptions().position(userLatLng).title("Your Location")
 
                             //zoom camera
-                            gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 10f))
+                            gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 14.5f))
                             //Place Marker
                             gMap.addMarker(markerOptions)
                         }
@@ -112,14 +113,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
 
 
+    }
 
-        val userLatLng = LatLng(location.latitude, location.longitude)
-      //  locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
-        // TODO: Ändra stilen på pinsen så att det stämmer överens med temat 
-        // Add a marker in Sydney and move the camera
-        mMap.addMarker(MarkerOptions().position(userLatLng))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(userLatLng))
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode == 44)
+        {
+            if(grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                getCurrentPosition();
+            }
+        }
 
     }
 
