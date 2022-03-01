@@ -2,7 +2,7 @@
 <resources>
     <!--Original colors-->
     <color name="Red">#E84855</color>
-    <color name="Transparent_Red">#E8485580</color>
+    <color name="Transparent_Red">#E8485510</color>
     <color name="Yellow">#F2BB05</color>
     <color name="White">#FFFFFA</color>
     <color name="Blue">#124E78</color>

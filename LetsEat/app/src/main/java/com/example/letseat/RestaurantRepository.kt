@@ -31,9 +31,7 @@ class RestaurantRepository {
     }
     fun updateRestaurantList(location: Location, radius : Float)
     {
-        val url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
-                "?location=" + location.latitude + ',' + location.longitude + //Longitude latitude
-        "&radius=" + radius + "&type=restaurant" + "&key=" + R.string.google_maps_key
+        val url = "https://maps.googleapis.com/maps/api/place/"
 
        // Create a request listener that gets the response from google.
 
