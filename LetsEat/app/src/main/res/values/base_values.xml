@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="standard_radius">500</integer>
+    <integer name="maximum_radius">5000</integer>
+    <integer name="circle_stroke">5</integer>
+</resources>

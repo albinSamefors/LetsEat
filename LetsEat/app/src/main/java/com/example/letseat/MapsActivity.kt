@@ -20,6 +20,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
+import kotlin.math.log
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -28,7 +29,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityMapsBinding
     private lateinit var client: FusedLocationProviderClient
     private lateinit var mapFragment : SupportMapFragment
-    var progressValue  = 500
+    private lateinit var userLatLng: LatLng
+    var progressValue  = 0
+    private lateinit var circleBounds: LatLngBounds
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,7 +42,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         val usedIntent = intent
-       progressValue = usedIntent.getIntExtra("radius",500)
         val listViewButton = findViewById<ImageButton>(R.id.listViewButton)
         listViewButton.setOnClickListener{
             val intent =Intent (this, MainActivity::class.java)
@@ -65,7 +67,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
         val distanceBar = findViewById<SeekBar>(R.id.mapDistanceBar)
-        distanceBar.max = 5000 //Ändra detta till en variabel
+        progressValue = usedIntent.getIntExtra("radius",resources.getInteger(R.integer.standard_radius))
+        distanceBar.max = resources.getInteger(R.integer.maximum_radius)
         distanceBar.progress = progressValue
         distanceBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener
         {
@@ -77,7 +80,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 // When user starts touching the bar do this
             }
             override fun onStopTrackingTouch(bar: SeekBar?) {
-                // When user releases the bar do this!
+
+                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(getBounds(mapCircle),20))
             }
         })
     }
@@ -95,27 +99,42 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     mapFragment.getMapAsync(object : OnMapReadyCallback{
                         override fun onMapReady(gMap: GoogleMap) {
                             //init LatLng
-                            val userLatLng = LatLng(location.latitude,location.longitude)
+                             userLatLng = LatLng(location.latitude,location.longitude)
                             val markerOptions = MarkerOptions().position(userLatLng).title("Your Location")
 
                             //zoom camera
-                            gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 14.5f))
+                            gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng,14.5f))
                             //Place Marker
                             gMap.addMarker(markerOptions)
-                            // TODO: Fix these hardcoded values so they get their source from variable places
                             val circleOptions = CircleOptions()
                             circleOptions.center(userLatLng)
                             circleOptions.radius(progressValue.toDouble())
                             circleOptions.strokeColor(R.color.Red_Blurred)
-                            circleOptions.fillColor(R.color.Transparent_Red) // TODO: Ändra denna 
-                            circleOptions.strokeWidth(5f)
-
+                            circleOptions.fillColor(R.color.Transparent_Red)
+                            circleOptions.strokeWidth(R.integer.circle_stroke.toFloat())
                             mapCircle = gMap.addCircle(circleOptions)
+                            gMap.animateCamera(CameraUpdateFactory.newLatLngBounds(getBounds(mapCircle),20))
+
+
                         }
                     })
                 }
             }
         })
+
+    }
+    fun getBounds(circle: Circle) : LatLngBounds
+    {
+        val earthRadius = (6371 * 1000) //In meters
+        val southWestLat = circle.center.latitude - (circle.radius / earthRadius) * (180/Math.PI)
+        val southWestLng = circle.center.longitude - (circle.radius/earthRadius) * (180/Math.PI) / Math.cos(circle.center.latitude * Math.PI/180)
+        val northEastLat = circle.center.latitude + (circle.radius / earthRadius) * (180/Math.PI)
+        val northEastLng = circle.center.longitude + (circle.radius/earthRadius) * (180/Math.PI) / Math.cos(circle.center.latitude * Math.PI/180)
+        val southWest = LatLng(southWestLat,southWestLng)
+        val northEast = LatLng(northEastLat,northEastLng)
+        val bounds = LatLngBounds(southWest,northEast)
+        return bounds
+
 
     }
 

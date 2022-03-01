@@ -20,7 +20,7 @@ private var fineLocationPermissionGranted = false
     private var coarseLocationPermissionGranted = false
     private var internetPermissionGranted = false
 
-    var progressValue = 500
+     var progressValue :Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -34,7 +34,7 @@ private var fineLocationPermissionGranted = false
         requestPermissions()
 
         val mapIntent = Intent(this, MapsActivity::class.java)
-        
+
 
 
         val logInIntent = Intent(this, LoginActivity::class.java)
@@ -79,10 +79,10 @@ private var fineLocationPermissionGranted = false
         }
 
         //Seekbar setup
-        progressValue = intent.getIntExtra("radius",500)
+        progressValue = intent.getIntExtra("radius",resources.getInteger(R.integer.standard_radius))
 
 
-        distanceBar.max = 5000
+        distanceBar.max = resources.getInteger(R.integer.maximum_radius)
         distanceBar.progress = progressValue
 
         distanceBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener
