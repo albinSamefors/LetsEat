@@ -1,9 +1,10 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.letseat
 
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.View
@@ -11,6 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -20,22 +22,24 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 
+@Suppress("DEPRECATION", "DEPRECATION")
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var tvRedirectSignUp: TextView
-    lateinit var etEmail: EditText
+    private lateinit var etEmail: EditText
     private lateinit var etPass: EditText
-    lateinit var btnLogin: Button
+    private lateinit var btnLogin: Button
     //google
-    val RC_SIGN_IN: Int = 1
-    lateinit var btnGoogle: SignInButton
-    lateinit var mGoogleSignInClient: GoogleSignInClient
-    val Req_Code:Int=123
+    //val RC_SIGN_IN: Int = 1
+    private lateinit var btnGoogle: SignInButton
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
+    private val Req_Code:Int=123
 
     // Creating firebaseAuth object
-    lateinit var auth: FirebaseAuth
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +79,17 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, RegistrationActivity::class.java)
             startActivity(intent)
             // using finish() to end the activity
+            finish()
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        val mFirebaseUser : FirebaseUser? = auth.currentUser
+        if (mFirebaseUser!=null){
+            //there is some user logged in
+            Toast.makeText(this, "User already logged in ", Toast.LENGTH_SHORT).show()
             finish()
         }
     }
@@ -134,13 +149,6 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }
-        }
-    }
-    override fun onStart() {
-        super.onStart()
-        if(GoogleSignIn.getLastSignedInAccount(this)!=null){
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
         }
     }
 
