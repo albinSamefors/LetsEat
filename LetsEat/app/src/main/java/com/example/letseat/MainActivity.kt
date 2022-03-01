@@ -34,7 +34,7 @@ private var fineLocationPermissionGranted = false
         requestPermissions()
 
         val mapIntent = Intent(this, MapsActivity::class.java)
-        mapIntent.putExtra("radius", progressValue)
+        
 
 
         val logInIntent = Intent(this, LoginActivity::class.java)
@@ -42,7 +42,9 @@ private var fineLocationPermissionGranted = false
         val distanceBar = findViewById<SeekBar>(R.id.distanceBar)
         val listView = findViewById<ListView>(R.id.restaurantView)
         val distanceView= findViewById<TextView>(R.id. distanceView)
-       mapButton.setOnClickListener{
+
+
+        mapButton.setOnClickListener{ mapIntent.putExtra("radius", progressValue)
            startActivity(mapIntent)
        }
 

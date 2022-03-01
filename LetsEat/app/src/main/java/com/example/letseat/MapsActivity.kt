@@ -28,7 +28,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityMapsBinding
     private lateinit var client: FusedLocationProviderClient
     private lateinit var mapFragment : SupportMapFragment
-    private  var progressValue  = 500
+    var progressValue  = 500
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
