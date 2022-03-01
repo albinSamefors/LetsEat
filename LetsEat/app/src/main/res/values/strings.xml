@@ -22,4 +22,5 @@
     <string name="already_have_an_account_login">already have an account? Login</string>
     <string name="login">login</string>
     <string name="don_t_have_an_account_sign_in">Don\'t have an account? Sign in</string>
+    <string name="logout">Logout</string>
 </resources>
