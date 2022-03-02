@@ -32,7 +32,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var etEmail: EditText
     private lateinit var etPass: EditText
     private lateinit var btnLogin: Button
-    private lateinit var tvForgotPassword : TextView
     //google
     //val RC_SIGN_IN: Int = 1
     private lateinit var btnGoogle: SignInButton
@@ -54,7 +53,6 @@ class LoginActivity : AppCompatActivity() {
         etEmail = findViewById(R.id.etEmailAddress)
         etPass = findViewById(R.id.etPassword)
         btnGoogle = findViewById(R.id.google_button)
-        tvForgotPassword = findViewById(R.id.tvForgotPassword)
 
         //Google Sign In Options
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -83,11 +81,6 @@ class LoginActivity : AppCompatActivity() {
             // using finish() to end the activity
             finish()
         }
-
-        tvForgotPassword.setOnClickListener {
-            startActivity(Intent(this, ForgotPasswordActivity::class.java))
-            finish()
-        }
     }
 
     override fun onStart() {
@@ -104,11 +97,6 @@ class LoginActivity : AppCompatActivity() {
     private fun login() {
         val email = etEmail.text.toString()
         val pass = etPass.text.toString()
-        // check pass
-        if (email.isBlank() || pass.isBlank()) {
-            Toast.makeText(this, "Email and Password can't be blank", Toast.LENGTH_SHORT).show()
-            return
-        }
         // calling signInWithEmailAndPassword(email, pass)
         // function using Firebase auth object
         // On successful response Display a Toast

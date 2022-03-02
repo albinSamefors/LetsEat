@@ -28,7 +28,6 @@
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:backgroundTint="@color/White"
         android:orientation="vertical"
         android:padding="15dp"
         android:paddingTop="40dp"
@@ -90,9 +89,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
+            android:background="@color/White"
             android:backgroundTint="@color/White"
             android:text="@string/signed"
-            android:textColor="@color/Red"
+            android:textColor="@color/White"
             tools:ignore="TextContrastCheck" />
 
         <TextView

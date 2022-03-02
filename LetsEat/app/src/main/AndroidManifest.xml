@@ -18,14 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LetsEat">
         <activity
-            android:name=".ForgotPasswordActivity"
-            android:exported="false" />
-        <activity
             android:name=".RestaurantActivity"
             android:exported="false" />
         <activity
             android:name=".AccountActivity"
             android:exported="false" />
+
         <activity
             android:name=".RegistrationActivity"
             android:exported="false" />
@@ -61,6 +59,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
