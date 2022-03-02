@@ -1,50 +1,55 @@
 package com.example.letseat
 
+import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MotionEvent
-import android.view.View
-import android.view.GestureDetector
 import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 
 // TODO: Ändra så att alla färger hämtas ifrån temat istället för de hårdkodade färgerna Samt fixa darkmode
 class MainActivity : AppCompatActivity() {
 
+
+
 private lateinit var permissionsLauncher : ActivityResultLauncher<Array<String>>
 private var fineLocationPermissionGranted = false
     private var coarseLocationPermissionGranted = false
     private var internetPermissionGranted = false
+
+     var progressValue :Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         permissionsLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){permissions ->
-            fineLocationPermissionGranted = permissions[android.Manifest.permission.ACCESS_FINE_LOCATION] ?: fineLocationPermissionGranted
-            coarseLocationPermissionGranted = permissions[android.Manifest.permission.ACCESS_COARSE_LOCATION] ?: coarseLocationPermissionGranted
-            internetPermissionGranted = permissions[android.Manifest.permission.INTERNET] ?: internetPermissionGranted
+            fineLocationPermissionGranted = permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: fineLocationPermissionGranted
+            coarseLocationPermissionGranted = permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: coarseLocationPermissionGranted
+            internetPermissionGranted = permissions[Manifest.permission.INTERNET] ?: internetPermissionGranted
 
         }
         requestPermissions()
 
-        val rightIntent = Intent(this, MapsActivity::class.java)
+        val mapIntent = Intent(this, MapsActivity::class.java)
+
+
+
         val logInIntent = Intent(this, LoginActivity::class.java)
-        val container = findViewById<ListView>(R.id.restaurantView)
         val mapButton = findViewById<ImageButton>(R.id.mapButton)
-       mapButton.setOnClickListener{
-           startActivity(rightIntent)
+        val distanceBar = findViewById<SeekBar>(R.id.distanceBar)
+        val listView = findViewById<ListView>(R.id.restaurantView)
+        val distanceView= findViewById<TextView>(R.id. distanceView)
+
+
+        mapButton.setOnClickListener{ mapIntent.putExtra("radius", progressValue)
+           startActivity(mapIntent)
        }
 
 
-        /*
-        var swipeListener : SwipeListener = SwipeListener()
-        swipeListener.SwipeListener(container,rightIntent,false,this)
-        */
+
         val loginButton = findViewById<ImageButton>(R.id.logInButton)
         loginButton.setOnClickListener{
             val intent =Intent (this, LoginActivity::class.java)
@@ -53,7 +58,7 @@ private var fineLocationPermissionGranted = false
 
 
         // Adds the restaurants to the main screen
-        val listView = findViewById<ListView>(R.id.restaurantView)
+
         val restaurantListAdapter : RestaurantListAdapter = RestaurantListAdapter(this,R.layout.restaurant_item,
             restaurantRepository.getAllRestaurants())
         listView.adapter=restaurantListAdapter
@@ -72,6 +77,31 @@ private var fineLocationPermissionGranted = false
             intent.putExtra("id",listId)
             startActivity(intent)
         }
+
+        //Seekbar setup
+        progressValue = intent.getIntExtra("radius",resources.getInteger(R.integer.standard_radius))
+
+
+        distanceBar.max = resources.getInteger(R.integer.maximum_radius)
+        distanceBar.progress = progressValue
+
+        distanceBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener
+        {
+            override fun onProgressChanged(bar: SeekBar?, progress: Int, fromUser: Boolean) {
+                distanceView.text = progress.toString() + "m"
+                progressValue = progress
+            }
+
+            override fun onStartTrackingTouch(bar: SeekBar?) {
+               // When user starts touching the bar do this
+            }
+
+            override fun onStopTrackingTouch(bar: SeekBar?) {
+                // When user releases the bar do this!
+
+            }
+
+        })
 
 
 
