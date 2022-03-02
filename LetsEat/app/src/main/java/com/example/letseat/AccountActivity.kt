@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -54,8 +55,20 @@ class AccountActivity : AppCompatActivity() {
         }
         else{
             //no one logged in
-            startActivity(Intent (this, LoginActivity :: class.java))
-            finish()
+            AlertDialog.Builder(this)
+                .setTitle(R.string.not_logged_in)
+                .setMessage(R.string.message)
+                .setPositiveButton(
+                    R.string.yes
+                ) { dialog, whichButton ->
+                    //send user to login screen
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
+                }.setNegativeButton(
+                    R.string.no
+                ) { dialog, whichButton ->
+                    finish()
+                }.show()
         }
     }
 
