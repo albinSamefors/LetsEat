@@ -37,7 +37,6 @@ private var fineLocationPermissionGranted = false
 
 
 
-        val logInIntent = Intent(this, LoginActivity::class.java)
         val mapButton = findViewById<ImageButton>(R.id.mapButton)
         val distanceBar = findViewById<SeekBar>(R.id.distanceBar)
         val listView = findViewById<ListView>(R.id.restaurantView)

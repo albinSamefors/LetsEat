@@ -66,6 +66,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
+            android:backgroundTint="@color/White"
+            android:textColor="@color/Red"
             android:text="@string/login" />
 
         <TextView
@@ -84,7 +86,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:padding="8dp" />
+            android:padding="8dp"
+            android:textAlignment="center" />
 
 
     </LinearLayout>

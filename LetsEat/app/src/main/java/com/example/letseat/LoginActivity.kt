@@ -97,6 +97,11 @@ class LoginActivity : AppCompatActivity() {
     private fun login() {
         val email = etEmail.text.toString()
         val pass = etPass.text.toString()
+        // check pass
+        if (email.isBlank() || pass.isBlank()) {
+            Toast.makeText(this, "Email and Password can't be blank", Toast.LENGTH_SHORT).show()
+            return
+        }
         // calling signInWithEmailAndPassword(email, pass)
         // function using Firebase auth object
         // On successful response Display a Toast
