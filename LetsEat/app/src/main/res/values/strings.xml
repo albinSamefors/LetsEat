@@ -9,16 +9,15 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-    <string name="email">email</string>
+    <string name="email">email@gmail.com</string>
     <string name="password">password</string>
     <string name="confirm_password">confirm password</string>
-    <string name="signed">signed</string>
+    <string name="signed">sign in</string>
     <string name="already_have_an_account_login">already have an account? Login</string>
     <string name="login">login</string>
     <string name="don_t_have_an_account_sign_in">Don\'t have an account? Sign in</string>
@@ -27,4 +26,8 @@
     <string name="message">You need to log in to use this feature. Want to sign in?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="email_id">Email ID</string>
+    <string name="submit">Submit</string>
+    <string name="enter_your_username_or_email_adress_we_will_send_you_an_email_to_reset_your_password">Enter your username or email address and we will send you an email to reset your password</string>
+    <string name="forgot_password">Forgot password?</string>
 </resources>
