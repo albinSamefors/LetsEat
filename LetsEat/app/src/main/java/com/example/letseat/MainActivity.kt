@@ -33,6 +33,10 @@ private var fineLocationPermissionGranted = false
         }
         requestPermissions()
 
+
+
+
+
         val mapIntent = Intent(this, MapsActivity::class.java)
 
 
@@ -134,6 +138,7 @@ private var fineLocationPermissionGranted = false
             permissionsLauncher.launch(permissionRequest.toTypedArray())
         }
     }
+
 
 
 

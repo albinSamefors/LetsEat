@@ -101,7 +101,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             //init LatLng
                              userLatLng = LatLng(location.latitude,location.longitude)
                             val markerOptions = MarkerOptions().position(userLatLng).title("Your Location")
-
+                           
                             //zoom camera
                             gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng,14.5f))
                             //Place Marker
@@ -114,6 +114,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             circleOptions.strokeWidth(R.integer.circle_stroke.toFloat())
                             mapCircle = gMap.addCircle(circleOptions)
                             gMap.animateCamera(CameraUpdateFactory.newLatLngBounds(getBounds(mapCircle),20))
+
 
 
                         }
@@ -154,7 +155,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             if(grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
             {
                 getCurrentPosition()
+
             }
         }
     }
+
 }

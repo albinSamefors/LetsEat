@@ -1,6 +1,10 @@
 package com.example.letseat
 
 import android.location.Location
+import com.google.android.gms.common.api.internal.BackgroundDetector.initialize
+import com.google.android.gms.common.api.internal.GoogleServices.initialize
+
+
 
 //Placeholder class for creating restaurant items
 
@@ -31,10 +35,12 @@ class RestaurantRepository {
     }
     fun updateRestaurantList(location: Location, radius : Float)
     {
-        val url = "https://maps.googleapis.com/maps/api/place/"
-
-       // Create a request listener that gets the response from google.
 
     }
+
+
+
+
+
 
 }
