@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Let\'s Eat</string>
+    <string name="menu_bar_settings_button">Inställningar</string>
+    <string name="menu_bar_map_button">Karta</string>
+    <string name="prompt_email">Epostandress</string>
+    <string name="prompt_password">Lösenord</string>
+    <string name="action_sign_in_short">Registrera</string>
+    <string name="welcome">Välkomen!</string>
+    <string name="invalid_username">Inte giltigt användarnamn</string>
+    <string name="invalid_password">Lösenordet måste ha mer än 5 karatärer</string>
+    <string name="login_failed">Inlogning misslyckad</string>
+    <string name="password">Lösenord</string>
+    <string name="confirm_password">"bekräfta lösenord "</string>
+    <string name="signed">Registrera</string>
+    <string name="already_have_an_account_login">Redan har ett konto? Logga in</string>
+    <string name="login">Logga in</string>
+    <string name="don_t_have_an_account_sign_in">Har du inte ett konto? Registrera dig</string>
+    <string name="logout">Logga ut</string>
+    <string name="not_logged_in">Du är inte in loggad</string>
+    <string name="message">Du behöver logga in för att använda detta. Vill du logga in?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nej</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="email">email@gmail.com</string>
+</resources>
