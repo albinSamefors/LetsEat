@@ -26,4 +26,8 @@
     <string name="message">You need to log in to use this feature. Want to sign in?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="email_id">Email ID</string>
+    <string name="submit">Submit</string>
+    <string name="enter_your_username_or_email_adress_we_will_send_you_an_email_to_reset_your_password">Enter your username or email address and we will send you an email to reset your password</string>
+    <string name="forgot_password">Forgot password?</string>
 </resources>
