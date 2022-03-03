@@ -88,7 +88,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     @SuppressLint("MissingPermission")
-    private fun getCurrentPosition() {
+     fun getCurrentPosition() {
         val task : Task<Location> = client.lastLocation
 
 
