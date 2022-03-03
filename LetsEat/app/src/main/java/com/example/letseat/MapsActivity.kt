@@ -75,6 +75,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onProgressChanged(bar: SeekBar?, progress: Int, fromUser: Boolean) {
                  progressValue = progress
                 mapCircle.radius = progressValue.toDouble()
+
             }
             override fun onStartTrackingTouch(bar: SeekBar?) {
                 // When user starts touching the bar do this

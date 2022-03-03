@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.RatingBar
 import android.widget.TextView
+import com.google.android.gms.maps.model.LatLng
 
 class RestaurantListAdapter(context: Context, resource: Int, objects: MutableList<RestaurantItem>) :
     ArrayAdapter<RestaurantItem>(context, resource, objects) {
@@ -18,7 +19,7 @@ class RestaurantListAdapter(context: Context, resource: Int, objects: MutableLis
         val name : String = getItem(position)!!.restaurantName
         val type : String = getItem(position)!!.restaurantType
         val rating : Float = getItem(position)!!.rating
-        val distance : Float = getItem(position)!!.distance
+        val distance : LatLng = getItem(position)!!.latLng
 
 
         val inflater : LayoutInflater = LayoutInflater.from(mContext)
