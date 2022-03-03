@@ -7,9 +7,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import com.firebase.ui.auth.data.model.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 
 
@@ -72,15 +73,29 @@ class RegistrationActivity : AppCompatActivity() {
         // using auth object and pass the
         // email and pass in it.
 
+        val newUser = User(email, pass)
 
         auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(this) {
             if (it.isSuccessful) {
                 Toast.makeText(this, "Successfully Signed Up", Toast.LENGTH_SHORT).show()
+                val user = auth.currentUser
+                updateUI(user, newUser)
                 startActivity(Intent (this, LoginActivity::class.java))
                 finish()
             } else {
                 Toast.makeText(this, "Sign Up Failed!", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun updateUI(user: FirebaseUser?, newAccount: com.example.letseat.User){
+        FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().currentUser?.uid!!).setValue(newAccount)
+            .addOnCompleteListener {task ->
+                if (task.isSuccessful){
+                    Toast.makeText(baseContext, "Database successful", Toast.LENGTH_SHORT).show()
+                } else{
+                    Toast.makeText(baseContext, "Database failed", Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 }

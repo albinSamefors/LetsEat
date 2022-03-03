@@ -19,7 +19,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
         submitButton.setOnClickListener{
             val email: String = etForgotPassword.text.toString().trim {it <= ' '}
             if (email.isEmpty()){
-                Toast.makeText(this, "Please enter email adress.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please enter email address.", Toast.LENGTH_SHORT).show()
             }
             else{
                 FirebaseAuth.getInstance().sendPasswordResetEmail(email).addOnCompleteListener{task ->
