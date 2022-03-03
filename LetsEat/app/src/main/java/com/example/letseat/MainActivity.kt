@@ -1,14 +1,27 @@
 package com.example.letseat
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.CircleOptions
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.gms.tasks.Task
 
 // TODO: Ändra så att alla färger hämtas ifrån temat istället för de hårdkodade färgerna Samt fixa darkmode
 class MainActivity : AppCompatActivity() {
@@ -16,6 +29,9 @@ class MainActivity : AppCompatActivity() {
 
 
 private lateinit var permissionsLauncher : ActivityResultLauncher<Array<String>>
+private lateinit var client : FusedLocationProviderClient
+private lateinit var userLatLng : LatLng
+private lateinit var debug :String
 private var fineLocationPermissionGranted = false
     private var coarseLocationPermissionGranted = false
     private var internetPermissionGranted = false
@@ -34,7 +50,17 @@ private var fineLocationPermissionGranted = false
         requestPermissions()
 
 
-
+        client = LocationServices.getFusedLocationProviderClient(this)
+        //Permission check
+        if(ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
+            getCurrentPosition()
+// TODO: Update the position with a set interval
+        }
+        else{
+            // When permission denied
+            // Request permission
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),44)
+        }
 
 
         val mapIntent = Intent(this, MapsActivity::class.java)
@@ -82,6 +108,10 @@ private var fineLocationPermissionGranted = false
             startActivity(intent)
         }
 
+
+
+
+
         //Seekbar setup
         progressValue = intent.getIntExtra("radius",resources.getInteger(R.integer.standard_radius))
 
@@ -101,7 +131,8 @@ private var fineLocationPermissionGranted = false
             }
 
             override fun onStopTrackingTouch(bar: SeekBar?) {
-                // When user releases the bar do this!
+
+
 
             }
 
@@ -110,6 +141,46 @@ private var fineLocationPermissionGranted = false
 
 
     }
+
+    //////////////////////////THIS IS ALL SHIT
+    @SuppressLint("MissingPermission")
+    fun getCurrentPosition() {
+        val task : Task<Location> = client.lastLocation
+
+
+        task.addOnSuccessListener(object : OnSuccessListener<Location> {
+            override fun onSuccess(location: Location?) {
+                if(location != null)
+                {
+                    //Location Success
+
+
+                            //init LatLng
+                            userLatLng = LatLng(location.latitude,location.longitude)
+                    var mapInformationGetter  = MapInformationGetter()
+                    //TESTING TESTING ////////////////////////////////
+                    var url = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?" +
+                            "fields=place_id%2Cname%2Crating%2Copening_hours%2Ctype%2Clocation"+
+                            "&locationbias=circle:%3A"+progressValue +"@"+userLatLng.latitude +","+ userLatLng.longitude +
+                            "&type=restaurant"+ "&key=" + resources.getString(R.string.google_maps_key)
+////////////////////////////////////////////////////
+                    mapInformationGetter.execute("https://maps.googleapis.com/maps/api/place/findplacefromtext/json\n" +
+                            "  ?fields=formatted_address%2Cname%2Crating%2Copening_hours%2Cgeometry\n" +
+                            "  &input=Museum%20of%20Contemporary%20Art%20Australia\n" +
+                            "  &inputtype=textquery\n" +
+                            "  &key="+ resources.getString(R.string.google_maps_key))
+
+
+
+
+
+
+                }
+            }
+        })
+
+    }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private fun requestPermissions()
     {
         coarseLocationPermissionGranted = ContextCompat.checkSelfPermission(
@@ -137,7 +208,10 @@ private var fineLocationPermissionGranted = false
         {
             permissionsLauncher.launch(permissionRequest.toTypedArray())
         }
+
+
     }
+
 
 
 

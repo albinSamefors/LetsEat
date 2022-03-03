@@ -1,13 +1,7 @@
 package com.example.letseat
 
-import android.annotation.SuppressLint
 import android.os.AsyncTask
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.libraries.places.api.net.PlacesClient
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -15,31 +9,24 @@ import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
 import java.lang.StringBuilder
+import java.net.HttpURLConnection
 import java.net.URL
+import java.nio.channels.AsynchronousByteChannel
 import kotlin.collections.HashMap
 
 
 class MapInformationGetter() : AsyncTask<String, Int, String>() {
-    private lateinit var placesClient : PlacesClient
-    private lateinit var url : String
-
-    fun createRestaurantURL(radius : Int, location : LatLng, apiKey : String)
+    @Throws(IOException::class)
+    fun downloadUrl(string : String) : String
     {
-        url = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?" +
-                "fields=place_id%2Cname%2Crating%2Copening_hours%2Ctype%2Clocation"+
-                "&locationbias=circle:%3A"+radius +"@"+location.latitude +","+ location.longitude +
-                "&type=restaurant"+ "&key=" + apiKey
-    }
-
-   private fun downloadUrl() : String
-    {
-        var download = URL(url)
-        var connection = download.openConnection()
+        val download = URL(string)
+        val connection = download.openConnection() as HttpURLConnection
         connection.connect()
-        var stream = connection.getInputStream()
-        var reader = BufferedReader(InputStreamReader(stream))
-        var builder = StringBuilder()
-        var line = ""
+        val stream = connection.inputStream
+        val inputStreamReader = InputStreamReader(stream)
+        val reader = BufferedReader(inputStreamReader)
+        val builder = StringBuilder()
+        val line = ""
         while( reader.readLine() != null)
         {
             builder.append(line)
@@ -54,13 +41,11 @@ class MapInformationGetter() : AsyncTask<String, Int, String>() {
 
     }
 
-
-
     override fun doInBackground(vararg string: String?): String {
 
             var data  = ""
         try {
-                data = downloadUrl()
+                data = downloadUrl(string[0]!!)
         }catch (e: IOException)
         {
             e.printStackTrace()
@@ -98,6 +83,7 @@ class ParserTask : AsyncTask<String,Int,List<HashMap<String,String>>>()
     }
 
 }
+
 class JsonParser{
     private fun parseJsonObject(jsonData : JSONObject) : HashMap<String,String>
     {
