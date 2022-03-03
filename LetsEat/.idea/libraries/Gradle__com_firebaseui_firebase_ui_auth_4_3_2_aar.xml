@@ -4,6 +4,7 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/3893bb533bbb9249d8805b76762d8f81/transformed/jetified-firebase-ui-auth-4.3.2/annotations.zip!/" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/bf01dcb3f739cac77c8d208de651d419/transformed/jetified-firebase-ui-auth-4.3.2/annotations.zip!/" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/66c484282fb28e0415651568d2388d9d/transformed/jetified-firebase-ui-auth-4.3.2/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/a1325184efb93c4ba87a4942389426e7/transformed/jetified-firebase-ui-auth-4.3.2/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/3893bb533bbb9249d8805b76762d8f81/transformed/jetified-firebase-ui-auth-4.3.2/res" />
@@ -15,6 +16,9 @@
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/66c484282fb28e0415651568d2388d9d/transformed/jetified-firebase-ui-auth-4.3.2/AndroidManifest.xml" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/66c484282fb28e0415651568d2388d9d/transformed/jetified-firebase-ui-auth-4.3.2/res" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/66c484282fb28e0415651568d2388d9d/transformed/jetified-firebase-ui-auth-4.3.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/a1325184efb93c4ba87a4942389426e7/transformed/jetified-firebase-ui-auth-4.3.2/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/a1325184efb93c4ba87a4942389426e7/transformed/jetified-firebase-ui-auth-4.3.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/a1325184efb93c4ba87a4942389426e7/transformed/jetified-firebase-ui-auth-4.3.2/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.firebaseui/firebase-ui-auth/4.3.2/3ca7ca15481cdf56a1cfcd722e1554da36b4090e/firebase-ui-auth-4.3.2-javadoc.jar!/" />
