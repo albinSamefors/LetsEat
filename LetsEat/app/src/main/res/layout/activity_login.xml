@@ -76,6 +76,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
+            android:textColor="@color/Red"
+            android:backgroundTint="@color/White"
             android:text="@string/login" />
 
         <TextView
