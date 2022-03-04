@@ -1,8 +1,10 @@
 package com.example.letseat
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -75,25 +77,31 @@ class RegistrationActivity : AppCompatActivity() {
 
         val newUser = User(email, pass)
 
-        auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(this) {
-            if (it.isSuccessful) {
+        auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(this) { task ->
+            if (task.isSuccessful) {
+                Log.d(TAG, "createUserWithEmail:success")
                 Toast.makeText(this, "Successfully Signed Up", Toast.LENGTH_SHORT).show()
                 val user = auth.currentUser
                 updateUI(user, newUser)
                 startActivity(Intent (this, LoginActivity::class.java))
                 finish()
             } else {
+                Log.w(TAG, "createUserWithEmail:failure", task.exception)
                 Toast.makeText(this, "Sign Up Failed!", Toast.LENGTH_SHORT).show()
+                updateUI(null, newUser)
             }
         }
     }
 
-    private fun updateUI(user: FirebaseUser?, newAccount: com.example.letseat.User){
-        FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().currentUser?.uid!!).setValue(newAccount)
+    private fun updateUI(user: FirebaseUser?, newAccount: User){
+        FirebaseDatabase.getInstance().getReference("users")
+            .child(FirebaseAuth.getInstance().currentUser?.uid!!).setValue(newAccount)
             .addOnCompleteListener {task ->
                 if (task.isSuccessful){
+                    Log.d(TAG, "createUserWithEmail:success")
                     Toast.makeText(baseContext, "Database successful", Toast.LENGTH_SHORT).show()
                 } else{
+                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
                     Toast.makeText(baseContext, "Database failed", Toast.LENGTH_SHORT).show()
                 }
             }

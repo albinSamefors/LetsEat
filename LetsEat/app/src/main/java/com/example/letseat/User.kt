@@ -1,5 +1,8 @@
 package com.example.letseat
 
-data class User(val email: String, val password: String) {
-    constructor(): this("", "")
-}
+import com.google.firebase.database.IgnoreExtraProperties
+
+@IgnoreExtraProperties
+data class User(
+    val email: String? = null,
+    val password: String? = null)
