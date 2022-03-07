@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 
@@ -23,11 +22,9 @@ class RegistrationActivity : AppCompatActivity() {
     private lateinit var etPass: EditText
     private lateinit var btnSignUp: Button
     lateinit var tvRedirectLogin: TextView
-    private lateinit var database: DatabaseReference
 
     // create Firebase authentication object
     private lateinit var auth: FirebaseAuth
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -41,14 +38,15 @@ class RegistrationActivity : AppCompatActivity() {
         btnSignUp = findViewById(R.id.btnSSigned)
         tvRedirectLogin = findViewById(R.id.tvRedirectLogin)
 
-        // Initialising auth object
+        //Initialising auth object
         auth = Firebase.auth
 
+        //Sign up user
         btnSignUp.setOnClickListener {
             signUpUser()
         }
 
-        // switching from RegistrationActivity to LoginActivity
+        //Switching from RegistrationActivity to LoginActivity
         tvRedirectLogin.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
@@ -83,9 +81,7 @@ class RegistrationActivity : AppCompatActivity() {
                 Log.d(TAG, "createUserWithEmail:success")
                 Toast.makeText(this, "Successfully Signed Up", Toast.LENGTH_SHORT).show()
                 val user = auth.currentUser
-                Toast.makeText(this, "updateUI", Toast.LENGTH_SHORT).show()
                 updateUI(user, newUser)
-                Toast.makeText(this, "updateUI done", Toast.LENGTH_SHORT).show()
                 startActivity(Intent (this, MainActivity::class.java))
                 finish()
             } else {
@@ -97,9 +93,6 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     private fun updateUI(user: FirebaseUser?, newAccount: User){
-
-        Toast.makeText(this, "Set path users", Toast.LENGTH_SHORT).show()
-
         FirebaseDatabase.getInstance("https://let-s-eat-c3632-default-rtdb.europe-west1.firebasedatabase.app/").getReference("users")
             .child(FirebaseAuth.getInstance().currentUser?.uid!!).setValue(newAccount)
             .addOnCompleteListener {task ->

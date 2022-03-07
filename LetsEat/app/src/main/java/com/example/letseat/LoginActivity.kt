@@ -57,20 +57,19 @@ class LoginActivity : AppCompatActivity() {
 		btnGoogle = findViewById(R.id.google_button)
 		tvForgotPassword = findViewById(R.id.tvForgotPassword)
 
-		//Google Sign In Options
+		//Configure Google Sign In
 		val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 			.requestIdToken(getString(R.string.default_web_client_id))
 			.requestEmail()
 			.build()
-
-		// getting the value of gso inside the GoogleSigninClient
+		// Getting the value of gso inside the GoogleSignInClient
 		mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
 		// initialising Firebase auth object
 		auth = FirebaseAuth.getInstance()
 
 		btnLogin.setOnClickListener {
-			login()
+			loginFirebase()
 		}
 
 		btnGoogle.setOnClickListener { view: View? ->
@@ -102,7 +101,7 @@ class LoginActivity : AppCompatActivity() {
 		}
 	}
 
-	private fun login() {
+	private fun loginFirebase() {
 		val email = etEmail.text.toString()
 		val pass = etPass.text.toString()
 		// check pass
@@ -125,7 +124,6 @@ class LoginActivity : AppCompatActivity() {
 
 	// signInGoogle() function
 	private fun signInGoogle() {
-
 		val signInIntent: Intent = mGoogleSignInClient.signInIntent
 		startActivityForResult(signInIntent, Req_Code)
 	}
@@ -133,6 +131,8 @@ class LoginActivity : AppCompatActivity() {
 	// onActivityResult() function : this is where we provide the task and data for the Google Account
 	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 		super.onActivityResult(requestCode, resultCode, data)
+
+		//Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
 		if (requestCode == Req_Code) {
 			val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
 			handleResult(task)
@@ -144,65 +144,23 @@ class LoginActivity : AppCompatActivity() {
 		try {
 			val account: GoogleSignInAccount? = completedTask.getResult(ApiException::class.java)
 			if (account != null) {
-				UpdateUI(account)
+				updateUI(account)
 			}
 		} catch (e: ApiException) {
 			Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show()
 		}
 	}
 
-	// UpdateUI() function - this is where we specify what UI updation are needed after google signin has taken place.
-	private fun UpdateUI(account: GoogleSignInAccount) {
+	// UpdateUI() function - this is where we specify what UI updating are needed after google signIn has taken place.
+	private fun updateUI(account: GoogleSignInAccount) {
 		val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-		auth.signInWithCredential(credential).addOnCompleteListener { task ->
+		auth.signInWithCredential(credential)
+			.addOnCompleteListener { task ->
 			if (task.isSuccessful) {
-				SavedPreference.setEmail(this, account.email.toString())
-				SavedPreference.setUsername(this, account.displayName.toString())
 				val intent = Intent(this, MainActivity::class.java)
 				startActivity(intent)
 				finish()
 			}
 		}
-	}
-
-	object SavedPreference {
-
-		const val EMAIL = "email"
-		const val USERNAME = "username"
-
-		private fun getSharedPreference(ctx: Context?): SharedPreferences? {
-			return PreferenceManager.getDefaultSharedPreferences(ctx)
-		}
-
-		private fun editor(context: Context, const: String, string: String) {
-			getSharedPreference(
-				context
-			)?.edit()?.putString(const, string)?.apply()
-		}
-
-		fun getEmail(context: Context) = getSharedPreference(
-			context
-		)?.getString(EMAIL, "")
-
-		fun setEmail(context: Context, email: String) {
-			editor(
-				context,
-				EMAIL,
-				email
-			)
-		}
-
-		fun setUsername(context: Context, username: String) {
-			editor(
-				context,
-				USERNAME,
-				username
-			)
-		}
-
-		fun getUsername(context: Context) = getSharedPreference(
-			context
-		)?.getString(USERNAME, "")
-
 	}
 }
