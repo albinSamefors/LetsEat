@@ -28,180 +28,181 @@ import com.google.firebase.auth.GoogleAuthProvider
 @Suppress("DEPRECATION", "DEPRECATION")
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var tvRedirectSignUp: TextView
-    private lateinit var etEmail: EditText
-    private lateinit var etPass: EditText
-    private lateinit var btnLogin: Button
-    private lateinit var tvForgotPassword : TextView
-    //google
-    //val RC_SIGN_IN: Int = 1
-    private lateinit var btnGoogle: SignInButton
-    private lateinit var mGoogleSignInClient: GoogleSignInClient
-    private val Req_Code:Int=123
+	private lateinit var tvRedirectSignUp: TextView
+	private lateinit var etEmail: EditText
+	private lateinit var etPass: EditText
+	private lateinit var btnLogin: Button
+	private lateinit var tvForgotPassword: TextView
 
-    // Creating firebaseAuth object
-    private lateinit var auth: FirebaseAuth
+	//google
+	//val RC_SIGN_IN: Int = 1
+	private lateinit var btnGoogle: SignInButton
+	private lateinit var mGoogleSignInClient: GoogleSignInClient
+	private val Req_Code: Int = 123
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+	// Creating firebaseAuth object
+	private lateinit var auth: FirebaseAuth
 
-        FirebaseApp.initializeApp(this)
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		setContentView(R.layout.activity_login)
 
-        // View Binding
-        tvRedirectSignUp = findViewById(R.id.tvRedirectSignUp)
-        btnLogin = findViewById(R.id.btnLogin)
-        etEmail = findViewById(R.id.etEmailAddress)
-        etPass = findViewById(R.id.etPassword)
-        btnGoogle = findViewById(R.id.google_button)
-        tvForgotPassword = findViewById(R.id.tvForgotPassword)
+		FirebaseApp.initializeApp(this)
 
-        //Google Sign In Options
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
+		// View Binding
+		tvRedirectSignUp = findViewById(R.id.tvRedirectSignUp)
+		btnLogin = findViewById(R.id.btnLogin)
+		etEmail = findViewById(R.id.etEmailAddress)
+		etPass = findViewById(R.id.etPassword)
+		btnGoogle = findViewById(R.id.google_button)
+		tvForgotPassword = findViewById(R.id.tvForgotPassword)
 
-        // getting the value of gso inside the GoogleSigninClient
-        mGoogleSignInClient= GoogleSignIn.getClient(this,gso)
+		//Google Sign In Options
+		val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+			.requestIdToken(getString(R.string.default_web_client_id))
+			.requestEmail()
+			.build()
 
-        // initialising Firebase auth object
-        auth = FirebaseAuth.getInstance()
+		// getting the value of gso inside the GoogleSigninClient
+		mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        btnLogin.setOnClickListener {
-            login()
-        }
+		// initialising Firebase auth object
+		auth = FirebaseAuth.getInstance()
 
-        btnGoogle.setOnClickListener { view: View? ->
-            Toast.makeText(this,"Logging In",Toast.LENGTH_SHORT).show()
-            signInGoogle()
-        }
+		btnLogin.setOnClickListener {
+			login()
+		}
 
-        tvRedirectSignUp.setOnClickListener {
-            val intent = Intent(this, RegistrationActivity::class.java)
-            startActivity(intent)
-            // using finish() to end the activity
-            finish()
-        }
+		btnGoogle.setOnClickListener { view: View? ->
+			Toast.makeText(this, "Logging In", Toast.LENGTH_SHORT).show()
+			signInGoogle()
+		}
 
-        tvForgotPassword.setOnClickListener {
-            startActivity(Intent(this, ForgotPasswordActivity::class.java))
-            finish()
-        }
-    }
+		tvRedirectSignUp.setOnClickListener {
+			val intent = Intent(this, RegistrationActivity::class.java)
+			startActivity(intent)
+			// using finish() to end the activity
+			finish()
+		}
 
-    override fun onStart() {
-        super.onStart()
+		tvForgotPassword.setOnClickListener {
+			startActivity(Intent(this, ForgotPasswordActivity::class.java))
+			finish()
+		}
+	}
 
-        val mFirebaseUser : FirebaseUser? = auth.currentUser
-        if (mFirebaseUser!=null){
-            //there is some user logged in
-            Toast.makeText(this, "User already logged in ", Toast.LENGTH_SHORT).show()
-            finish()
-        }
-    }
+	override fun onStart() {
+		super.onStart()
 
-    private fun login() {
-        val email = etEmail.text.toString()
-        val pass = etPass.text.toString()
-        // check pass
-        if (email.isBlank() || pass.isBlank()) {
-            Toast.makeText(this, "Email and Password can't be blank", Toast.LENGTH_SHORT).show()
-            return
-        }
-        // calling signInWithEmailAndPassword(email, pass)
-        // function using Firebase auth object
-        // On successful response Display a Toast
-        auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(this) {
-            if (it.isSuccessful) {
-                Toast.makeText(this, "Successfully Logged In", Toast.LENGTH_SHORT).show()
-                startActivity(Intent (this, MainActivity::class.java))
-                finish()
-            } else
-                Toast.makeText(this, "Log In failed ", Toast.LENGTH_SHORT).show()
-        }
-    }
+		val mFirebaseUser: FirebaseUser? = auth.currentUser
+		if (mFirebaseUser != null) {
+			//there is some user logged in
+			Toast.makeText(this, "User already logged in ", Toast.LENGTH_SHORT).show()
+			finish()
+		}
+	}
 
-    // signInGoogle() function
-    private  fun signInGoogle(){
+	private fun login() {
+		val email = etEmail.text.toString()
+		val pass = etPass.text.toString()
+		// check pass
+		if (email.isBlank() || pass.isBlank()) {
+			Toast.makeText(this, "Email and Password can't be blank", Toast.LENGTH_SHORT).show()
+			return
+		}
+		// calling signInWithEmailAndPassword(email, pass)
+		// function using Firebase auth object
+		// On successful response Display a Toast
+		auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(this) {
+			if (it.isSuccessful) {
+				Toast.makeText(this, "Successfully Logged In", Toast.LENGTH_SHORT).show()
+				startActivity(Intent(this, MainActivity::class.java))
+				finish()
+			} else
+				Toast.makeText(this, "Log In failed ", Toast.LENGTH_SHORT).show()
+		}
+	}
 
-        val signInIntent:Intent=mGoogleSignInClient.signInIntent
-        startActivityForResult(signInIntent,Req_Code)
-    }
+	// signInGoogle() function
+	private fun signInGoogle() {
 
-    // onActivityResult() function : this is where we provide the task and data for the Google Account
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode==Req_Code){
-            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
-            handleResult(task)
-        }
-    }
+		val signInIntent: Intent = mGoogleSignInClient.signInIntent
+		startActivityForResult(signInIntent, Req_Code)
+	}
 
-    // handleResult() function -  this is where we update the UI after Google signin takes place
-    private fun handleResult(completedTask: Task<GoogleSignInAccount>){
-        try {
-            val account: GoogleSignInAccount? =completedTask.getResult(ApiException::class.java)
-            if (account != null) {
-                UpdateUI(account)
-            }
-        } catch (e:ApiException){
-            Toast.makeText(this,e.toString(),Toast.LENGTH_SHORT).show()
-        }
-    }
+	// onActivityResult() function : this is where we provide the task and data for the Google Account
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+		super.onActivityResult(requestCode, resultCode, data)
+		if (requestCode == Req_Code) {
+			val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
+			handleResult(task)
+		}
+	}
 
-    // UpdateUI() function - this is where we specify what UI updation are needed after google signin has taken place.
-    private fun UpdateUI(account: GoogleSignInAccount){
-        val credential= GoogleAuthProvider.getCredential(account.idToken,null)
-        auth.signInWithCredential(credential).addOnCompleteListener {task->
-            if(task.isSuccessful) {
-                SavedPreference.setEmail(this,account.email.toString())
-                SavedPreference.setUsername(this,account.displayName.toString())
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-        }
-    }
+	// handleResult() function -  this is where we update the UI after Google signin takes place
+	private fun handleResult(completedTask: Task<GoogleSignInAccount>) {
+		try {
+			val account: GoogleSignInAccount? = completedTask.getResult(ApiException::class.java)
+			if (account != null) {
+				UpdateUI(account)
+			}
+		} catch (e: ApiException) {
+			Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show()
+		}
+	}
 
-    object SavedPreference {
+	// UpdateUI() function - this is where we specify what UI updation are needed after google signin has taken place.
+	private fun UpdateUI(account: GoogleSignInAccount) {
+		val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+		auth.signInWithCredential(credential).addOnCompleteListener { task ->
+			if (task.isSuccessful) {
+				SavedPreference.setEmail(this, account.email.toString())
+				SavedPreference.setUsername(this, account.displayName.toString())
+				val intent = Intent(this, MainActivity::class.java)
+				startActivity(intent)
+				finish()
+			}
+		}
+	}
 
-        const val EMAIL= "email"
-        const val USERNAME="username"
+	object SavedPreference {
 
-        private  fun getSharedPreference(ctx: Context?):    SharedPreferences? {
-            return PreferenceManager.getDefaultSharedPreferences(ctx)
-        }
+		const val EMAIL = "email"
+		const val USERNAME = "username"
 
-        private fun  editor(context: Context, const:String, string: String){
-            getSharedPreference(
-                context
-            )?.edit()?.putString(const,string)?.apply()
-        }
+		private fun getSharedPreference(ctx: Context?): SharedPreferences? {
+			return PreferenceManager.getDefaultSharedPreferences(ctx)
+		}
 
-        fun getEmail(context: Context)= getSharedPreference(
-            context
-        )?.getString(EMAIL,"")
+		private fun editor(context: Context, const: String, string: String) {
+			getSharedPreference(
+				context
+			)?.edit()?.putString(const, string)?.apply()
+		}
 
-        fun setEmail(context: Context, email: String){
-            editor(
-                context,
-                EMAIL,
-                email
-            )
-        }
+		fun getEmail(context: Context) = getSharedPreference(
+			context
+		)?.getString(EMAIL, "")
 
-        fun setUsername(context: Context, username:String){
-            editor(
-                context,
-                USERNAME,
-                username
-            )
-        }
+		fun setEmail(context: Context, email: String) {
+			editor(
+				context,
+				EMAIL,
+				email
+			)
+		}
 
-        fun getUsername(context: Context) = getSharedPreference(
-            context
-        )?.getString(USERNAME,"")
+		fun setUsername(context: Context, username: String) {
+			editor(
+				context,
+				USERNAME,
+				username
+			)
+		}
 
-    }
+		fun getUsername(context: Context) = getSharedPreference(
+			context
+		)?.getString(USERNAME, "")
+
+	}
 }
