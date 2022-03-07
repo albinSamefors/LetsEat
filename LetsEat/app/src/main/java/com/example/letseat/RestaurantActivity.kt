@@ -10,8 +10,8 @@ class RestaurantActivity : AppCompatActivity() {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_restaurant)
 
-		//retrieve restaurant id
-		val restaurantId = intent.getIntExtra("id", 0)
+        //retrieve restaurant id
+        val restaurantId = intent.getIntExtra("id", 0)
 
 		val favoriteButton = findViewById<ImageButton>(R.id.favoritButton)
 
