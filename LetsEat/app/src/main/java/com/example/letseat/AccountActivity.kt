@@ -14,63 +14,62 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 class AccountActivity : AppCompatActivity() {
-    private lateinit var usernameTextView : TextView
-    private lateinit var mFirebaseAuth : FirebaseAuth
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_account)
+	private lateinit var usernameTextView: TextView
+	private lateinit var mFirebaseAuth: FirebaseAuth
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		setContentView(R.layout.activity_account)
 
-        usernameTextView = findViewById(R.id.tvUsername)
-        mFirebaseAuth = FirebaseAuth.getInstance()
+		usernameTextView = findViewById(R.id.tvUsername)
+		mFirebaseAuth = FirebaseAuth.getInstance()
 
 
-        val listViewButton = findViewById<ImageButton>(R.id.accountListViewButton)
-        listViewButton.setOnClickListener{
-            val intent = Intent (this, MainActivity::class.java)
-            startActivity(intent)
-        }
+		val listViewButton = findViewById<ImageButton>(R.id.accountListViewButton)
+		listViewButton.setOnClickListener {
+			val intent = Intent(this, MainActivity::class.java)
+			startActivity(intent)
+		}
 
-        val mapButton = findViewById<ImageButton>(R.id.accountMapButton)
-        mapButton.setOnClickListener{
-            val intent =Intent (this, MapsActivity::class.java)
-            startActivity(intent)
-        }
+		val mapButton = findViewById<ImageButton>(R.id.accountMapButton)
+		mapButton.setOnClickListener {
+			val intent = Intent(this, MapsActivity::class.java)
+			startActivity(intent)
+		}
 
-        val logOutButton = findViewById<Button>(R.id.btnLogout)
-        logOutButton.setOnClickListener{
-            Firebase.auth.signOut()
-            Toast.makeText(this, "Successfully signed out ", Toast.LENGTH_SHORT).show()
-            startActivity(Intent (this, MainActivity :: class.java))
-            finish()
-        }
-    }
+		val logOutButton = findViewById<Button>(R.id.btnLogout)
+		logOutButton.setOnClickListener {
+			Firebase.auth.signOut()
+			Toast.makeText(this, "Successfully signed out ", Toast.LENGTH_SHORT).show()
+			startActivity(Intent(this, MainActivity::class.java))
+			finish()
+		}
+	}
 
-    override fun onStart() {
-        super.onStart()
+	override fun onStart() {
+		super.onStart()
 
-        val mFirebaseUser : FirebaseUser? = mFirebaseAuth.currentUser
-        if (mFirebaseUser!=null){
-            //there is some user logged in
-            usernameTextView.text = mFirebaseUser.email
-        }
-        else{
-            //no one logged in
-            AlertDialog.Builder(this)
-                .setTitle(R.string.not_logged_in)
-                .setMessage(R.string.message)
-                .setPositiveButton(
-                    R.string.yes
-                ) { dialog, whichButton ->
-                    //send user to login screen
-                    startActivity(Intent(this, LoginActivity::class.java))
-                    finish()
-                }.setNegativeButton(
-                    R.string.no
-                ) { dialog, whichButton ->
-                    finish()
-                }.show()
-        }
-    }
+		val mFirebaseUser: FirebaseUser? = mFirebaseAuth.currentUser
+		if (mFirebaseUser != null) {
+			//there is some user logged in
+			usernameTextView.text = mFirebaseUser.email
+		} else {
+			//no one logged in
+			AlertDialog.Builder(this)
+				.setTitle(R.string.not_logged_in)
+				.setMessage(R.string.message)
+				.setPositiveButton(
+					R.string.yes
+				) { dialog, whichButton ->
+					//send user to login screen
+					startActivity(Intent(this, LoginActivity::class.java))
+					finish()
+				}.setNegativeButton(
+					R.string.no
+				) { dialog, whichButton ->
+					finish()
+				}.show()
+		}
+	}
 
 
 }

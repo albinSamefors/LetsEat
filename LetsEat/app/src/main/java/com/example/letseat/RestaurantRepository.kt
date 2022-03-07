@@ -17,46 +17,47 @@ import com.google.android.libraries.places.api.net.PlacesClient
 val restaurantRepository = RestaurantRepository()
 
 class RestaurantRepository {
-    private val restaurants = mutableListOf<RestaurantItem>()
-    private lateinit var context : Context
-    fun setContext(mContext: Context)
-    {
-        context = mContext
-    }
-    fun addRestaurant(placeID : String) : Int
-    {
-        val id = when{
-            restaurants.count() == 0 -> 1
-            else -> restaurants.last().id+1
-        }
+	private val restaurants = mutableListOf<RestaurantItem>()
+	private lateinit var context: Context
+	fun setContext(mContext: Context) {
+		context = mContext
+	}
 
-        var client = Places.createClient(context)
-        var placeFields = mutableListOf<Place.Field>()
-        placeFields.add(Place.Field.LAT_LNG)
-        placeFields.add(Place.Field.RATING)
-        placeFields.add(Place.Field.NAME)
-        var fetchPlaceRequest = FetchPlaceRequest.builder(placeID,placeFields).build()
-       var response =  client.fetchPlace(fetchPlaceRequest)
+	fun addRestaurant(placeID: String): Int {
+		val id = when {
+			restaurants.count() == 0 -> 1
+			else -> restaurants.last().id + 1
+		}
 
-        restaurants.add(RestaurantItem(id,response.result.place.name,response.result.place.rating.toFloat(),response.result.place.latLng))
-        return id
-    }
-    fun getAllRestaurants() = restaurants
+		var client = Places.createClient(context)
+		var placeFields = mutableListOf<Place.Field>()
+		placeFields.add(Place.Field.LAT_LNG)
+		placeFields.add(Place.Field.RATING)
+		placeFields.add(Place.Field.NAME)
+		var fetchPlaceRequest = FetchPlaceRequest.builder(placeID, placeFields).build()
+		var response = client.fetchPlace(fetchPlaceRequest)
 
-    fun getItemCount() : Int
-    {
-        return restaurants.size
+		restaurants.add(
+			RestaurantItem(
+				id,
+				response.result.place.name,
+				response.result.place.rating.toFloat(),
+				response.result.place.latLng
+			)
+		)
+		return id
+	}
 
-    }
+	fun getAllRestaurants() = restaurants
 
-    fun updateRestaurantList(location: Location, radius : Float)
-    {
+	fun getItemCount(): Int {
+		return restaurants.size
 
-    }
+	}
 
+	fun updateRestaurantList(location: Location, radius: Float) {
 
-
-
+	}
 
 
 }
