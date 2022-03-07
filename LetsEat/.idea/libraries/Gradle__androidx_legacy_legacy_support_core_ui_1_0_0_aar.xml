@@ -2,9 +2,10 @@
   <library name="Gradle: androidx.legacy:legacy-support-core-ui:1.0.0@aar">
     <CLASSES>
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b300c42ba7b5e6e41b01042937dd5997/transformed/legacy-support-core-ui-1.0.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/1b94e698ab2cdc2bcf717e4d9adc2635/transformed/legacy-support-core-ui-1.0.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/e6dd56c07f265dadea0d2cd24827ac11/transformed/legacy-support-core-ui-1.0.0/res" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/1b94e698ab2cdc2bcf717e4d9adc2635/transformed/legacy-support-core-ui-1.0.0/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/1b94e698ab2cdc2bcf717e4d9adc2635/transformed/legacy-support-core-ui-1.0.0/AndroidManifest.xml" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/1b94e698ab2cdc2bcf717e4d9adc2635/transformed/legacy-support-core-ui-1.0.0/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

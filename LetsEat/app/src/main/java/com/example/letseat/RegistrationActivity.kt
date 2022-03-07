@@ -2,16 +2,17 @@ package com.example.letseat
 
 import android.content.ContentValues.TAG
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 
@@ -22,6 +23,7 @@ class RegistrationActivity : AppCompatActivity() {
     private lateinit var etPass: EditText
     private lateinit var btnSignUp: Button
     lateinit var tvRedirectLogin: TextView
+    private lateinit var database: DatabaseReference
 
     // create Firebase authentication object
     private lateinit var auth: FirebaseAuth
@@ -50,6 +52,7 @@ class RegistrationActivity : AppCompatActivity() {
         tvRedirectLogin.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 
@@ -58,16 +61,14 @@ class RegistrationActivity : AppCompatActivity() {
         val pass = etPass.text.toString()
         val confirmPassword = etConfPass.text.toString()
 
-        // check pass
+        // check if any field is blank
         if (email.isBlank() || pass.isBlank() || confirmPassword.isBlank()) {
             Toast.makeText(this, "Email and Password can't be blank", Toast.LENGTH_SHORT).show()
-            return
         }
-
+        // check if password match confirm password
         if (pass != confirmPassword) {
             Toast.makeText(this, "Password and Confirm Password do not match", Toast.LENGTH_SHORT)
                 .show()
-            return
         }
 
         // If all credential are correct
@@ -82,8 +83,10 @@ class RegistrationActivity : AppCompatActivity() {
                 Log.d(TAG, "createUserWithEmail:success")
                 Toast.makeText(this, "Successfully Signed Up", Toast.LENGTH_SHORT).show()
                 val user = auth.currentUser
+                Toast.makeText(this, "updateUI", Toast.LENGTH_SHORT).show()
                 updateUI(user, newUser)
-                startActivity(Intent (this, LoginActivity::class.java))
+                Toast.makeText(this, "updateUI done", Toast.LENGTH_SHORT).show()
+                startActivity(Intent (this, MainActivity::class.java))
                 finish()
             } else {
                 Log.w(TAG, "createUserWithEmail:failure", task.exception)
@@ -94,7 +97,10 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     private fun updateUI(user: FirebaseUser?, newAccount: User){
-        FirebaseDatabase.getInstance().getReference("users")
+
+        Toast.makeText(this, "Set path users", Toast.LENGTH_SHORT).show()
+
+        FirebaseDatabase.getInstance("https://let-s-eat-c3632-default-rtdb.europe-west1.firebasedatabase.app/").getReference("users")
             .child(FirebaseAuth.getInstance().currentUser?.uid!!).setValue(newAccount)
             .addOnCompleteListener {task ->
                 if (task.isSuccessful){

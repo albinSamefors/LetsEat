@@ -2,8 +2,9 @@
   <library name="Gradle: com.google.android.gms:play-services-measurement-api:20.1.0@aar">
     <CLASSES>
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/9d518572bbea74286b98144d03a5393c/transformed/jetified-play-services-measurement-api-20.1.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/e3bd7b349c9caf5be5a7a6592f5fcb15/transformed/jetified-play-services-measurement-api-20.1.0/AndroidManifest.xml" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/e3bd7b349c9caf5be5a7a6592f5fcb15/transformed/jetified-play-services-measurement-api-20.1.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/5f11eccb2c732f19bbcf4e94f317a5ed/transformed/jetified-play-services-measurement-api-20.1.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/e3bd7b349c9caf5be5a7a6592f5fcb15/transformed/jetified-play-services-measurement-api-20.1.0/AndroidManifest.xml" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/e3bd7b349c9caf5be5a7a6592f5fcb15/transformed/jetified-play-services-measurement-api-20.1.0/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
