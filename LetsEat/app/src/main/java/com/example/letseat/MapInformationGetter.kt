@@ -1,7 +1,10 @@
 package com.example.letseat
 
+import android.content.Context
 import android.os.AsyncTask
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.net.PlacesClient
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -16,6 +19,9 @@ import kotlin.collections.HashMap
 
 
 class MapInformationGetter() : AsyncTask<String, Int, String>() {
+
+
+
     @Throws(IOException::class)
     fun downloadUrl(string : String) : String
     {
@@ -55,16 +61,23 @@ class MapInformationGetter() : AsyncTask<String, Int, String>() {
 
     }
 
+    override fun onPostExecute(result: String?) {
+        var parserTask = ParserTask()
+        parserTask.execute(result)
+    }
+
 
 }
-class ParserTask : AsyncTask<String,Int,List<HashMap<String,String>>>()
+class ParserTask() : AsyncTask<String,Int,List<HashMap<String,String>>>()
 {
+
+
     override fun doInBackground(vararg string: String?): MutableList<HashMap<String, String>> {
         var jsonParser = com.example.letseat.JsonParser()
         var mapList = mutableListOf<HashMap<String,String>>()
         var jsonObject :JSONObject
         try {
-            jsonObject = JSONObject(string[0])
+             jsonObject = JSONObject(string[0])
             mapList = jsonParser.parseResult(jsonObject)
         }catch (e: JSONException){
             e.printStackTrace()
@@ -72,15 +85,15 @@ class ParserTask : AsyncTask<String,Int,List<HashMap<String,String>>>()
         return mapList
     }
 
-    override fun onPostExecute(result: List<HashMap<String, String>>) {
-
-        for(i in result)
+    override fun onPostExecute(result: List<HashMap<String, String>>?) {
+        for(i in result!!)
         {
-            restaurantRepository.addRestaurant(i.get("name").toString(),i.get("type").toString(),i.get("rating")!!.toFloat(),
-                LatLng(i.get("lat")!!.toDouble(),i.get("lng")!!.toDouble())
-            )
+            restaurantRepository.addRestaurant(i.get("id")!!)
+
         }
     }
+
+
 
 }
 

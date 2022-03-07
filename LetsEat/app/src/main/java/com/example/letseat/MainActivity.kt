@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.places.Place
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -22,6 +23,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.net.FetchPlaceRequest
 
 // TODO: Ändra så att alla färger hämtas ifrån temat istället för de hårdkodade färgerna Samt fixa darkmode
 class MainActivity : AppCompatActivity() {
@@ -49,7 +52,7 @@ private var fineLocationPermissionGranted = false
         }
         requestPermissions()
 
-
+        restaurantRepository.setContext(this)
         client = LocationServices.getFusedLocationProviderClient(this)
         //Permission check
         if(ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
@@ -158,17 +161,14 @@ private var fineLocationPermissionGranted = false
                             //init LatLng
                             userLatLng = LatLng(location.latitude,location.longitude)
                     var mapInformationGetter  = MapInformationGetter()
+                    var parserTask : ParserTask
                     //TESTING TESTING ////////////////////////////////
                     var url = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?" +
-                            "fields=place_id%2Cname%2Crating%2Copening_hours%2Ctype%2Clocation"+
+                            "fields=place_id"+
                             "&locationbias=circle:%3A"+progressValue +"@"+userLatLng.latitude +","+ userLatLng.longitude +
                             "&type=restaurant"+ "&key=" + resources.getString(R.string.google_maps_key)
 ////////////////////////////////////////////////////
-                    mapInformationGetter.execute("https://maps.googleapis.com/maps/api/place/findplacefromtext/json\n" +
-                            "  ?fields=formatted_address%2Cname%2Crating%2Copening_hours%2Cgeometry\n" +
-                            "  &input=Museum%20of%20Contemporary%20Art%20Australia\n" +
-                            "  &inputtype=textquery\n" +
-                            "  &key="+ resources.getString(R.string.google_maps_key))
+                    mapInformationGetter.execute(url)
 
 
 
