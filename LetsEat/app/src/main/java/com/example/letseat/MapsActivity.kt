@@ -20,6 +20,12 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
+import com.google.android.libraries.places.api.model.LocationRestriction
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.RectangularBounds
+import com.google.android.libraries.places.api.model.TypeFilter
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
+import com.google.android.libraries.places.api.net.PlacesClient
 import kotlin.math.log
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -30,6 +36,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 	private lateinit var client: FusedLocationProviderClient
 	private lateinit var mapFragment: SupportMapFragment
 	private lateinit var userLatLng: LatLng
+	private lateinit var placesClient: PlacesClient
 	var progressValue = 0
 	private lateinit var circleBounds: LatLngBounds
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,6 +99,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 			override fun onStopTrackingTouch(bar: SeekBar?) {
 
 				mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(getBounds(mapCircle), 20))
+
 			}
 		})
 	}
@@ -176,5 +184,40 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 			}
 		}
 	}
+	private fun fetchPlacesPredictions(searchString: String) {
+		if (userLatLng == null) {
+			return
+		}
+
+		var predictionsRequest = FindAutocompletePredictionsRequest.builder()
+			.setLocationRestriction(RectangularBounds.newInstance(circleBounds))
+			.setOrigin(userLatLng)
+			.setTypeFilter(TypeFilter.ESTABLISHMENT)
+			.setQuery(searchString)
+			.build()
+
+		placesClient.findAutocompletePredictions(predictionsRequest).addOnSuccessListener {
+			// Get response
+			val response = it
+			if (response != null) {
+				val predictionsList = response.autocompletePredictions
+				val suggestionList = ArrayList<String>()
+				for (i in 1 until predictionsList.size) {
+					val prediction = predictionsList[i]
+
+					// Filter predictions by restaurant
+					if (prediction.placeTypes.contains(Place.Type.RESTAURANT)) {
+						suggestionList.add(prediction.getPrimaryText(null).toString())
+					}
+				}
+
+
+
+			}
+		}
+
+	}
 
 }
+
+
