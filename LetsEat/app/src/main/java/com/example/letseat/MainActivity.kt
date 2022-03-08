@@ -163,21 +163,8 @@ class MainActivity : AppCompatActivity() {
 			override fun onSuccess(location: Location?) {
 				if (location != null) {
 					//Location Success
-
-
 					//init LatLng
 					userLatLng = LatLng(location.latitude, location.longitude)
-					var mapInformationGetter = MapInformationGetter()
-					var parserTask: ParserTask
-					//TESTING TESTING ////////////////////////////////
-					var url = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?" +
-							"fields=place_id" +
-							"&locationbias=circle:%3A" + progressValue + "@" + userLatLng.latitude + "," + userLatLng.longitude +
-							"&type=restaurant" + "&key=" + resources.getString(R.string.google_maps_key)
-////////////////////////////////////////////////////
-					mapInformationGetter.execute(url)
-
-
 				}
 			}
 		})

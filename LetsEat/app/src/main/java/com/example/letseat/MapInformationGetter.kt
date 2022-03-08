@@ -2,6 +2,9 @@ package com.example.letseat
 
 import android.content.Context
 import android.os.AsyncTask
+import com.google.android.gms.common.api.GoogleApi
+import com.google.android.gms.common.api.GoogleApiActivity
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
@@ -20,7 +23,6 @@ import kotlin.collections.HashMap
 
 class MapInformationGetter() : AsyncTask<String, Int, String>() {
 
-
 	@Throws(IOException::class)
 	fun downloadUrl(string: String): String {
 		val download = URL(string)
@@ -33,6 +35,7 @@ class MapInformationGetter() : AsyncTask<String, Int, String>() {
 		val line = ""
 		while (reader.readLine() != null) {
 			builder.append(line)
+
 		}
 
 		var data = builder.toString();
@@ -83,6 +86,7 @@ class ParserTask() : AsyncTask<String, Int, List<HashMap<String, String>>>() {
 
 	override fun onPostExecute(result: List<HashMap<String, String>>?) {
 		for (i in result!!) {
+			val ooh = i.get("id")
 			restaurantRepository.addRestaurant(i.get("id")!!)
 
 		}
