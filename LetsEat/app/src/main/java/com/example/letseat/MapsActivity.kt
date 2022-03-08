@@ -20,6 +20,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
+import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.LocationRestriction
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.model.RectangularBounds
@@ -38,7 +39,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 	private lateinit var userLatLng: LatLng
 	private lateinit var placesClient: PlacesClient
 	var progressValue = 0
-	private lateinit var circleBounds: LatLngBounds
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
@@ -61,6 +61,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 			startActivity(intent)
 		}
 		client = LocationServices.getFusedLocationProviderClient(this)
+
+		// Initialize Places client
+		val apiKey: String = resources.getString(R.string.google_maps_key)
+		if (!Places.isInitialized()) {
+			Places.initialize(this, apiKey)
+		}
+		placesClient = Places.createClient(this)
 		//Permission check
 		if (ActivityCompat.checkSelfPermission(
 				this,
@@ -99,9 +106,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 			override fun onStopTrackingTouch(bar: SeekBar?) {
 
 				mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(getBounds(mapCircle), 20))
+				//fetchPlaces()
 
 			}
 		})
+
 	}
 
 	@SuppressLint("MissingPermission")
@@ -119,6 +128,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 							userLatLng = LatLng(location.latitude, location.longitude)
 							val markerOptions =
 								MarkerOptions().position(userLatLng).title("Your Location")
+
+
 
 							//zoom camera
 							gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 14.5f))
@@ -139,7 +150,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 								)
 							)
 
-
+							//fetchPlaces()
 						}
 					})
 				}
@@ -169,6 +180,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 	override fun onMapReady(googleMap: GoogleMap) {
 		mMap = googleMap
+
 	}
 
 	override fun onRequestPermissionsResult(
@@ -184,16 +196,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 			}
 		}
 	}
-	private fun fetchPlacesPredictions(searchString: String) {
+	private fun fetchPlaces()  {
 		if (userLatLng == null) {
 			return
 		}
 
 		var predictionsRequest = FindAutocompletePredictionsRequest.builder()
-			.setLocationRestriction(RectangularBounds.newInstance(circleBounds))
+			.setLocationRestriction(RectangularBounds.newInstance(getBounds(mapCircle)))
 			.setOrigin(userLatLng)
 			.setTypeFilter(TypeFilter.ESTABLISHMENT)
-			.setQuery(searchString)
 			.build()
 
 		placesClient.findAutocompletePredictions(predictionsRequest).addOnSuccessListener {
@@ -207,7 +218,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 					// Filter predictions by restaurant
 					if (prediction.placeTypes.contains(Place.Type.RESTAURANT)) {
-						suggestionList.add(prediction.getPrimaryText(null).toString())
+						restaurantRepository.addRestaurant(prediction.placeId)
+						suggestionList.add(prediction.placeId)
+
 					}
 				}
 
@@ -215,6 +228,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 			}
 		}
+
 
 	}
 
