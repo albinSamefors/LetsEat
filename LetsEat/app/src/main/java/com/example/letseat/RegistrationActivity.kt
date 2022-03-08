@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.letseat.DatabaseRepository.updateUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -92,7 +93,7 @@ class RegistrationActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateUI(user: FirebaseUser?, newAccount: User){
+/*    private fun updateUI(user: FirebaseUser?, newAccount: User){
         FirebaseDatabase.getInstance("https://let-s-eat-c3632-default-rtdb.europe-west1.firebasedatabase.app/").getReference("users")
             .child(FirebaseAuth.getInstance().currentUser?.uid!!).setValue(newAccount)
             .addOnCompleteListener {task ->
@@ -104,5 +105,5 @@ class RegistrationActivity : AppCompatActivity() {
                     Toast.makeText(baseContext, "Database failed", Toast.LENGTH_SHORT).show()
                 }
             }
-    }
+    }*/
 }

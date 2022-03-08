@@ -89,10 +89,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:background="@color/White"
             android:backgroundTint="@color/White"
             android:text="@string/signed"
-            android:textColor="@color/White"
+            android:textColor="@color/Red"
             tools:ignore="TextContrastCheck" />
 
         <TextView

@@ -2,17 +2,15 @@
 
 package com.example.letseat
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.letseat.DatabaseRepository.updateUI
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -144,19 +142,22 @@ class LoginActivity : AppCompatActivity() {
 		try {
 			val account: GoogleSignInAccount? = completedTask.getResult(ApiException::class.java)
 			if (account != null) {
-				updateUI(account)
+				firebaseAuthWithGoogle(account)
 			}
 		} catch (e: ApiException) {
 			Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show()
 		}
 	}
 
-	// UpdateUI() function - this is where we specify what UI updating are needed after google signIn has taken place.
-	private fun updateUI(account: GoogleSignInAccount) {
+	// firebaseAuthWithGoogle() function - this is where we specify what UI updating are needed after google signIn has taken place.
+	private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
 		val credential = GoogleAuthProvider.getCredential(account.idToken, null)
 		auth.signInWithCredential(credential)
 			.addOnCompleteListener { task ->
 			if (task.isSuccessful) {
+				val newUser = User(account.idToken, null)
+				val user = auth.currentUser
+				updateUI(user, newUser)
 				val intent = Intent(this, MainActivity::class.java)
 				startActivity(intent)
 				finish()
