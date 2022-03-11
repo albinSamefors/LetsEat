@@ -12,16 +12,12 @@
         <entry key="..\:/Users/Albin Samefors/Documents/GitHub/LetsEat/LetsEat/app/src/main/res/layout/activity_maps.xml" value="0.18" />
         <entry key="..\:/Users/Albin Samefors/Documents/GitHub/LetsEat/LetsEat/app/src/main/res/layout/restaurant_item.xml" value="0.33" />
         <entry key="..\:/Users/Albin Samefors/Documents/GitHub/LetsEat/LetsEat/app/src/main/res/menu/navigation_bar.xml" value="0.22" />
-        <entry key="..\:/Users/felix/AndroidStudioProjects/LetsEat/LetsEat/app/src/main/res/drawable/ic_baseline_login_24.xml" value="0.174" />
-        <entry key="..\:/Users/felix/AndroidStudioProjects/LetsEat/LetsEat/app/src/main/res/drawable/ic_baseline_star_border_24.xml" value="0.174" />
         <entry key="..\:/Users/felix/AndroidStudioProjects/LetsEat/LetsEat/app/src/main/res/layout/activity_account.xml" value="0.184375" />
-        <entry key="..\:/Users/felix/AndroidStudioProjects/LetsEat/LetsEat/app/src/main/res/layout/activity_forgot_password.xml" value="0.1" />
         <entry key="..\:/Users/felix/AndroidStudioProjects/LetsEat/LetsEat/app/src/main/res/layout/activity_login.xml" value="0.2" />
         <entry key="..\:/Users/felix/AndroidStudioProjects/LetsEat/LetsEat/app/src/main/res/layout/activity_main.xml" value="0.1859375" />
         <entry key="..\:/Users/felix/AndroidStudioProjects/LetsEat/LetsEat/app/src/main/res/layout/activity_maps.xml" value="0.1859375" />
         <entry key="..\:/Users/felix/AndroidStudioProjects/LetsEat/LetsEat/app/src/main/res/layout/activity_registration.xml" value="0.12360688956433637" />
         <entry key="..\:/Users/felix/AndroidStudioProjects/LetsEat/LetsEat/app/src/main/res/layout/activity_restaurant.xml" value="0.184375" />
-        <entry key="..\:/Users/felix/AndroidStudioProjects/LetsEat/LetsEat/app/src/main/res/layout/restaurant_item.xml" value="0.16510416666666666" />
         <entry key="..\:/Users/felix/OneDrive/AndroidStudioProjects/LetsEat/LetsEat/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.17336010709504684" />
         <entry key="..\:/Users/felix/OneDrive/AndroidStudioProjects/LetsEat/LetsEat/app/src/main/res/layout-w936dp/activity_login.xml" value="0.20234375" />
         <entry key="..\:/Users/felix/OneDrive/AndroidStudioProjects/LetsEat/LetsEat/app/src/main/res/layout/activity_account.xml" value="0.26979166666666665" />
@@ -51,11 +47,16 @@
         <entry key="app/src/main/res/drawable/ic_baseline_map_24.xml" value="0.1685" />
         <entry key="app/src/main/res/drawable/ic_baseline_mapwhite_24.xml" value="0.1685" />
         <entry key="app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.1685" />
+        <entry key="app/src/main/res/drawable/ic_baseline_star_border_24.xml" value="0.103" />
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.1685" />
         <entry key="app/src/main/res/layout/activity_account.xml" value="0.15070921985815602" />
+        <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.17255434782608695" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/activity_maps.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/activity_registration.xml" value="0.17255434782608695" />
+        <entry key="app/src/main/res/layout/activity_restaurant.xml" value="0.15" />
+        <entry key="app/src/main/res/layout/restaurant_item.xml" value="0.15" />
       </map>
     </option>
   </component>
