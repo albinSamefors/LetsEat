@@ -165,6 +165,7 @@ class MainActivity : AppCompatActivity() {
 					//Location Success
 					//init LatLng
 					userLatLng = LatLng(location.latitude, location.longitude)
+
 				}
 			}
 		})

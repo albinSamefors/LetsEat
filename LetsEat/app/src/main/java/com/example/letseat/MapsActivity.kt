@@ -6,28 +6,32 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
+import android.util.Log.DEBUG
 import android.widget.ImageButton
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.letseat.databinding.ActivityMapsBinding
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.*
+import com.google.android.gms.tasks.DuplicateTaskCompletionException
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.LocationRestriction
-import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken
 import com.google.android.libraries.places.api.model.RectangularBounds
 import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
 import com.google.android.libraries.places.api.net.PlacesClient
-import kotlin.math.log
+
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -38,6 +42,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 	private lateinit var mapFragment: SupportMapFragment
 	private lateinit var userLatLng: LatLng
 	private lateinit var placesClient: PlacesClient
+	private lateinit var restaurantIds: ArrayList<String>
 	var progressValue = 0
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -150,7 +155,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 								)
 							)
 
-							//fetchPlaces()
+							restaurantIds=fetchPlaces()
 						}
 					})
 				}
@@ -193,26 +198,41 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 			if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 				getCurrentPosition()
 
+
 			}
 		}
 	}
-	private fun fetchPlaces()  {
-		if (userLatLng == null) {
-			return
-		}
 
+	private fun fetchPlaces() : ArrayList<String> {
+		var empty = ArrayList<String>()
+		val suggestionList = ArrayList<String>()
+		val token = AutocompleteSessionToken.newInstance()
+		empty.add("EMPTY")
+		if (userLatLng == null) {
+			var empty = ArrayList<String>()
+
+			empty.add("EMPTY")
+			return empty
+		}
+			Log.d("Circle", mapCircle.radius.toString())
+		if (!Places.isInitialized()) {
+			Places.initialize(this,resources.getString(R.string.google_maps_key))
+		}
 		var predictionsRequest = FindAutocompletePredictionsRequest.builder()
-			.setLocationRestriction(RectangularBounds.newInstance(getBounds(mapCircle)))
+			.setCountry("se")
+			.setLocationBias(RectangularBounds.newInstance(getBounds(mapCircle)))
 			.setOrigin(userLatLng)
 			.setTypeFilter(TypeFilter.ESTABLISHMENT)
+			.setQuery("Restaurants")
+			.setSessionToken(token)
 			.build()
 
-		placesClient.findAutocompletePredictions(predictionsRequest).addOnSuccessListener {
+		/*placesClient.findAutocompletePredictions(predictionsRequest).addOnSuccessListener {
 			// Get response
 			val response = it
 			if (response != null) {
 				val predictionsList = response.autocompletePredictions
-				val suggestionList = ArrayList<String>()
+
 				for (i in 1 until predictionsList.size) {
 					val prediction = predictionsList[i]
 
@@ -221,15 +241,30 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 						restaurantRepository.addRestaurant(prediction.placeId)
 						suggestionList.add(prediction.placeId)
 
+
 					}
 				}
 
 
 
+
 			}
+		}*/
+		if(placesClient.findAutocompletePredictions(predictionsRequest).isComplete) {
+			placesClient.findAutocompletePredictions(predictionsRequest)
+				.addOnSuccessListener { response: FindAutocompletePredictionsResponse ->
+					for (prediction in response.autocompletePredictions) {
+						suggestionList.add(prediction.placeId)
+					}
+				}.addOnFailureListener { exception: Exception? ->
+					Log.d("WTF", "message", exception)
+
+
+				}
 		}
 
 
+		return suggestionList
 	}
 
 }
