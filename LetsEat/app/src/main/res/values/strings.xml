@@ -16,7 +16,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="email">email</string>
-    <string name="password">password</string>
+    <string name="password">password (min. 7 characters)</string>
     <string name="confirm_password">confirm password</string>
     <string name="signed">sign in</string>
     <string name="already_have_an_account_login">already have an account? Login</string>
@@ -33,4 +33,5 @@
     <string name="submit">submit</string>
     <string name="enter_your_username_or_email_adress_we_will_send_you_an_email_to_reset_your_password">Enter your username or email address and we will send you an email to reset your password</string>
     <string name="Your_username_is">Your username is:</string>
+    <string name="example_mail">example@gmail.com</string>
 </resources>
