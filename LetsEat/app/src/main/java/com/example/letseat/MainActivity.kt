@@ -58,7 +58,16 @@ class MainActivity : AppCompatActivity() {
 		requestPermissions()
 
 		restaurantRepository.setContext(this)
+		restaurantRepository.dropAllRestaurants()
 		client = LocationServices.getFusedLocationProviderClient(this)
+		Places.initialize(this,resources.getString(R.string.google_maps_key))
+		RestaurantRepository().setContext(this)
+		var jsonFetcher = JSONFetcher("https://maps.googleapis.com/maps/api/place/findplacefromtext/json" +
+				"?fields=place_id%2Cname%2Crating%2Copening_hours%2Cgeometry" +
+				"&input=Museum%20of%20Contemporary%20Art%20Australia" +
+				"&inputtype=textquery" +
+				"&key=" + resources.getString(R.string.google_maps_key))
+		jsonFetcher.run()
 		//Permission check
 		if (ActivityCompat.checkSelfPermission(
 				this,
@@ -103,12 +112,12 @@ class MainActivity : AppCompatActivity() {
 
 		// Adds the restaurants to the main screen
 
-		val restaurantListAdapter: RestaurantListAdapter = RestaurantListAdapter(
-			this, R.layout.restaurant_item,
-			restaurantRepository.getAllRestaurants()
-		)
-		listView.adapter = restaurantListAdapter
+		//val restaurantListAdapter = RestaurantListAdapter(
+		//	this, R.layout.restaurant_item,
+		//	restaurantRepository.getAllRestaurants()
+		//)
 
+		listView.adapter = restaurantRepository.addRestaurantsOnScreen()
 		val restaurantItem = ArrayAdapter(
 			this,
 			android.R.layout.simple_list_item_1,
