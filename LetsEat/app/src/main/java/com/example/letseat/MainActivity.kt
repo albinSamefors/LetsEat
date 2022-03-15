@@ -25,6 +25,9 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 // TODO: Ändra så att alla färger hämtas ifrån temat istället för de hårdkodade färgerna Samt fixa darkmode
 class MainActivity : AppCompatActivity() {
@@ -62,12 +65,7 @@ class MainActivity : AppCompatActivity() {
 		client = LocationServices.getFusedLocationProviderClient(this)
 		Places.initialize(this,resources.getString(R.string.google_maps_key))
 		RestaurantRepository().setContext(this)
-		var jsonFetcher = JSONFetcher("https://maps.googleapis.com/maps/api/place/findplacefromtext/json" +
-				"?fields=place_id%2Cname%2Crating%2Copening_hours%2Cgeometry" +
-				"&input=Museum%20of%20Contemporary%20Art%20Australia" +
-				"&inputtype=textquery" +
-				"&key=" + resources.getString(R.string.google_maps_key))
-		jsonFetcher.run()
+
 		//Permission check
 		if (ActivityCompat.checkSelfPermission(
 				this,
@@ -108,6 +106,7 @@ class MainActivity : AppCompatActivity() {
 			val intent = Intent(this, LoginActivity::class.java)
 			startActivity(intent)
 		}
+		listView.adapter = restaurantRepository.addRestaurantsOnScreen()
 
 
 		// Adds the restaurants to the main screen
@@ -117,7 +116,7 @@ class MainActivity : AppCompatActivity() {
 		//	restaurantRepository.getAllRestaurants()
 		//)
 
-		listView.adapter = restaurantRepository.addRestaurantsOnScreen()
+
 		val restaurantItem = ArrayAdapter(
 			this,
 			android.R.layout.simple_list_item_1,
@@ -153,6 +152,11 @@ class MainActivity : AppCompatActivity() {
 			}
 
 			override fun onStopTrackingTouch(bar: SeekBar?) {
+				restaurantRepository.dropAllRestaurants()
+				var jsonFetcher = JSONFetcher("https://maps.googleapis.com/maps/api/place/textsearch/json?input=restaurant&inputtype=textquery&types=[%22restaurant%22,%22establishment%22]&locationbias=circle%3A"+progressValue+"%"+ userLatLng.latitude+"%2C"+userLatLng.longitude +
+						"&key=" + resources.getString(R.string.google_maps_key))
+				jsonFetcher.run()
+				listView.adapter = restaurantRepository.addRestaurantsOnScreen()
 
 
 			}
@@ -174,6 +178,9 @@ class MainActivity : AppCompatActivity() {
 					//Location Success
 					//init LatLng
 					userLatLng = LatLng(location.latitude, location.longitude)
+					var jsonFetcher = JSONFetcher("https://maps.googleapis.com/maps/api/place/textsearch/json?input=restaurant&inputtype=textquery&types=[%22restaurant%22,%22establishment%22]&locationbias=circle%3A"+progressValue+"%"+ userLatLng.latitude+"%2C"+userLatLng.longitude +
+							"&key=" + resources.getString(R.string.google_maps_key))
+
 
 				}
 			}
@@ -214,6 +221,7 @@ class MainActivity : AppCompatActivity() {
 
 
 	}
+
 
 
 }

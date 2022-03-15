@@ -39,7 +39,6 @@ class RestaurantRepository {
 				latLng
 			)
 		)
-		addRestaurantsOnScreen()
 
 
 		return id
@@ -56,8 +55,8 @@ class RestaurantRepository {
 		val restaurantListAdapter: RestaurantListAdapter = RestaurantListAdapter(
 			context, R.layout.restaurant_item,
 			restaurantRepository.getAllRestaurants()
-
 		)
+
 	return restaurantListAdapter
 	}
 	fun dropAllRestaurants()

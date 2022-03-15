@@ -13,15 +13,18 @@ class JSONFetcher(mUrl: String)	:	Thread() {
 	var sUrl = mUrl
 	var data = ""
 	private var idList = ArrayList<String>()
-
+	var isDone = false;
 
 	private fun addToRestaurantList()
 	{
 
 	}
 	override fun run() {
-		GlobalScope.launch(Dispatchers.IO)
-		{
+
+		//GlobalScope.launch(Dispatchers.IO)
+		Thread(Runnable {
+
+			isDone = false
 			var url = URL(sUrl)
 			var httpURLConnection = url.openConnection() as HttpURLConnection
 			var inputStream = httpURLConnection.inputStream
@@ -34,7 +37,7 @@ class JSONFetcher(mUrl: String)	:	Thread() {
 			}
 			if (data.isNotEmpty()) {
 				var jsonObject = JSONObject(data)
-				var jsonArray = jsonObject.getJSONArray("candidates")
+				var jsonArray = jsonObject.getJSONArray("results")
 				for(i in 0 until jsonArray.length())
 				{
 					val place = jsonArray.getJSONObject(i)
@@ -47,11 +50,13 @@ class JSONFetcher(mUrl: String)	:	Thread() {
 					var rating = place.getString("rating").toFloat()
 					var name = place.getString("name")
 					restaurantRepository.addRestaurant(id,name,latLng,rating)
+					restaurantRepository.addRestaurantsOnScreen()
 				}
 
 			}
 
-		}
-		//addToRestaurantList()
+		}).start()
+
 	}
+
 }
