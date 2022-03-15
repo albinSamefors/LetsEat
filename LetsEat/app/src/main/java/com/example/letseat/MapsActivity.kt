@@ -42,7 +42,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 	private lateinit var mapFragment: SupportMapFragment
 	private lateinit var userLatLng: LatLng
 	private lateinit var placesClient: PlacesClient
-	private lateinit var restaurantIds: ArrayList<String>
 	var progressValue = 0
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -106,6 +105,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 			override fun onStartTrackingTouch(bar: SeekBar?) {
 				// When user starts touching the bar do this
+
 			}
 
 			override fun onStopTrackingTouch(bar: SeekBar?) {
@@ -154,8 +154,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 									), 20
 								)
 							)
-
-							restaurantIds=fetchPlaces()
 						}
 					})
 				}
@@ -250,6 +248,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 			}
 		}*/
+
 		if(placesClient.findAutocompletePredictions(predictionsRequest).isComplete) {
 			placesClient.findAutocompletePredictions(predictionsRequest)
 				.addOnSuccessListener { response: FindAutocompletePredictionsResponse ->
@@ -261,6 +260,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
 				}
+
+
 		}
 
 
