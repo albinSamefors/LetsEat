@@ -40,7 +40,7 @@ class RestaurantActivity : AppCompatActivity() {
 		favoriteButton.setOnClickListener {
 			if (firebaseAuth.currentUser == null) {
 				//user not logged in, can not use favorite function
-				Toast.makeText(this, "You are not logged in", Toast.LENGTH_SHORT).show()
+				Toast.makeText(this, R.string.You_are_not_logged_in, Toast.LENGTH_SHORT).show()
 			} else {
 				//user logged in, can use function
 				if (isInMyFavorites) {

@@ -39,7 +39,7 @@ class AccountActivity : AppCompatActivity() {
 		val logOutButton = findViewById<Button>(R.id.btnLogout)
 		logOutButton.setOnClickListener {
 			Firebase.auth.signOut()
-			Toast.makeText(this, "Successfully signed out", Toast.LENGTH_SHORT).show()
+			Toast.makeText(this, R.string.Successfully_signed_out, Toast.LENGTH_SHORT).show()
 			startActivity(Intent(this, MainActivity::class.java))
 			finish()
 		}

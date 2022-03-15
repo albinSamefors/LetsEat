@@ -60,11 +60,11 @@ class RegistrationActivity : AppCompatActivity() {
 
         // check if any field is blank
         if (email.isBlank() || pass.isBlank() || confirmPassword.isBlank()) {
-            Toast.makeText(this, "Email and Password can't be blank", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.Email_and_Password_cant_be_blank, Toast.LENGTH_SHORT).show()
         }
         // check if password match confirm password
         if (pass != confirmPassword) {
-            Toast.makeText(this, "Password and Confirm Password do not match", Toast.LENGTH_SHORT)
+            Toast.makeText(this, R.string.Password_and_Confirm_Password_do_not_match, Toast.LENGTH_SHORT)
                 .show()
         }
 
@@ -78,14 +78,14 @@ class RegistrationActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 Log.d(TAG, "createUserWithEmail:success")
-                Toast.makeText(this, "Successfully Signed Up", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.Successfully_Signed_Up, Toast.LENGTH_SHORT).show()
                 val user = auth.currentUser
                 updateUI(user, newUser)
                 startActivity(Intent (this, MainActivity::class.java))
                 finish()
             } else {
                 Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                Toast.makeText(this, "Sign Up Failed!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.Sign_Up_Failed, Toast.LENGTH_SHORT).show()
                 updateUI(null, newUser)
             }
         }
