@@ -1,11 +1,10 @@
 package com.example.letseat
 
-import com.example.letseat.R
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class ForgotPasswordActivity : AppCompatActivity() {
@@ -20,14 +19,14 @@ class ForgotPasswordActivity : AppCompatActivity() {
 		submitButton.setOnClickListener {
 			val email: String = etForgotPassword.text.toString().trim { it <= ' ' }
 			if (email.isEmpty()) {
-				Toast.makeText(this, "Please enter email adress.", Toast.LENGTH_SHORT).show()
+				Toast.makeText(this, R.string.Please_enter_email_adress_, Toast.LENGTH_SHORT).show()
 			} else {
 				FirebaseAuth.getInstance().sendPasswordResetEmail(email)
 					.addOnCompleteListener { task ->
 						if (task.isSuccessful) {
 							Toast.makeText(
 								this,
-								"Email sent successfully to reset your password!",
+								R.string.Email_sent_successfully_to_reset_your_password,
 								Toast.LENGTH_SHORT
 							).show()
 							finish()

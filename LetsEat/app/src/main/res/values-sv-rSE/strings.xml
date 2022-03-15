@@ -32,4 +32,16 @@
     <string name="submit">Skicka in</string>
     <string name="enter_your_username_or_email_adress_we_will_send_you_an_email_to_reset_your_password">"Ange ditt användarnamn eller e-postadress så skickar vi ett e-postmeddelande för att återställa ditt lösenord "</string>
     <string name="Your_username_is">Ditt användarnamn är:</string>
+    <string name="Successfully_signed_out">Utloggning lyckad</string>
+    <string name="Please_enter_email_adress.">Vänligen ange e-postadress.</string>
+    <string name="Email_sent_successfully_to_reset_your_password">"E-post har skickats för att återställa ditt lösenord! "</string>
+    <string name="Logging_In">"Loggar in "</string>
+    <string name="User_already_logged_in">"Användaren är redan inloggad "</string>
+    <string name="Email_and_Password_cant_be_blank">"E-post och lösenord får inte vara tomma "</string>
+    <string name="Successfully_Logged_In">Inloggningen lyckades</string>
+    <string name="Log_In_failed">"Inloggningen misslyckades "</string>
+    <string name="Password_and_Confirm_Password_do_not_match">"Lösenord och Bekräfta lösenord stämmer inte överens "</string>
+    <string name="Successfully_Signed_Up">Registreringen Lyckad</string>
+    <string name="Sign_Up_Failed">"Registrering misslyckades! "</string>
+    <string name="You_are_not_logged_in">"Du är inte inloggad "</string>
 </resources>

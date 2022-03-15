@@ -58,7 +58,7 @@
         android:layout_marginTop="52dp"
         android:fontFamily="@font/mitr"
         android:text="Placeholder"
-        android:textSize="35dp"
+        android:textSize="35sp"
         android:textColor="@color/Red"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

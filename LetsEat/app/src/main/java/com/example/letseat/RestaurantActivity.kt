@@ -2,16 +2,17 @@ package com.example.letseat
 
 import android.content.ContentValues.TAG
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
-import android.widget.ToggleButton
-import androidx.annotation.DrawableRes
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class RestaurantActivity : AppCompatActivity() {
 	private lateinit var firebaseAuth: FirebaseAuth
@@ -39,7 +40,7 @@ class RestaurantActivity : AppCompatActivity() {
 		favoriteButton.setOnClickListener {
 			if (firebaseAuth.currentUser == null) {
 				//user not logged in, can not use favorite function
-				Toast.makeText(this, "You are not logged in", Toast.LENGTH_SHORT).show()
+				Toast.makeText(this, R.string.You_are_not_logged_in, Toast.LENGTH_SHORT).show()
 			} else {
 				//user logged in, can use function
 				if (isInMyFavorites) {
@@ -62,8 +63,8 @@ class RestaurantActivity : AppCompatActivity() {
 	private fun checkIsFavorite() {
 		Log.d(TAG, "checkIsFavorite: Checking if restaurant is in favorite or not")
 
-		val ref = FirebaseDatabase.getInstance().getReference("users").ref.child(firebaseAuth.uid!!)
-			.child("Favorites").child(restaurantId)
+		val ref = FirebaseDatabase.getInstance().getReference("users")
+		ref.child(firebaseAuth.uid!!).child("Favorites").child(restaurantId)
 			.addValueEventListener(object : ValueEventListener {
 				override fun onDataChange(snapshot: DataSnapshot) {
 					isInMyFavorites = snapshot.exists()
@@ -93,7 +94,7 @@ class RestaurantActivity : AppCompatActivity() {
 
 		//save to database
 		val ref = FirebaseDatabase.getInstance().getReference("users")
-		ref.child(firebaseAuth.uid!!).child("Favorites").child(restaurantId).setValue(hashMap)
+			ref.child(firebaseAuth.uid!!).child("Favorites").child(restaurantId).setValue(hashMap)
 			.addOnSuccessListener {
 				//add to fav
 				Log.d(TAG, "addToFavorite: Added to fav")
@@ -112,7 +113,7 @@ class RestaurantActivity : AppCompatActivity() {
 
 		//database ref
 		val ref = FirebaseDatabase.getInstance().getReference("users")
-			.ref.child(firebaseAuth.uid!!).child("Favorites").child(restaurantId)
+			ref.child(firebaseAuth.uid!!).child("Favorites").child(restaurantId)
 			.removeValue()
 			.addOnSuccessListener {
 				Log.d(TAG, "removeFromFavorite: RemovedFromFav")
