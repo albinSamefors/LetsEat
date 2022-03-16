@@ -128,6 +128,7 @@ class MainActivity : AppCompatActivity() {
 			val intent = Intent(this, RestaurantActivity::class.java)
 			intent.putExtra("id", listId)
 			startActivity(intent)
+		}
 
 
 			//Seekbar setup
@@ -150,6 +151,7 @@ class MainActivity : AppCompatActivity() {
 
 				override fun onStopTrackingTouch(bar: SeekBar?) {
 					restaurantRepository.dropAllRestaurants()
+					updateRestaurantList()
 					var jsonFetcher = JSONFetcher(
 						"https://maps.googleapis.com/maps/api/place/textsearch/json?input=restaurant&inputtype=textquery&types=[%22restaurant%22,%22establishment%22]&locationbias=circle%3A" + progressValue + "%" + userLatLng.latitude + "%2C" + userLatLng.longitude +
 								"&key=" + resources.getString(R.string.google_maps_key)
@@ -165,7 +167,7 @@ class MainActivity : AppCompatActivity() {
 			})
 
 
-		}
+
 	}
 
 		//////////////////////////THIS IS ALL SHIT
@@ -180,11 +182,13 @@ class MainActivity : AppCompatActivity() {
 						//Location Success
 						//init LatLng
 						restaurantRepository.dropAllRestaurants()
+						updateRestaurantList()
 						userLatLng = LatLng(location.latitude, location.longitude)
 						var jsonFetcher = JSONFetcher(
 							"https://maps.googleapis.com/maps/api/place/textsearch/json?input=restaurant&inputtype=textquery&types=[%22restaurant%22,%22establishment%22]&locationbias=circle%3A" + progressValue + "%" + userLatLng.latitude + "%2C" + userLatLng.longitude +
 									"&key=" + resources.getString(R.string.google_maps_key)
 						)
+
 						jsonFetcher.run() {
 							updateRestaurantList()
 
@@ -237,10 +241,8 @@ class MainActivity : AppCompatActivity() {
 			val listView = findViewById<ListView>(R.id.restaurantView)
 			listView.adapter = restaurantRepository.addRestaurantsOnScreen()
 			listView.setOnItemClickListener { parent, view, position, id ->
-				val clickRestaurant = listView.getItemAtPosition(position)
-				val listId = (listView.getItemIdAtPosition(position))
 				val intent = Intent(this, RestaurantActivity::class.java)
-				intent.putExtra("id", listId)
+				intent.putExtra("id", position)
 				startActivity(intent)
 			}
 		}

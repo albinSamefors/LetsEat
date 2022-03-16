@@ -25,7 +25,7 @@ class RestaurantRepository {
 		context = mContext
 	}
 
-	fun addRestaurant(placeID: String,name : String, latLng: LatLng, rating : Float): Int {
+	fun addRestaurant(placeID: String,name : String, latLng: LatLng, rating : Float,adress : String): Int {
 
 		val id = when {
 			restaurants.count() == 0 -> 1
@@ -36,7 +36,38 @@ class RestaurantRepository {
 				id,
 				name,
 				rating,
-				latLng
+				latLng,
+				adress,
+				"Dont know"//ÄNDRA DENNA
+			)
+		)
+
+
+		return id
+	}
+	fun addRestaurant(placeID: String,name : String, latLng: LatLng, rating : Float,adress : String, openingHours : Boolean): Int {
+
+		val id = when {
+			restaurants.count() == 0 -> 1
+			else -> restaurants.last().id + 1
+		}
+		var openString = ""
+		if(openingHours)
+		{
+			openString = "Open" //ÄNDRA
+		}
+		else{
+			openString = "Closed"
+		}
+		restaurants.add(
+			RestaurantItem(
+				id,
+				name,
+				rating,
+				latLng,
+				adress,
+				openString
+
 			)
 		)
 
@@ -63,16 +94,17 @@ class RestaurantRepository {
 	{
 		restaurantRepository.restaurants.clear()
 	}
-	fun getSpecificRestaurant(id : Int) : Int
+	fun getSpecificRestaurant(id : Int) : RestaurantItem
 	{
+		var tempId = -1
 		for(restaurant in restaurantRepository.restaurants)
 		{
-			if(restaurant.id == id)
+			if((restaurant.id) == id+1)
 			{
-				return id
+				tempId = id
 			}
 		}
-		return -1
+		return restaurantRepository.restaurants[tempId]
 	}
 	fun drop(id : Int)
 	{

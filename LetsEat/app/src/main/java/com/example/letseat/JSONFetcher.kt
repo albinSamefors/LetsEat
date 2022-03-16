@@ -48,7 +48,30 @@ class JSONFetcher(mUrl: String){
 
 					var rating = place.getString("rating").toFloat()
 					var name = place.getString("name")
-					restaurantRepository.addRestaurant(id,name,latLng,rating)
+					var adress = place.getString("formatted_address")
+					var openNow = "";
+					if(place.has("opening_hours"))
+					{
+						openNow= place.getJSONObject("opening_hours").getString("open_now")
+					}
+					else{
+						restaurantRepository.addRestaurant(id,name,latLng,rating,adress)
+					}
+
+					var bOpenNow = false
+					if(openNow == "true")
+					{
+						bOpenNow = true
+					}
+					else if(openNow == "false")
+					{
+						bOpenNow = false
+					}
+					else
+					{
+						restaurantRepository.addRestaurant(id,name,latLng,rating,adress)
+					}
+					restaurantRepository.addRestaurant(id,name,latLng,rating,adress,bOpenNow)
 				}
 
 

@@ -4,15 +4,14 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import org.w3c.dom.Text
 
 class RestaurantActivity : AppCompatActivity() {
 	private lateinit var firebaseAuth: FirebaseAuth
@@ -28,10 +27,29 @@ class RestaurantActivity : AppCompatActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_restaurant)
+		if(intent.hasExtra("id"))
+		{
+			val extras = intent.extras
+			restaurantId = extras!!.getInt("id")
 
-		restaurantId = intent.getIntExtra("id", -1)
+		}
+
+
+		//restaurantId = intent.getIntExtra("id", -1)
 		favoriteButton = findViewById<Button>(R.id.favoritButton)
+		var titleView = findViewById<TextView>(R.id.restaurantTitle)
+		var ratingsBar = findViewById<RatingBar>(R.id.restaurantRating)
+		var adressView = findViewById<TextView>(R.id.adressView)
+		var openNowView = findViewById<TextView>(R.id.openNowView)
+		titleView.text = ""
+		if(restaurantId!= -1) {
+			var restaurant = restaurantRepository.getSpecificRestaurant(restaurantId)
+			titleView.text = restaurant.restaurantName
+			ratingsBar.rating = restaurant.rating
+			adressView.text = restaurant.adress
+			openNowView.text = restaurant.openNow
 
+		}
 		//init firebase auth
 		firebaseAuth = FirebaseAuth.getInstance()
 		if (firebaseAuth.currentUser != null) {
