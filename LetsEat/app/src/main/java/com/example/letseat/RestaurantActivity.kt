@@ -18,17 +18,19 @@ class RestaurantActivity : AppCompatActivity() {
 	private lateinit var firebaseAuth: FirebaseAuth
 
 	//retrieve restaurant id
-	private val restaurantId = intent.getStringExtra("id")!!
+	private var restaurantId = -1
+
 
 	//will hold a boolean value to indicate either is in current users favorites list or not
 	private var isInMyFavorites = false
 
-	private val favoriteButton: Button = findViewById<Button>(R.id.favoritButton)
+	private lateinit var favoriteButton: Button
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_restaurant)
-
+		restaurantId = intent.getIntExtra("id", -1)
+		favoriteButton = findViewById<Button>(R.id.favoritButton)
 		//init firebase auth
 		firebaseAuth = FirebaseAuth.getInstance()
 		if (firebaseAuth.currentUser != null) {
@@ -64,7 +66,7 @@ class RestaurantActivity : AppCompatActivity() {
 		Log.d(TAG, "checkIsFavorite: Checking if restaurant is in favorite or not")
 
 		val ref = FirebaseDatabase.getInstance().getReference("users")
-		ref.child(firebaseAuth.uid!!).child("Favorites").child(restaurantId)
+		ref.child(firebaseAuth.uid!!).child("Favorites").child(restaurantId.toString())
 			.addValueEventListener(object : ValueEventListener {
 				override fun onDataChange(snapshot: DataSnapshot) {
 					isInMyFavorites = snapshot.exists()
@@ -90,11 +92,11 @@ class RestaurantActivity : AppCompatActivity() {
 	private fun addToFavorites() {
 		//setup data to add to database
 		val hashMap = HashMap<String, Any>()
-		hashMap["restaurantId"] = restaurantId
+		hashMap["restaurantId"] = restaurantId.toString()
 
 		//save to database
 		val ref = FirebaseDatabase.getInstance().getReference("users")
-			ref.child(firebaseAuth.uid!!).child("Favorites").child(restaurantId).setValue(hashMap)
+			ref.child(firebaseAuth.uid!!).child("Favorites").child(restaurantId.toString()).setValue(hashMap)
 			.addOnSuccessListener {
 				//add to fav
 				Log.d(TAG, "addToFavorite: Added to fav")
@@ -113,7 +115,7 @@ class RestaurantActivity : AppCompatActivity() {
 
 		//database ref
 		val ref = FirebaseDatabase.getInstance().getReference("users")
-			ref.child(firebaseAuth.uid!!).child("Favorites").child(restaurantId)
+			ref.child(firebaseAuth.uid!!).child("Favorites").child(restaurantId.toString())
 			.removeValue()
 			.addOnSuccessListener {
 				Log.d(TAG, "removeFromFavorite: RemovedFromFav")
