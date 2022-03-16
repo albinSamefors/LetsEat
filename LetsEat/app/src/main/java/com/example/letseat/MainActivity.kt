@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
 		restaurantRepository.setContext(this)
 		restaurantRepository.dropAllRestaurants()
 		client = LocationServices.getFusedLocationProviderClient(this)
-		Places.initialize(this,resources.getString(R.string.google_maps_key))
+		Places.initialize(this, resources.getString(R.string.google_maps_key))
 		RestaurantRepository().setContext(this)
 
 
@@ -114,16 +114,13 @@ class MainActivity : AppCompatActivity() {
 		listView.adapter = restaurantRepository.addRestaurantsOnScreen()
 
 
-
-
-
 		val restaurantItem = ArrayAdapter(
 			this,
 			android.R.layout.simple_list_item_1,
 			android.R.id.text1,
 			restaurantRepository.getAllRestaurants()
 		)
-		/*
+
 		listView.setOnItemClickListener { parent, view, position, id ->
 			val clickRestaurant = restaurantItem.getItem(position)
 			val listId = clickRestaurant?.id
@@ -133,116 +130,120 @@ class MainActivity : AppCompatActivity() {
 			startActivity(intent)
 
 
-
-		//Seekbar setup
-		progressValue =
-			intent.getIntExtra("radius", resources.getInteger(R.integer.standard_radius))
-
-
-		distanceBar.max = resources.getInteger(R.integer.maximum_radius)
-		distanceBar.progress = progressValue
-
-		distanceBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-			override fun onProgressChanged(bar: SeekBar?, progress: Int, fromUser: Boolean) {
-				distanceView.text = progress.toString() + "m"
-				progressValue = progress
-			}
-
-			override fun onStartTrackingTouch(bar: SeekBar?) {
-				// When user starts touching the bar do this
-			}
-
-			override fun onStopTrackingTouch(bar: SeekBar?) {
-				restaurantRepository.dropAllRestaurants()
-				var jsonFetcher = JSONFetcher("https://maps.googleapis.com/maps/api/place/textsearch/json?input=restaurant&inputtype=textquery&types=[%22restaurant%22,%22establishment%22]&locationbias=circle%3A"+progressValue+"%"+ userLatLng.latitude+"%2C"+userLatLng.longitude +
-						"&key=" + resources.getString(R.string.google_maps_key))
-				jsonFetcher.run(){
-					updateRestaurantList()
+			//Seekbar setup
+			progressValue =
+				intent.getIntExtra("radius", resources.getInteger(R.integer.standard_radius))
 
 
+			distanceBar.max = resources.getInteger(R.integer.maximum_radius)
+			distanceBar.progress = progressValue
+
+			distanceBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+				override fun onProgressChanged(bar: SeekBar?, progress: Int, fromUser: Boolean) {
+					distanceView.text = progress.toString() + "m"
+					progressValue = progress
 				}
 
-			}
+				override fun onStartTrackingTouch(bar: SeekBar?) {
+					// When user starts touching the bar do this
+				}
 
-		})
-
-
-	}
-
-	//////////////////////////THIS IS ALL SHIT
-	@SuppressLint("MissingPermission")
-	fun getCurrentPosition() {
-		val task: Task<Location> = client.lastLocation
-
-
-		task.addOnSuccessListener(object : OnSuccessListener<Location> {
-			override fun onSuccess(location: Location?) {
-				if (location != null) {
-					//Location Success
-					//init LatLng
-						restaurantRepository.dropAllRestaurants()
-					userLatLng = LatLng(location.latitude, location.longitude)
-					var jsonFetcher = JSONFetcher("https://maps.googleapis.com/maps/api/place/textsearch/json?input=restaurant&inputtype=textquery&types=[%22restaurant%22,%22establishment%22]&locationbias=circle%3A"+progressValue+"%"+ userLatLng.latitude+"%2C"+userLatLng.longitude +
-							"&key=" + resources.getString(R.string.google_maps_key))
-					jsonFetcher.run(){
+				override fun onStopTrackingTouch(bar: SeekBar?) {
+					restaurantRepository.dropAllRestaurants()
+					var jsonFetcher = JSONFetcher(
+						"https://maps.googleapis.com/maps/api/place/textsearch/json?input=restaurant&inputtype=textquery&types=[%22restaurant%22,%22establishment%22]&locationbias=circle%3A" + progressValue + "%" + userLatLng.latitude + "%2C" + userLatLng.longitude +
+								"&key=" + resources.getString(R.string.google_maps_key)
+					)
+					jsonFetcher.run() {
 						updateRestaurantList()
+
 
 					}
 
-
-
 				}
+
+			})
+
+
+		}
+	}
+
+		//////////////////////////THIS IS ALL SHIT
+		@SuppressLint("MissingPermission")
+		fun getCurrentPosition() {
+			val task: Task<Location> = client.lastLocation
+
+
+			task.addOnSuccessListener(object : OnSuccessListener<Location> {
+				override fun onSuccess(location: Location?) {
+					if (location != null) {
+						//Location Success
+						//init LatLng
+						restaurantRepository.dropAllRestaurants()
+						userLatLng = LatLng(location.latitude, location.longitude)
+						var jsonFetcher = JSONFetcher(
+							"https://maps.googleapis.com/maps/api/place/textsearch/json?input=restaurant&inputtype=textquery&types=[%22restaurant%22,%22establishment%22]&locationbias=circle%3A" + progressValue + "%" + userLatLng.latitude + "%2C" + userLatLng.longitude +
+									"&key=" + resources.getString(R.string.google_maps_key)
+						)
+						jsonFetcher.run() {
+							updateRestaurantList()
+
+						}
+
+
+					}
+				}
+			})
+
+		}
+
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		private fun requestPermissions() {
+			coarseLocationPermissionGranted = ContextCompat.checkSelfPermission(
+				this, android.Manifest.permission.ACCESS_COARSE_LOCATION
+			) == PackageManager.PERMISSION_GRANTED
+
+			fineLocationPermissionGranted = ContextCompat.checkSelfPermission(
+				this,
+				android.Manifest.permission.ACCESS_FINE_LOCATION
+			) == PackageManager.PERMISSION_GRANTED
+
+			internetPermissionGranted = ContextCompat.checkSelfPermission(
+				this,
+				android.Manifest.permission.INTERNET
+			) == PackageManager.PERMISSION_GRANTED
+
+			val permissionRequest: MutableList<String> = ArrayList()
+
+			if (!coarseLocationPermissionGranted) {
+				permissionRequest.add(android.Manifest.permission.ACCESS_COARSE_LOCATION)
 			}
-		})
+			if (!fineLocationPermissionGranted) {
+				permissionRequest.add(android.Manifest.permission.ACCESS_FINE_LOCATION)
+			}
+			if (!internetPermissionGranted) {
+				permissionRequest.add(android.Manifest.permission.INTERNET)
+			}
+			if (permissionRequest.isNotEmpty()) {
+				permissionsLauncher.launch(permissionRequest.toTypedArray())
+			}
 
-	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	private fun requestPermissions() {
-		coarseLocationPermissionGranted = ContextCompat.checkSelfPermission(
-			this, android.Manifest.permission.ACCESS_COARSE_LOCATION
-		) == PackageManager.PERMISSION_GRANTED
-
-		fineLocationPermissionGranted = ContextCompat.checkSelfPermission(
-			this,
-			android.Manifest.permission.ACCESS_FINE_LOCATION
-		) == PackageManager.PERMISSION_GRANTED
-
-		internetPermissionGranted = ContextCompat.checkSelfPermission(
-			this,
-			android.Manifest.permission.INTERNET
-		) == PackageManager.PERMISSION_GRANTED
-
-		val permissionRequest: MutableList<String> = ArrayList()
-
-		if (!coarseLocationPermissionGranted) {
-			permissionRequest.add(android.Manifest.permission.ACCESS_COARSE_LOCATION)
-		}
-		if (!fineLocationPermissionGranted) {
-			permissionRequest.add(android.Manifest.permission.ACCESS_FINE_LOCATION)
-		}
-		if (!internetPermissionGranted) {
-			permissionRequest.add(android.Manifest.permission.INTERNET)
-		}
-		if (permissionRequest.isNotEmpty()) {
-			permissionsLauncher.launch(permissionRequest.toTypedArray())
 		}
 
-
-	}
-	fun updateRestaurantList()
-	{
-	//	restaurantRepository.cutOff(userLatLng,progressValue)
-		val listView = findViewById<ListView>(R.id.restaurantView)
-		listView.adapter = restaurantRepository.addRestaurantsOnScreen()
-		listView.setOnItemClickListener { parent, view, position, id ->
-			val clickRestaurant = listView.getItemAtPosition(position)
-			val listId = (listView.getItemIdAtPosition(position))
-			val intent = Intent(this, RestaurantActivity::class.java)
-			intent.putExtra("id", listId)
-			startActivity(intent)
+		fun updateRestaurantList() {
+			//	restaurantRepository.cutOff(userLatLng,progressValue)
+			val listView = findViewById<ListView>(R.id.restaurantView)
+			listView.adapter = restaurantRepository.addRestaurantsOnScreen()
+			listView.setOnItemClickListener { parent, view, position, id ->
+				val clickRestaurant = listView.getItemAtPosition(position)
+				val listId = (listView.getItemIdAtPosition(position))
+				val intent = Intent(this, RestaurantActivity::class.java)
+				intent.putExtra("id", listId)
+				startActivity(intent)
+			}
 		}
-	}
 
 
 
