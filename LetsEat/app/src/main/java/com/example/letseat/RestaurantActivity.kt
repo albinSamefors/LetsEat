@@ -37,6 +37,7 @@ class RestaurantActivity : AppCompatActivity() {
 		}
 
 
+
 		favoriteButton.setOnClickListener {
 			if (firebaseAuth.currentUser == null) {
 				//user not logged in, can not use favorite function
