@@ -57,13 +57,14 @@ class RestaurantActivity : AppCompatActivity() {
 		homeViewButton.setOnClickListener {
 			val intent = Intent(this, MainActivity::class.java)
 			startActivity(intent)
+			finish()
 		}
 	}
 
 	private fun checkIsFavorite() {
 		Log.d(TAG, "checkIsFavorite: Checking if restaurant is in favorite or not")
 
-		val ref = FirebaseDatabase.getInstance().getReference("users")
+		val ref = FirebaseDatabase.getInstance("https://let-s-eat-c3632-default-rtdb.europe-west1.firebasedatabase.app/").getReference("users")
 		ref.child(firebaseAuth.uid!!).child("Favorites").child(restaurantId)
 			.addValueEventListener(object : ValueEventListener {
 				override fun onDataChange(snapshot: DataSnapshot) {
@@ -93,7 +94,7 @@ class RestaurantActivity : AppCompatActivity() {
 		hashMap["restaurantId"] = restaurantId
 
 		//save to database
-		val ref = FirebaseDatabase.getInstance().getReference("users")
+		val ref = FirebaseDatabase.getInstance("https://let-s-eat-c3632-default-rtdb.europe-west1.firebasedatabase.app/").getReference("users")
 			ref.child(firebaseAuth.uid!!).child("Favorites").child(restaurantId).setValue(hashMap)
 			.addOnSuccessListener {
 				//add to fav
@@ -112,7 +113,7 @@ class RestaurantActivity : AppCompatActivity() {
 		Log.d(TAG, "removeFromFavorite: Removing from fav")
 
 		//database ref
-		val ref = FirebaseDatabase.getInstance().getReference("users")
+		val ref = FirebaseDatabase.getInstance("https://let-s-eat-c3632-default-rtdb.europe-west1.firebasedatabase.app/").getReference("users")
 			ref.child(firebaseAuth.uid!!).child("Favorites").child(restaurantId)
 			.removeValue()
 			.addOnSuccessListener {
