@@ -1,28 +1,27 @@
 package com.example.letseat
 
+import android.os.Handler
+import android.os.Looper
 import com.google.android.gms.maps.model.LatLng
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
-import java.util.logging.Handler
 
-class JSONFetcher(mUrl: String)	:	Thread() {
+
+class JSONFetcher(mUrl: String){
 	var sUrl = mUrl
 	var data = ""
 	private var idList = ArrayList<String>()
 	var isDone = false;
 
-	private fun addToRestaurantList()
-	{
 
-	}
-	override fun run() {
+	 fun run(callback: () -> Unit) {
 
 		//GlobalScope.launch(Dispatchers.IO)
+		val mainHandler = Handler(Looper.getMainLooper())
+
 		Thread(Runnable {
+
 
 			isDone = false
 			var url = URL(sUrl)
@@ -50,9 +49,14 @@ class JSONFetcher(mUrl: String)	:	Thread() {
 					var rating = place.getString("rating").toFloat()
 					var name = place.getString("name")
 					restaurantRepository.addRestaurant(id,name,latLng,rating)
-					restaurantRepository.addRestaurantsOnScreen()
 				}
 
+
+			}
+
+
+			mainHandler.post{
+				callback()
 			}
 
 		}).start()

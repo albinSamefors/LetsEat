@@ -63,6 +63,46 @@ class RestaurantRepository {
 	{
 		restaurantRepository.restaurants.clear()
 	}
+	fun getSpecificRestaurant(id : Int) : Int
+	{
+		for(restaurant in restaurantRepository.restaurants)
+		{
+			if(restaurant.id == id)
+			{
+				return id
+			}
+		}
+		return -1
+	}
+	fun drop(id : Int)
+	{
+		restaurantRepository.restaurants.removeAt(id)
+	}
+	 fun cutOff(latLng: LatLng, radius : Int)
+	{
+		for(restaurants in restaurantRepository.restaurants)
+		{
+			if(distanceFromUser(latLng, restaurants.latLng) > radius)
+			{
+				restaurantRepository.drop(restaurants.id)
+			}
+		}
+	}
+	fun distanceFromUser(user : LatLng, restaurant : LatLng) : Int
+	{
+		val earthRadius = (6371 * 1000)
+		val userLat = user.latitude * (Math.PI/180)
+		val restaurantLat = restaurant.latitude * (Math.PI/180)
+		val latDiff = (restaurant.latitude-user.latitude) * (Math.PI/180)
+		val longDiff= (restaurant.longitude-user.longitude) * (Math.PI/180)
+
+		val a = Math.sin(latDiff/2) * Math.sin(latDiff/2)+
+				Math.cos(userLat) * Math.cos(restaurantLat) *
+				Math.sin(longDiff/2) * Math.sin(longDiff/2)
+		val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+		val d = earthRadius * c
+		return d.toInt()
+	}
 
 
 

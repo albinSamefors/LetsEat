@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 	private var coarseLocationPermissionGranted = false
 	private var internetPermissionGranted = false
 
+
 	var progressValue: Int = 0
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity() {
 		client = LocationServices.getFusedLocationProviderClient(this)
 		Places.initialize(this,resources.getString(R.string.google_maps_key))
 		RestaurantRepository().setContext(this)
+
 
 		//Permission check
 		if (ActivityCompat.checkSelfPermission(
@@ -95,6 +97,7 @@ class MainActivity : AppCompatActivity() {
 		val distanceView = findViewById<TextView>(R.id.distanceView)
 
 
+
 		mapButton.setOnClickListener {
 			mapIntent.putExtra("radius", progressValue)
 			startActivity(mapIntent)
@@ -111,12 +114,7 @@ class MainActivity : AppCompatActivity() {
 		listView.adapter = restaurantRepository.addRestaurantsOnScreen()
 
 
-		// Adds the restaurants to the main screen
 
-		//val restaurantListAdapter = RestaurantListAdapter(
-		//	this, R.layout.restaurant_item,
-		//	restaurantRepository.getAllRestaurants()
-		//)
 
 
 		val restaurantItem = ArrayAdapter(
@@ -125,6 +123,7 @@ class MainActivity : AppCompatActivity() {
 			android.R.id.text1,
 			restaurantRepository.getAllRestaurants()
 		)
+		/*
 		listView.setOnItemClickListener { parent, view, position, id ->
 			val clickRestaurant = restaurantItem.getItem(position)
 			val listId = clickRestaurant?.id
@@ -132,8 +131,7 @@ class MainActivity : AppCompatActivity() {
 			val intent = Intent(this, RestaurantActivity::class.java)
 			intent.putExtra("id", listId)
 			startActivity(intent)
-			finish()
-		}
+
 
 
 		//Seekbar setup
@@ -158,9 +156,11 @@ class MainActivity : AppCompatActivity() {
 				restaurantRepository.dropAllRestaurants()
 				var jsonFetcher = JSONFetcher("https://maps.googleapis.com/maps/api/place/textsearch/json?input=restaurant&inputtype=textquery&types=[%22restaurant%22,%22establishment%22]&locationbias=circle%3A"+progressValue+"%"+ userLatLng.latitude+"%2C"+userLatLng.longitude +
 						"&key=" + resources.getString(R.string.google_maps_key))
-				jsonFetcher.run()
-				listView.adapter = restaurantRepository.addRestaurantsOnScreen()
+				jsonFetcher.run(){
+					updateRestaurantList()
 
+
+				}
 
 			}
 
@@ -180,9 +180,15 @@ class MainActivity : AppCompatActivity() {
 				if (location != null) {
 					//Location Success
 					//init LatLng
+						restaurantRepository.dropAllRestaurants()
 					userLatLng = LatLng(location.latitude, location.longitude)
 					var jsonFetcher = JSONFetcher("https://maps.googleapis.com/maps/api/place/textsearch/json?input=restaurant&inputtype=textquery&types=[%22restaurant%22,%22establishment%22]&locationbias=circle%3A"+progressValue+"%"+ userLatLng.latitude+"%2C"+userLatLng.longitude +
 							"&key=" + resources.getString(R.string.google_maps_key))
+					jsonFetcher.run(){
+						updateRestaurantList()
+
+					}
+
 
 
 				}
@@ -223,6 +229,19 @@ class MainActivity : AppCompatActivity() {
 		}
 
 
+	}
+	fun updateRestaurantList()
+	{
+	//	restaurantRepository.cutOff(userLatLng,progressValue)
+		val listView = findViewById<ListView>(R.id.restaurantView)
+		listView.adapter = restaurantRepository.addRestaurantsOnScreen()
+		listView.setOnItemClickListener { parent, view, position, id ->
+			val clickRestaurant = listView.getItemAtPosition(position)
+			val listId = (listView.getItemIdAtPosition(position))
+			val intent = Intent(this, RestaurantActivity::class.java)
+			intent.putExtra("id", listId)
+			startActivity(intent)
+		}
 	}
 
 

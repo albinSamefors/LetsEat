@@ -31,6 +31,7 @@ import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
 import com.google.android.libraries.places.api.net.PlacesClient
+import kotlinx.coroutines.delay
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -111,7 +112,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 			override fun onStopTrackingTouch(bar: SeekBar?) {
 
 				mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(getBounds(mapCircle), 20))
-				//fetchPlaces()
+				restaurantRepository.dropAllRestaurants()
+				var jsonFetcher = JSONFetcher("https://maps.googleapis.com/maps/api/place/textsearch/json?input=restaurant&inputtype=textquery&types=[%22restaurant%22,%22establishment%22]&locationbias=circle%3A"+progressValue+"%"+ userLatLng.latitude+"%2C"+userLatLng.longitude +
+						"&key=" + resources.getString(R.string.google_maps_key))
+				jsonFetcher.run(){
+					addRestaurantMarkers()
+				}
 
 			}
 		})
@@ -154,6 +160,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 									), 20
 								)
 							)
+							addRestaurantMarkers()
+
 						}
 					})
 				}
@@ -201,71 +209,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 		}
 	}
 
-	private fun fetchPlaces() : ArrayList<String> {
-		var empty = ArrayList<String>()
-		val suggestionList = ArrayList<String>()
-		val token = AutocompleteSessionToken.newInstance()
-		empty.add("EMPTY")
-		if (userLatLng == null) {
-			var empty = ArrayList<String>()
 
-			empty.add("EMPTY")
-			return empty
-		}
-			Log.d("Circle", mapCircle.radius.toString())
-		if (!Places.isInitialized()) {
-			Places.initialize(this,resources.getString(R.string.google_maps_key))
-		}
-		var predictionsRequest = FindAutocompletePredictionsRequest.builder()
-			.setCountry("se")
-			.setLocationBias(RectangularBounds.newInstance(getBounds(mapCircle)))
-			.setOrigin(userLatLng)
-			.setTypeFilter(TypeFilter.ESTABLISHMENT)
-			.setQuery("Restaurants")
-			.setSessionToken(token)
-			.build()
-
-		/*placesClient.findAutocompletePredictions(predictionsRequest).addOnSuccessListener {
-			// Get response
-			val response = it
-			if (response != null) {
-				val predictionsList = response.autocompletePredictions
-
-				for (i in 1 until predictionsList.size) {
-					val prediction = predictionsList[i]
-
-					// Filter predictions by restaurant
-					if (prediction.placeTypes.contains(Place.Type.RESTAURANT)) {
-						restaurantRepository.addRestaurant(prediction.placeId)
-						suggestionList.add(prediction.placeId)
-
-
-					}
-				}
-
-
-
-
-			}
-		}*/
-
-		if(placesClient.findAutocompletePredictions(predictionsRequest).isComplete) {
-			placesClient.findAutocompletePredictions(predictionsRequest)
-				.addOnSuccessListener { response: FindAutocompletePredictionsResponse ->
-					for (prediction in response.autocompletePredictions) {
-						suggestionList.add(prediction.placeId)
-					}
-				}.addOnFailureListener { exception: Exception? ->
-					Log.d("WTF", "message", exception)
-
-
-				}
-
+	 fun addRestaurantMarkers()
+	{
+	//restaurantRepository.cutOff(userLatLng,progressValue)
+		val restaurants = restaurantRepository.getAllRestaurants()
+		for (restaurant in restaurants)
+		{
+			var markerOptions = MarkerOptions().position(restaurant.latLng).title(restaurant.restaurantName)
+			mMap.addMarker(markerOptions)
 
 		}
-
-
-		return suggestionList
 	}
 
 }
