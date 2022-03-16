@@ -16,11 +16,11 @@ import com.google.firebase.ktx.Firebase
 
 
 class RegistrationActivity : AppCompatActivity() {
-    lateinit var etEmail: EditText
-    lateinit var etConfPass: EditText
+    private lateinit var etEmail: EditText
+    private lateinit var etConfPass: EditText
     private lateinit var etPass: EditText
     private lateinit var btnSignUp: Button
-    lateinit var tvRedirectLogin: TextView
+    private lateinit var tvRedirectLogin: TextView
 
     // create Firebase authentication object
     private lateinit var auth: FirebaseAuth

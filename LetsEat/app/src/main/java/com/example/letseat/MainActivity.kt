@@ -101,6 +101,7 @@ class MainActivity : AppCompatActivity() {
 		mapButton.setOnClickListener {
 			mapIntent.putExtra("radius", progressValue)
 			startActivity(mapIntent)
+			finish()
 		}
 
 
@@ -108,6 +109,7 @@ class MainActivity : AppCompatActivity() {
 		loginButton.setOnClickListener {
 			val intent = Intent(this, LoginActivity::class.java)
 			startActivity(intent)
+			finish()
 		}
 		listView.adapter = restaurantRepository.addRestaurantsOnScreen()
 
@@ -129,7 +131,7 @@ class MainActivity : AppCompatActivity() {
 			val intent = Intent(this, RestaurantActivity::class.java)
 			intent.putExtra("id", listId)
 			startActivity(intent)
-		}*/
+
 
 
 		//Seekbar setup
