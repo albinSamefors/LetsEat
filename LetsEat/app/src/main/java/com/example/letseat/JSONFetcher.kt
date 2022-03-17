@@ -1,5 +1,6 @@
 package com.example.letseat
 
+import android.location.Location
 import android.os.Handler
 import android.os.Looper
 import com.google.android.gms.maps.model.LatLng
@@ -8,9 +9,11 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 
-class JSONFetcher(mUrl: String){
+class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 	var sUrl = mUrl
 	var data = ""
+	var mUserLatLng = userLatLng
+	var mRadius = radius
 	private var idList = ArrayList<String>()
 	var isDone = false;
 
@@ -59,6 +62,13 @@ class JSONFetcher(mUrl: String){
 					}
 
 					var bOpenNow = false
+
+					var userLocation = Location("userLocation")
+					userLocation.latitude = mUserLatLng.latitude
+					userLocation.longitude = mUserLatLng.longitude
+					var restaurantLocation = Location("restaurantLocation")
+					restaurantLocation.latitude = latLng.latitude
+					restaurantLocation.longitude = latLng.longitude
 					if(openNow == "true")
 					{
 						bOpenNow = true
@@ -71,7 +81,20 @@ class JSONFetcher(mUrl: String){
 					{
 						restaurantRepository.addRestaurant(id,name,latLng,rating,adress)
 					}
-					restaurantRepository.addRestaurant(id,name,latLng,rating,adress,bOpenNow)
+					if(userLocation.distanceTo(restaurantLocation) <= mRadius) {
+						restaurantRepository.addRestaurant(
+							id,
+							name,
+							latLng,
+							rating,
+							adress,
+							bOpenNow
+						)
+					}
+					else
+					{
+						continue
+					}
 				}
 
 
@@ -85,5 +108,6 @@ class JSONFetcher(mUrl: String){
 		}).start()
 
 	}
+
 
 }

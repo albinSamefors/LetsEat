@@ -110,7 +110,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 				mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(getBounds(mapCircle), 20))
 				restaurantRepository.dropAllRestaurants()
 				var jsonFetcher = JSONFetcher("https://maps.googleapis.com/maps/api/place/textsearch/json?input=restaurant&inputtype=textquery&types=[%22restaurant%22,%22establishment%22]&locationbias=circle%3A"+progressValue+"%"+ userLatLng.latitude+"%2C"+userLatLng.longitude +
-						"&key=" + resources.getString(R.string.google_maps_key))
+						"&key=" + resources.getString(R.string.google_maps_key),userLatLng,progressValue)
 				jsonFetcher.run(){
 					addRestaurantMarkers()
 				}
@@ -211,6 +211,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 	 fun addRestaurantMarkers()
 	{
 	//restaurantRepository.cutOff(userLatLng,progressValue)
+		val circleOptions = CircleOptions()
+		circleOptions.center(userLatLng)
+		circleOptions.radius(progressValue.toDouble())
+		circleOptions.strokeColor(R.color.Red_Blurred)
+		circleOptions.fillColor(R.color.Transparent_Red)
+		circleOptions.strokeWidth(R.integer.circle_stroke.toFloat())
+		mapCircle = mMap.addCircle(circleOptions)
+		mMap.animateCamera(
+			CameraUpdateFactory.newLatLngBounds(
+				getBounds(
+					mapCircle
+				), 20
+			)
+		)
+		mMap.clear()
+		mMap.addCircle(circleOptions)
 		val restaurants = restaurantRepository.getAllRestaurants()
 		for (restaurant in restaurants)
 		{

@@ -111,7 +111,8 @@ class MainActivity : AppCompatActivity() {
 			startActivity(intent)
 			finish()
 		}
-		listView.adapter = restaurantRepository.addRestaurantsOnScreen()
+
+
 
 
 		val restaurantItem = ArrayAdapter(
@@ -148,7 +149,7 @@ class MainActivity : AppCompatActivity() {
 					updateRestaurantList()
 					var jsonFetcher = JSONFetcher(
 						"https://maps.googleapis.com/maps/api/place/textsearch/json?input=restaurant&inputtype=textquery&types=[%22restaurant%22,%22establishment%22]&locationbias=circle%3A" + progressValue + "%" + userLatLng.latitude + "%2C" + userLatLng.longitude +
-								"&key=" + resources.getString(R.string.google_maps_key)
+								"&key=" + resources.getString(R.string.google_maps_key), userLatLng,progressValue
 					)
 					jsonFetcher.run() {
 						updateRestaurantList()
@@ -175,12 +176,14 @@ class MainActivity : AppCompatActivity() {
 					if (location != null) {
 						//Location Success
 						//init LatLng
+
+						userLatLng = LatLng(location.latitude, location.longitude)
+						restaurantRepository.setUserLocation(userLatLng)
 						restaurantRepository.dropAllRestaurants()
 						updateRestaurantList()
-						userLatLng = LatLng(location.latitude, location.longitude)
 						var jsonFetcher = JSONFetcher(
 							"https://maps.googleapis.com/maps/api/place/textsearch/json?input=restaurant&inputtype=textquery&types=[%22restaurant%22,%22establishment%22]&locationbias=circle%3A" + progressValue + "%" + userLatLng.latitude + "%2C" + userLatLng.longitude +
-									"&key=" + resources.getString(R.string.google_maps_key)
+									"&key=" + resources.getString(R.string.google_maps_key), userLatLng, progressValue
 						)
 
 						jsonFetcher.run() {
@@ -240,6 +243,7 @@ class MainActivity : AppCompatActivity() {
 				startActivity(intent)
 			}
 		}
+
 
 
 

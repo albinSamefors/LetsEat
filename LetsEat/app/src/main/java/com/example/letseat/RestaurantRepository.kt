@@ -19,6 +19,7 @@ import kotlinx.coroutines.GlobalScope
 val restaurantRepository = RestaurantRepository()
 
 class RestaurantRepository {
+	private lateinit var user: LatLng
 	private val restaurants = mutableListOf<RestaurantItem>()
 	private lateinit var context: Context
 	fun setContext(mContext: Context) {
@@ -85,7 +86,8 @@ class RestaurantRepository {
 	{
 		val restaurantListAdapter: RestaurantListAdapter = RestaurantListAdapter(
 			context, R.layout.restaurant_item,
-			restaurantRepository.getAllRestaurants()
+			restaurantRepository.getAllRestaurants(),
+			user
 		)
 
 	return restaurantListAdapter
@@ -134,6 +136,10 @@ class RestaurantRepository {
 		val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
 		val d = earthRadius * c
 		return d.toInt()
+	}
+	fun setUserLocation(latLng: LatLng)
+	{
+		user = latLng
 	}
 
 
