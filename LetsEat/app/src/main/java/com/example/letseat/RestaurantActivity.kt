@@ -18,6 +18,11 @@ class RestaurantActivity : AppCompatActivity() {
 
 	//retrieve restaurant id
 	private var restaurantId = -1
+	private lateinit var restaurantAddress: String
+	private lateinit var restaurantLatLng: String
+	private lateinit var restaurantOpen: String
+	private lateinit var restaurantRating: String
+	private lateinit var restaurantName: String
 
 	//will hold a boolean value to indicate either is in current users favorites list or not
 	private var isInMyFavorites = false
@@ -31,11 +36,34 @@ class RestaurantActivity : AppCompatActivity() {
 		{
 			val extras = intent.extras
 			restaurantId = extras!!.getInt("id")
-
+		}
+		if(intent.hasExtra("address"))
+		{
+			val extras = intent.extras
+			restaurantAddress = extras!!.getString("address").toString()
+		}
+		if(intent.hasExtra("latLng"))
+		{
+			val extras = intent.extras
+			restaurantLatLng = extras!!.getString("latLng").toString()
+		}
+		if(intent.hasExtra("open"))
+		{
+			val extras = intent.extras
+			restaurantOpen = extras!!.getString("open").toString()
+		}
+		if(intent.hasExtra("rating"))
+		{
+			val extras = intent.extras
+			restaurantRating = extras!!.getString("rating").toString()
+		}
+		if(intent.hasExtra("name"))
+		{
+			val extras = intent.extras
+			restaurantName = extras!!.getString("name").toString()
 		}
 
 
-		//restaurantId = intent.getIntExtra("id", -1)
 		favoriteButton = findViewById<Button>(R.id.favoritButton)
 		var titleView = findViewById<TextView>(R.id.restaurantTitle)
 		var ratingsBar = findViewById<RatingBar>(R.id.restaurantRating)
@@ -114,6 +142,11 @@ class RestaurantActivity : AppCompatActivity() {
 		//setup data to add to database
 		val hashMap = HashMap<String, Any>()
 		hashMap["restaurantId"] = restaurantId.toString()
+		hashMap["restaurantAddress"] = restaurantAddress.toString()
+		hashMap["restaurantLatLng"] = restaurantLatLng.toString()
+		hashMap["restaurantName"] = restaurantName.toString()
+		hashMap["restaurantOpen"] = restaurantOpen.toString()
+		hashMap["restaurantRating"] = restaurantRating.toString()
 
 		//save to database
 		val ref = FirebaseDatabase.getInstance("https://let-s-eat-c3632-default-rtdb.europe-west1.firebasedatabase.app/").getReference("users")

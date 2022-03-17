@@ -124,9 +124,19 @@ class MainActivity : AppCompatActivity() {
 		listView.setOnItemClickListener { parent, view, position, id ->
 			val clickRestaurant = restaurantItem.getItem(position)
 			val listId = clickRestaurant?.id
+			val address = clickRestaurant?.adress
+			val latLng = clickRestaurant?.latLng
+			val open = clickRestaurant?.openNow
+			val rating = clickRestaurant?.rating
+			val name = clickRestaurant?.restaurantName
 
 			val intent = Intent(this, RestaurantActivity::class.java)
 			intent.putExtra("id", listId)
+			intent.putExtra("address", address)
+			intent.putExtra("latLng", latLng)
+			intent.putExtra("open", open)
+			intent.putExtra("rating", rating)
+			intent.putExtra("name", name)
 			startActivity(intent)
 		}
 
