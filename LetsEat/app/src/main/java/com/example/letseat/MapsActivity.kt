@@ -8,6 +8,7 @@ import android.location.Location
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.SeekBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.letseat.databinding.ActivityMapsBinding
@@ -85,13 +86,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
 		val distanceBar = findViewById<SeekBar>(R.id.mapDistanceBar)
-		progressValue =
-			usedIntent.getIntExtra("radius", resources.getInteger(R.integer.standard_radius))
+		val distanceView = findViewById<TextView>(R.id.mapDistanceView)
+
+		progressValue = usedIntent.getIntExtra("radius", resources.getInteger(R.integer.standard_radius))
+		distanceView.text = progressValue.toString() + "m"
 		distanceBar.max = resources.getInteger(R.integer.maximum_radius)
 		distanceBar.progress = progressValue
 		distanceBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 			override fun onProgressChanged(bar: SeekBar?, progress: Int, fromUser: Boolean) {
 				progressValue = progress
+				distanceView.text = progressValue.toString() + "m"
 				mapCircle.radius = progressValue.toDouble()
 
 			}
