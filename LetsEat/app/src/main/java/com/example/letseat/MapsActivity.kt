@@ -11,10 +11,10 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.example.letseat.databinding.ActivityMapsBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.example.letseat.databinding.ActivityMapsBinding
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -74,12 +74,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 		) {
 			getCurrentPosition()
 // TODO: Update the position with a set interval 
-		} else {
+		}
+		else {
 			// When permission denied
 			// Request permission
 			ActivityCompat.requestPermissions(
 				this,
-				arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+				arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION),
 				44
 			)
 		}

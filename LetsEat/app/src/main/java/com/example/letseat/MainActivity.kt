@@ -73,10 +73,11 @@ class MainActivity : AppCompatActivity() {
 				this,
 				Manifest.permission.ACCESS_FINE_LOCATION
 			) == PackageManager.PERMISSION_GRANTED
-		) {
+			|| ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 			getCurrentPosition()
-// TODO: Update the position with a set interval
-		} else {
+		}
+
+			else {
 			// When permission denied
 			// Request permission
 			ActivityCompat.requestPermissions(
@@ -201,9 +202,9 @@ class MainActivity : AppCompatActivity() {
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		private fun requestPermissions() {
-			coarseLocationPermissionGranted = ContextCompat.checkSelfPermission(
-				this, android.Manifest.permission.ACCESS_COARSE_LOCATION
-			) == PackageManager.PERMISSION_GRANTED
+		//	coarseLocationPermissionGranted = ContextCompat.checkSelfPermission(
+		//		this, android.Manifest.permission.ACCESS_COARSE_LOCATION
+//			) == PackageManager.PERMISSION_GRANTED
 
 			fineLocationPermissionGranted = ContextCompat.checkSelfPermission(
 				this,

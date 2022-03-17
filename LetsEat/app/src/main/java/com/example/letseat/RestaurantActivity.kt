@@ -75,7 +75,15 @@ class RestaurantActivity : AppCompatActivity() {
 			titleView.text = restaurant.restaurantName
 			ratingsBar.rating = restaurant.rating
 			adressView.text = restaurant.adress
-			openNowView.text = restaurant.openNow
+			if(restaurant.openNow != "Open" && restaurant.openNow != "Closed")
+			{
+				openNowView.text = "Dont Know"
+			}
+			else
+			{
+				openNowView.text = restaurant.openNow
+			}
+
 			restaurantAddress = restaurant.adress
 			restaurantLatLng = restaurant.latLng.toString()
 			restaurantOpen = restaurant.openNow

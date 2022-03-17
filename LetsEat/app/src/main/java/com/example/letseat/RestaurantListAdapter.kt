@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.core.view.isVisible
 import com.google.android.gms.maps.model.LatLng
 import kotlin.math.nextDown
 
@@ -23,7 +24,6 @@ class RestaurantListAdapter(context: Context, resource: Int, objects: MutableLis
 		val rating: Float = getItem(position)!!.rating
 		val distance: LatLng = getItem(position)!!.latLng
 
-
 		val inflater: LayoutInflater = LayoutInflater.from(mContext)
 		val convertView = inflater.inflate(mResource, parent, false)
 
@@ -32,6 +32,7 @@ class RestaurantListAdapter(context: Context, resource: Int, objects: MutableLis
 		// val descriptionView : TextView = convertView.findViewById(R.id.restaurantType)
 		val ratingView: RatingBar = convertView.findViewById(R.id.ratingBar)
 		val distanceView: TextView = convertView.findViewById(R.id.distanceFromUser)
+		val openView = convertView.findViewById<TextView>(R.id.restaurantOpen)
 		var floatArray = floatArrayOf(0f)
 		var userLoc = Location("locationA")
 		var restaurantLocation = Location("locationB")
@@ -43,7 +44,22 @@ class RestaurantListAdapter(context: Context, resource: Int, objects: MutableLis
 		var fDistanceToRestaurant = userLoc.distanceTo(restaurantLocation)
 		titleView.text = name
 		// descriptionView.text = type
-		ratingView.rating = rating
+		if(rating ==  0.0f)
+		{
+			ratingView.isVisible = false
+		}
+		else{
+			ratingView.isVisible = true
+			ratingView.rating = rating
+		}
+		if(getItem(position)!!.openNow != "Open"&&getItem(position)!!.openNow != "Closed"&&getItem(position)!!.openNow != "Dont know")
+		{
+			openView.text = "Dont know"
+		}
+		else{
+			openView.text = getItem(position)!!.openNow
+		}
+
 		distanceView.text = fDistanceToRestaurant.toInt().toString() + "m"
 
 		return convertView
