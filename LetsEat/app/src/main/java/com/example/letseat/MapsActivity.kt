@@ -6,14 +6,11 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
-import android.util.Log.DEBUG
 import android.widget.ImageButton
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.letseat.databinding.ActivityMapsBinding
-import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -21,17 +18,10 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import com.google.android.gms.tasks.DuplicateTaskCompletionException
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.AutocompleteSessionToken
-import com.google.android.libraries.places.api.model.RectangularBounds
-import com.google.android.libraries.places.api.model.TypeFilter
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
 import com.google.android.libraries.places.api.net.PlacesClient
-import kotlinx.coroutines.delay
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -46,6 +36,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 	var progressValue = 0
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+
+
 
 		binding = ActivityMapsBinding.inflate(layoutInflater)
 		setContentView(binding.root)
@@ -145,7 +137,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 							//zoom camera
 							gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 14.5f))
 							//Place Marker
-							gMap.addMarker(markerOptions)
+							//gMap.addMarker(markerOptions)
+							gMap.isMyLocationEnabled = true
 							val circleOptions = CircleOptions()
 							circleOptions.center(userLatLng)
 							circleOptions.radius(progressValue.toDouble())
@@ -203,6 +196,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 		if (requestCode == 44) {
 			if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 				getCurrentPosition()
+
 
 
 			}

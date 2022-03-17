@@ -138,6 +138,7 @@ class MainActivity : AppCompatActivity() {
 
 			distanceBar.max = resources.getInteger(R.integer.maximum_radius)
 			distanceBar.progress = progressValue
+			distanceView.text = progressValue.toString() + "m"
 
 			distanceBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 				override fun onProgressChanged(bar: SeekBar?, progress: Int, fromUser: Boolean) {
