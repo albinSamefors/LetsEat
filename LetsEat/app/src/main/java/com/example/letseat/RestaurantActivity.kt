@@ -40,7 +40,7 @@ class RestaurantActivity : AppCompatActivity() {
 		if(intent.hasExtra("address"))
 		{
 			val extras = intent.extras
-			restaurantAddress = extras!!.getString("address").toString()
+			restaurantAddress = extras!!.getString("address","")
 		}
 		if(intent.hasExtra("latLng"))
 		{
@@ -76,7 +76,11 @@ class RestaurantActivity : AppCompatActivity() {
 			ratingsBar.rating = restaurant.rating
 			adressView.text = restaurant.adress
 			openNowView.text = restaurant.openNow
-
+			restaurantAddress = restaurant.adress
+			restaurantLatLng = restaurant.latLng.toString()
+			restaurantOpen = restaurant.openNow
+			restaurantName = restaurant.restaurantName
+			restaurantRating = restaurant.rating.toString()
 		}
 		//init firebase auth
 		firebaseAuth = FirebaseAuth.getInstance()
@@ -142,11 +146,11 @@ class RestaurantActivity : AppCompatActivity() {
 		//setup data to add to database
 		val hashMap = HashMap<String, Any>()
 		hashMap["restaurantId"] = restaurantId.toString()
-		hashMap["restaurantAddress"] = restaurantAddress.toString()
-		hashMap["restaurantLatLng"] = restaurantLatLng.toString()
-		hashMap["restaurantName"] = restaurantName.toString()
-		hashMap["restaurantOpen"] = restaurantOpen.toString()
-		hashMap["restaurantRating"] = restaurantRating.toString()
+		hashMap["restaurantAddress"] = restaurantAddress
+		hashMap["restaurantLatLng"] = restaurantLatLng
+		hashMap["restaurantName"] = restaurantName
+		hashMap["restaurantOpen"] = restaurantOpen
+		hashMap["restaurantRating"] = restaurantRating
 
 		//save to database
 		val ref = FirebaseDatabase.getInstance("https://let-s-eat-c3632-default-rtdb.europe-west1.firebasedatabase.app/").getReference("users")
