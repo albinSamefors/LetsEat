@@ -25,6 +25,8 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity() {
 	private lateinit var client: FusedLocationProviderClient
 	private lateinit var userLatLng: LatLng
 	private lateinit var debug: String
+	private lateinit var auth: FirebaseAuth
 	private var fineLocationPermissionGranted = false
 	private var coarseLocationPermissionGranted = false
 	private var internetPermissionGranted = false
@@ -96,7 +99,7 @@ class MainActivity : AppCompatActivity() {
 		val distanceBar = findViewById<SeekBar>(R.id.distanceBar)
 		val listView = findViewById<ListView>(R.id.restaurantView)
 		val distanceView = findViewById<TextView>(R.id.distanceView)
-
+		val loginButton = findViewById<ImageButton>(R.id.logInButton)
 
 
 		mapButton.setOnClickListener {
@@ -104,14 +107,31 @@ class MainActivity : AppCompatActivity() {
 			startActivity(mapIntent)
 			finish()
 		}
+		auth = FirebaseAuth.getInstance()
+		val mFirebaseUser: FirebaseUser? = auth.currentUser
+		if (mFirebaseUser != null) {
+			//there is some user logged in
+			loginButton.background = getDrawable(R.drawable.ic_baseline_account_circle_24)
+			loginButton.setOnClickListener {
+				val intent = Intent(this, AccountActivity::class.java)
+				startActivity(intent)
+				finish()
+			}
 
-
-		val loginButton = findViewById<ImageButton>(R.id.logInButton)
-		loginButton.setOnClickListener {
-			val intent = Intent(this, LoginActivity::class.java)
-			startActivity(intent)
-			finish()
 		}
+		else
+		{
+			loginButton.background = getDrawable(R.drawable.ic_baseline_login_24)
+			loginButton.setOnClickListener {
+				val intent = Intent(this, LoginActivity::class.java)
+				startActivity(intent)
+				finish()
+			}
+
+		}
+
+
+
 
 
 

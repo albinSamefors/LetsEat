@@ -95,6 +95,8 @@ class LoginActivity : AppCompatActivity() {
 		if (mFirebaseUser != null) {
 			//there is some user logged in
 			Toast.makeText(this, R.string.User_already_logged_in, Toast.LENGTH_SHORT).show()
+			val intent = Intent(this,MainActivity::class.java)
+			startActivity(intent)
 			finish()
 		}
 	}
