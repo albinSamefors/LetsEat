@@ -3,25 +3,33 @@ package com.example.letseat
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 
 class AccountActivity : AppCompatActivity() {
 	private lateinit var usernameTextView: TextView
-	private lateinit var mFirebaseAuth: FirebaseAuth
+	private lateinit var firebaseAuth: FirebaseAuth
+	private lateinit var database: FirebaseDatabase
+	private lateinit var ref: DatabaseReference
+	// creating variables for our list view.
+	private var listView: ListView? = null
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_account)
-
+		//initiation
+		firebaseAuth = FirebaseAuth.getInstance()
+		ref = FirebaseDatabase.getInstance("https://let-s-eat-c3632-default-rtdb.europe-west1.firebasedatabase.app/").getReference("users")
+		ref.child(firebaseAuth.uid!!).child("Favorites")
 		usernameTextView = findViewById(R.id.tvUsername)
-		mFirebaseAuth = FirebaseAuth.getInstance()
+		listView = findViewById(R.id.lvAccountView)
+
+
 
 
 		val listViewButton = findViewById<ImageButton>(R.id.accountListViewButton)
@@ -48,7 +56,7 @@ class AccountActivity : AppCompatActivity() {
 	override fun onStart() {
 		super.onStart()
 
-		val mFirebaseUser: FirebaseUser? = mFirebaseAuth.currentUser
+		val mFirebaseUser: FirebaseUser? = firebaseAuth.currentUser
 		if (mFirebaseUser != null) {
 			//there is some user logged in
 			usernameTextView.text = mFirebaseUser.email
@@ -70,6 +78,4 @@ class AccountActivity : AppCompatActivity() {
 				}.show()
 		}
 	}
-
-
 }
