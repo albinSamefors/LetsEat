@@ -110,9 +110,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 				mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(getBounds(mapCircle), 20))
 				restaurantRepository.dropAllRestaurants()
-				var jsonFetcher = JSONFetcher("https://maps.googleapis.com/maps/api/place/textsearch/json?input=restaurant&inputtype=textquery&types=[%22restaurant%22,%22establishment%22]&locationbias=circle%3A"+progressValue+"%"+ userLatLng.latitude+"%2C"+userLatLng.longitude +
-						"&key=" + resources.getString(R.string.google_maps_key),userLatLng,progressValue)
+				var jsonFetcher = JSONFetcher("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ userLatLng.latitude +"%2C"+userLatLng.longitude+"&radius="+progressValue+"&type=restaurant&key="+resources.getString(R.string.google_maps_key),userLatLng,progressValue)
 				jsonFetcher.run(){
+					restaurantRepository.sortAfterRating()
 					addRestaurantMarkers()
 				}
 

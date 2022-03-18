@@ -141,6 +141,27 @@ class RestaurantRepository {
 	{
 		user = latLng
 	}
+	fun sortAfterRating()
+	{
+		restaurants.sortByDescending { it.rating }
+	}
+	fun sortAfterDistacne()
+	{
+		var userLoc = Location("userPos")
+		var restaurantLoc = Location("restPos")
+		userLoc.latitude = user.latitude
+		userLoc.longitude = user.longitude
+		restaurants.sortBy {
+			restaurantLoc.latitude = it.latLng.latitude
+			restaurantLoc.longitude = it.latLng.longitude
+				userLoc.distanceTo(restaurantLoc)
+
+
+
+		}
+
+	}
+
 
 
 
