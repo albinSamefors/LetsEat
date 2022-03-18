@@ -12,7 +12,7 @@
         android:layout_width="300sp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5sp"
-        android:background="@drawable/ic_restaurant_item_container_red">
+        android:background="@drawable/ic_restaurant_item_container_white">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
                 android:fontFamily="@font/mitr"
                 android:text="placeholder"
                 android:textAlignment="center"
-                android:textColor="@color/White"
+                android:textColor="@color/Red"
                 android:textSize="35sp" />
 
             <TextView
@@ -39,7 +39,7 @@
                 android:fontFamily="@font/mitr"
                 android:text="placeholder"
                 android:textAlignment="center"
-                android:textColor="@color/White"
+                android:textColor="@color/Red"
                 android:textSize="20sp" />
 
             <RatingBar
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/mitr"
                 android:text="distance"
-                android:textColor="@color/White" />
+                android:textColor="@color/Red" />
 
         </LinearLayout>
 

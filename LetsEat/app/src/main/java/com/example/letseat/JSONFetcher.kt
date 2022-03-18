@@ -69,27 +69,39 @@ class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 					var restaurantLocation = Location("restaurantLocation")
 					restaurantLocation.latitude = latLng.latitude
 					restaurantLocation.longitude = latLng.longitude
-					if(openNow == "true")
-					{
-						bOpenNow = true
-					}
-					else if(openNow == "false")
-					{
-						bOpenNow = false
-					}
-					else
-					{
-						restaurantRepository.addRestaurant(id,name,latLng,rating,adress)
-					}
+
 					if(userLocation.distanceTo(restaurantLocation) <= mRadius) {
-						restaurantRepository.addRestaurant(
-							id,
-							name,
-							latLng,
-							rating,
-							adress,
-							bOpenNow
-						)
+						if(openNow == "true" || openNow == "false")
+						{
+							if(openNow == "true")
+							{
+								restaurantRepository.addRestaurant(
+									id,
+									name,
+									latLng,
+									rating,
+									adress,
+									true
+								)
+							}
+							else{
+								restaurantRepository.addRestaurant(
+									id,
+									name,
+									latLng,
+									rating,
+									adress,
+									false
+								)
+							}
+
+
+						}
+						else
+						{
+							restaurantRepository.addRestaurant(id,name,latLng,rating,adress)
+						}
+
 					}
 					else
 					{
