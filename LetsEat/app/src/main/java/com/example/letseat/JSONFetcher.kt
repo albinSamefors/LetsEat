@@ -32,6 +32,7 @@ class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 			var inputStream = httpURLConnection.inputStream
 			var bufferedReader = inputStream.bufferedReader()
 			var temp : String
+
 			idList.clear()
 			for(line in bufferedReader.lines())
 			{
@@ -42,6 +43,7 @@ class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 				var jsonArray = jsonObject.getJSONArray("results")
 				for(i in 0 until jsonArray.length())
 				{
+					var exists = false;
 					val place = jsonArray.getJSONObject(i)
 					var id = place.getString("place_id")
 					var location = place.getJSONObject("geometry").getJSONObject("location")
@@ -49,16 +51,39 @@ class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 					var lng = location.getString("lng").toDouble()
 					var latLng = LatLng(lat,lng)
 
-					var rating = place.getString("rating").toFloat()
+					var rating = 0f
+					if(place.has("rating"))
+					{
+						rating = place.getString("rating").toFloat()
+					}
+
 					var name = place.getString("name")
-					var adress = place.getString("formatted_address")
+					for(restaurant in restaurantRepository.getAllRestaurants())
+					{
+						if(name == restaurant.restaurantName)
+						{
+							exists = true
+						}
+
+
+					}
+					var adress = ""
+					if(place.has("formatted_address"))
+					{
+						 adress = place.getString("formatted_address")
+					}
+					else{
+						adress = ""
+					}
 					var openNow = "";
 					if(place.has("opening_hours"))
 					{
 						openNow= place.getJSONObject("opening_hours").getString("open_now")
 					}
 					else{
-						restaurantRepository.addRestaurant(id,name,latLng,rating,adress)
+						if(!exists) {
+							restaurantRepository.addRestaurant(id, name, latLng, rating, adress)
+						}
 					}
 
 					var bOpenNow = false
@@ -71,40 +96,53 @@ class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 					restaurantLocation.longitude = latLng.longitude
 
 					if(userLocation.distanceTo(restaurantLocation) <= mRadius) {
-						if(openNow == "true" || openNow == "false")
-						{
-							if(openNow == "true")
-							{
-								restaurantRepository.addRestaurant(
-									id,
-									name,
-									latLng,
-									rating,
-									adress,
-									true
-								)
+						if(openNow == "true" || openNow == "false") {
+							if(openNow == "true") {
+								if(!exists) {
+
+
+									restaurantRepository.addRestaurant(
+										id,
+										name,
+										latLng,
+										rating,
+										adress,
+										true
+									)
+								}
+								else continue
 							}
 							else{
-								restaurantRepository.addRestaurant(
-									id,
-									name,
-									latLng,
-									rating,
-									adress,
-									false
-								)
+								if(!exists) {
+									restaurantRepository.addRestaurant(
+										id,
+										name,
+										latLng,
+										rating,
+										adress,
+										false
+									)
+								}
+								else
+								{
+									continue
+								}
 							}
 
 
 						}
-						else
-						{
+						else {
+							if(!exists) {
 							restaurantRepository.addRestaurant(id,name,latLng,rating,adress)
+							}
+							else
+							{
+								continue
+							}
 						}
 
 					}
-					else
-					{
+					else {
 						continue
 					}
 				}

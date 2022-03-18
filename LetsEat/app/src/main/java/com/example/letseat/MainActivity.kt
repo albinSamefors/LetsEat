@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
 	private var fineLocationPermissionGranted = false
 	private var coarseLocationPermissionGranted = false
 	private var internetPermissionGranted = false
+	private var sortingType = "rating"// TODO: ASS
 
 
 	var progressValue: Int = 0
@@ -100,6 +101,7 @@ class MainActivity : AppCompatActivity() {
 		val listView = findViewById<ListView>(R.id.restaurantView)
 		val distanceView = findViewById<TextView>(R.id.distanceView)
 		val loginButton = findViewById<ImageButton>(R.id.logInButton)
+		val sortingButton = findViewById<ImageButton>(R.id.sortingButton)
 
 
 		mapButton.setOnClickListener {
@@ -130,7 +132,25 @@ class MainActivity : AppCompatActivity() {
 
 		}
 
+		sortingButton.setOnClickListener{
+			if(sortingType == "radius")
+			{
+				sortingType = "rating"// TODO: ASS
+				sortingButton.background = getDrawable(R.drawable.ic_baseline_star_24)
+				sortList()
+				updateRestaurantList()
 
+			}
+			else
+			{
+				sortingType = "radius"// TODO: ASS
+				sortingButton.background = getDrawable(R.drawable.ic_baseline_directions_walk_24)
+				sortList()
+				updateRestaurantList()
+			}
+
+
+		}
 
 
 
@@ -169,11 +189,16 @@ class MainActivity : AppCompatActivity() {
 					restaurantRepository.dropAllRestaurants()
 					updateRestaurantList()
 					var jsonFetcher = JSONFetcher(
-						"https://maps.googleapis.com/maps/api/place/textsearch/json?input=restaurant&inputtype=textquery&types=[%22restaurant%22,%22establishment%22]&locationbias=circle%3A" + progressValue + "%" + userLatLng.latitude + "%2C" + userLatLng.longitude +
-								"&key=" + resources.getString(R.string.google_maps_key), userLatLng,progressValue
+						"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+
+								userLatLng.latitude +"%2C"+
+								userLatLng.longitude+"&radius="+
+								progressValue+"&type=restaurant&key="+
+								resources.getString(R.string.google_maps_key), userLatLng,progressValue
 					)
 					jsonFetcher.run() {
+						sortList()
 						updateRestaurantList()
+
 
 
 					}
@@ -203,11 +228,15 @@ class MainActivity : AppCompatActivity() {
 						restaurantRepository.dropAllRestaurants()
 						updateRestaurantList()
 						var jsonFetcher = JSONFetcher(
-							"https://maps.googleapis.com/maps/api/place/textsearch/json?input=restaurant&inputtype=textquery&types=[%22restaurant%22,%22establishment%22]&locationbias=circle%3A" + progressValue + "%" + userLatLng.latitude + "%2C" + userLatLng.longitude +
-									"&key=" + resources.getString(R.string.google_maps_key), userLatLng, progressValue
+							"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+
+									userLatLng.latitude +"%2C"+
+									userLatLng.longitude+"&radius="+
+									progressValue+"&type=restaurant&key="+
+									resources.getString(R.string.google_maps_key), userLatLng, progressValue
 						)
 
 						jsonFetcher.run() {
+							sortList()
 							updateRestaurantList()
 
 						}
@@ -262,6 +291,19 @@ class MainActivity : AppCompatActivity() {
 				val intent = Intent(this, RestaurantActivity::class.java)
 				intent.putExtra("id", position)
 				startActivity(intent)
+			}
+		}
+		fun sortList()
+		{
+			if(sortingType == "rating")
+			{
+				restaurantRepository.sortAfterRating()
+				Toast.makeText(this,"Sorting by "+sortingType, Toast.LENGTH_SHORT).show() // TODO: ASS
+			}
+			if(sortingType == "radius")
+			{
+				restaurantRepository.sortAfterDistacne()
+				Toast.makeText(this,"Sorting by "+sortingType, Toast.LENGTH_SHORT).show()// TODO: ASS
 			}
 		}
 

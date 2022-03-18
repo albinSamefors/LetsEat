@@ -39,7 +39,7 @@ class RestaurantRepository {
 				rating,
 				latLng,
 				adress,
-				"Dont know"//ÄNDRA DENNA
+				"Dont know"//ÄNDRA DENNA// TODO: ASS
 			)
 		)
 
@@ -55,10 +55,10 @@ class RestaurantRepository {
 		var openString = ""
 		if(openingHours)
 		{
-			openString = "Open" //ÄNDRA
+			openString = "Open" //ÄNDRA// TODO: ASS
 		}
 		else{
-			openString = "Closed"
+			openString = "Closed"// TODO: ASS
 		}
 		restaurants.add(
 			RestaurantItem(
@@ -141,6 +141,27 @@ class RestaurantRepository {
 	{
 		user = latLng
 	}
+	fun sortAfterRating()
+	{
+		restaurants.sortByDescending { it.rating }
+	}
+	fun sortAfterDistacne()
+	{
+		var userLoc = Location("userPos")
+		var restaurantLoc = Location("restPos")
+		userLoc.latitude = user.latitude
+		userLoc.longitude = user.longitude
+		restaurants.sortBy {
+			restaurantLoc.latitude = it.latLng.latitude
+			restaurantLoc.longitude = it.latLng.longitude
+				userLoc.distanceTo(restaurantLoc)
+
+
+
+		}
+
+	}
+
 
 
 

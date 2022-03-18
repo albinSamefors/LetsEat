@@ -101,5 +101,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/distanceBar" />
 
+    <ImageButton
+        android:id="@+id/sortingButton"
+        android:layout_width="42dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="2dp"
+        android:background="@null"
+        app:layout_constraintBottom_toTopOf="@+id/restaurantView"
+        app:layout_constraintEnd_toStartOf="@+id/distanceView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/distanceBar"
+        app:srcCompat="@drawable/ic_baseline_star_24" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
