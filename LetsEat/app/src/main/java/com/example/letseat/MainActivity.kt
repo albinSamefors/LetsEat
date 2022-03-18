@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 	private var fineLocationPermissionGranted = false
 	private var coarseLocationPermissionGranted = false
 	private var internetPermissionGranted = false
-	private var sortingType = "rating"
+	private var sortingType = "rating"// TODO: ASS
 
 
 	var progressValue: Int = 0
@@ -135,7 +135,7 @@ class MainActivity : AppCompatActivity() {
 		sortingButton.setOnClickListener{
 			if(sortingType == "radius")
 			{
-				sortingType = "rating"
+				sortingType = "rating"// TODO: ASS
 				sortingButton.background = getDrawable(R.drawable.ic_baseline_star_24)
 				sortList()
 				updateRestaurantList()
@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity() {
 			}
 			else
 			{
-				sortingType = "radius"
+				sortingType = "radius"// TODO: ASS
 				sortingButton.background = getDrawable(R.drawable.ic_baseline_directions_walk_24)
 				sortList()
 				updateRestaurantList()
@@ -298,10 +298,12 @@ class MainActivity : AppCompatActivity() {
 			if(sortingType == "rating")
 			{
 				restaurantRepository.sortAfterRating()
+				Toast.makeText(this,"Sorting by "+sortingType, Toast.LENGTH_SHORT).show() // TODO: ASS
 			}
 			if(sortingType == "radius")
 			{
 				restaurantRepository.sortAfterDistacne()
+				Toast.makeText(this,"Sorting by "+sortingType, Toast.LENGTH_SHORT).show()// TODO: ASS
 			}
 		}
 

@@ -135,7 +135,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 							//init LatLng
 							userLatLng = LatLng(location.latitude, location.longitude)
 							val markerOptions =
-								MarkerOptions().position(userLatLng).title("Your Location")
+								MarkerOptions().position(userLatLng).title("Your Location") // TODO: ASS
 
 
 
