@@ -44,4 +44,11 @@
     <string name="Successfully_Signed_Up">Registreringen Lyckad</string>
     <string name="Sign_Up_Failed">"Registrering misslyckades! "</string>
     <string name="You_are_not_logged_in">"Du är inte inloggad "</string>
+    <string name="rating">betyg</string>
+    <string name="radius">radie</string>
+    <string name="Sorting_by">"Sorterar efter "</string>
+    <string name="Your_Location">"Din plats "</string>
+    <string name="Added_to_favorites">"Tillagd till favoriter "</string>
+    <string name="Failed_to_add_to_fav_due_to">Det gick inte att lägga till i favvo pga</string>
+    <string name="Removed_from_favorites">"Borttagen från favoriter "</string>
 </resources>

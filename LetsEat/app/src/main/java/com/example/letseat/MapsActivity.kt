@@ -135,7 +135,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 							//init LatLng
 							userLatLng = LatLng(location.latitude, location.longitude)
 							val markerOptions =
-								MarkerOptions().position(userLatLng).title("Your Location") // TODO: ASS
+								MarkerOptions().position(userLatLng).title(R.string.Your_Location.toString())//TODO:Kanske funkar?? orginal är bara "Your location"
 
 
 
