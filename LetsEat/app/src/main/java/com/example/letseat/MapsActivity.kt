@@ -56,6 +56,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 		val accountButton = findViewById<ImageButton>(R.id.AccountButton)
 		accountButton.setOnClickListener {
 			val intent = Intent(this, AccountActivity::class.java)
+			intent.putExtra("userLat", userLatLng.latitude.toString())
+			intent.putExtra("userLng", userLatLng.longitude.toString())
 			startActivity(intent)
 		}
 		client = LocationServices.getFusedLocationProviderClient(this)
