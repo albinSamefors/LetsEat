@@ -145,7 +145,7 @@ class RestaurantActivity : AppCompatActivity() {
 			.addOnSuccessListener {
 				//add to fav
 				Log.d(TAG, "addToFavorite: Added to fav")
-				Toast.makeText(this, "Added to favorites", Toast.LENGTH_SHORT).show()
+				Toast.makeText(this, R.string.Added_to_favorites, Toast.LENGTH_SHORT).show()
 			}
 			.addOnFailureListener { e ->
 				//failed to add to fav
@@ -164,7 +164,7 @@ class RestaurantActivity : AppCompatActivity() {
 			.removeValue()
 			.addOnSuccessListener {
 				Log.d(TAG, "removeFromFavorite: RemovedFromFav")
-				Toast.makeText(this, "Removed from favorites", Toast.LENGTH_SHORT).show()
+				Toast.makeText(this, R.string.Removed_from_favorites, Toast.LENGTH_SHORT).show()
 			}
 			.addOnFailureListener { e ->
 				Log.d(TAG, "removeFromFavorite: Failed to remove due to ${e.message}")
