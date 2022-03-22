@@ -57,11 +57,13 @@
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="112dp"
+        android:layout_marginTop="172dp"
         android:backgroundTint="@color/White"
+        android:padding="10dp"
         android:text="@string/logout"
         android:textColor="@color/Red"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_box" />
 
@@ -69,23 +71,45 @@
         android:id="@+id/tvEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:text="@string/Your_username_is"
         android:textColor="@color/White"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/btnLogout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_box" />
+        app:layout_constraintTop_toBottomOf="@+id/title_box"
+        app:layout_constraintVertical_bias="0.315" />
 
     <TextView
         android:id="@+id/tvUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="123@123.com"
+        android:padding="10dp"
+        android:text="@string/example_mail"
         android:textColor="@color/White"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/btnLogout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvEmail"
-        app:layout_constraintTop_toBottomOf="@+id/title_box" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_box"
+        app:layout_constraintVertical_bias="0.721" />
+
+    <ListView
+        android:id="@+id/lvAccountView"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnLogout"
+        tools:ignore="SpeakableTextPresentCheck">
+
+
+    </ListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

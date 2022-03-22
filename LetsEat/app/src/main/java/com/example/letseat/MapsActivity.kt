@@ -6,30 +6,22 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
-import android.util.Log.DEBUG
 import android.widget.ImageButton
 import android.widget.SeekBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.example.letseat.databinding.ActivityMapsBinding
-import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.example.letseat.databinding.ActivityMapsBinding
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import com.google.android.gms.tasks.DuplicateTaskCompletionException
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.AutocompleteSessionToken
-import com.google.android.libraries.places.api.model.RectangularBounds
-import com.google.android.libraries.places.api.model.TypeFilter
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
 import com.google.android.libraries.places.api.net.PlacesClient
 
 
@@ -45,6 +37,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 	var progressValue = 0
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+
+
 
 		binding = ActivityMapsBinding.inflate(layoutInflater)
 		setContentView(binding.root)
@@ -62,6 +56,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 		val accountButton = findViewById<ImageButton>(R.id.AccountButton)
 		accountButton.setOnClickListener {
 			val intent = Intent(this, AccountActivity::class.java)
+			intent.putExtra("userLat", userLatLng.latitude.toString())
+			intent.putExtra("userLng", userLatLng.longitude.toString())
 			startActivity(intent)
 		}
 		client = LocationServices.getFusedLocationProviderClient(this)
@@ -80,25 +76,29 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 		) {
 			getCurrentPosition()
 // TODO: Update the position with a set interval 
-		} else {
+		}
+		else {
 			// When permission denied
 			// Request permission
 			ActivityCompat.requestPermissions(
 				this,
-				arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+				arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION),
 				44
 			)
 		}
 
 
 		val distanceBar = findViewById<SeekBar>(R.id.mapDistanceBar)
-		progressValue =
-			usedIntent.getIntExtra("radius", resources.getInteger(R.integer.standard_radius))
+		val distanceView = findViewById<TextView>(R.id.mapDistanceView)
+
+		progressValue = usedIntent.getIntExtra("radius", resources.getInteger(R.integer.standard_radius))
+		distanceView.text = progressValue.toString() + "m"
 		distanceBar.max = resources.getInteger(R.integer.maximum_radius)
 		distanceBar.progress = progressValue
 		distanceBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 			override fun onProgressChanged(bar: SeekBar?, progress: Int, fromUser: Boolean) {
 				progressValue = progress
+				distanceView.text = progressValue.toString() + "m"
 				mapCircle.radius = progressValue.toDouble()
 
 			}
@@ -111,7 +111,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 			override fun onStopTrackingTouch(bar: SeekBar?) {
 
 				mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(getBounds(mapCircle), 20))
-				//fetchPlaces()
+				restaurantRepository.dropAllRestaurants()
+				var jsonFetcher = JSONFetcher("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ userLatLng.latitude +"%2C"+userLatLng.longitude+"&radius="+progressValue+"&type=restaurant&key="+resources.getString(R.string.google_maps_key),userLatLng,progressValue)
+				jsonFetcher.run(){
+					restaurantRepository.sortAfterRating()
+					addRestaurantMarkers()
+				}
 
 			}
 		})
@@ -132,14 +137,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 							//init LatLng
 							userLatLng = LatLng(location.latitude, location.longitude)
 							val markerOptions =
-								MarkerOptions().position(userLatLng).title("Your Location")
+								MarkerOptions().position(userLatLng).title(R.string.Your_Location.toString())//TODO:Kanske funkar?? orginal är bara "Your location"
 
 
 
 							//zoom camera
 							gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 14.5f))
 							//Place Marker
-							gMap.addMarker(markerOptions)
+							//gMap.addMarker(markerOptions)
+							gMap.isMyLocationEnabled = true
 							val circleOptions = CircleOptions()
 							circleOptions.center(userLatLng)
 							circleOptions.radius(progressValue.toDouble())
@@ -154,6 +160,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 									), 20
 								)
 							)
+							addRestaurantMarkers()
+
 						}
 					})
 				}
@@ -197,75 +205,38 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 				getCurrentPosition()
 
 
+
 			}
 		}
 	}
 
-	private fun fetchPlaces() : ArrayList<String> {
-		var empty = ArrayList<String>()
-		val suggestionList = ArrayList<String>()
-		val token = AutocompleteSessionToken.newInstance()
-		empty.add("EMPTY")
-		if (userLatLng == null) {
-			var empty = ArrayList<String>()
 
-			empty.add("EMPTY")
-			return empty
-		}
-			Log.d("Circle", mapCircle.radius.toString())
-		if (!Places.isInitialized()) {
-			Places.initialize(this,resources.getString(R.string.google_maps_key))
-		}
-		var predictionsRequest = FindAutocompletePredictionsRequest.builder()
-			.setCountry("se")
-			.setLocationBias(RectangularBounds.newInstance(getBounds(mapCircle)))
-			.setOrigin(userLatLng)
-			.setTypeFilter(TypeFilter.ESTABLISHMENT)
-			.setQuery("Restaurants")
-			.setSessionToken(token)
-			.build()
-
-		/*placesClient.findAutocompletePredictions(predictionsRequest).addOnSuccessListener {
-			// Get response
-			val response = it
-			if (response != null) {
-				val predictionsList = response.autocompletePredictions
-
-				for (i in 1 until predictionsList.size) {
-					val prediction = predictionsList[i]
-
-					// Filter predictions by restaurant
-					if (prediction.placeTypes.contains(Place.Type.RESTAURANT)) {
-						restaurantRepository.addRestaurant(prediction.placeId)
-						suggestionList.add(prediction.placeId)
-
-
-					}
-				}
-
-
-
-
-			}
-		}*/
-
-		if(placesClient.findAutocompletePredictions(predictionsRequest).isComplete) {
-			placesClient.findAutocompletePredictions(predictionsRequest)
-				.addOnSuccessListener { response: FindAutocompletePredictionsResponse ->
-					for (prediction in response.autocompletePredictions) {
-						suggestionList.add(prediction.placeId)
-					}
-				}.addOnFailureListener { exception: Exception? ->
-					Log.d("WTF", "message", exception)
-
-
-				}
-
+	 fun addRestaurantMarkers()
+	{
+	//restaurantRepository.cutOff(userLatLng,progressValue)
+		val circleOptions = CircleOptions()
+		circleOptions.center(userLatLng)
+		circleOptions.radius(progressValue.toDouble())
+		circleOptions.strokeColor(R.color.Red_Blurred)
+		circleOptions.fillColor(R.color.Transparent_Red)
+		circleOptions.strokeWidth(R.integer.circle_stroke.toFloat())
+		mapCircle = mMap.addCircle(circleOptions)
+		mMap.animateCamera(
+			CameraUpdateFactory.newLatLngBounds(
+				getBounds(
+					mapCircle
+				), 20
+			)
+		)
+		mMap.clear()
+		mMap.addCircle(circleOptions)
+		val restaurants = restaurantRepository.getAllRestaurants()
+		for (restaurant in restaurants)
+		{
+			var markerOptions = MarkerOptions().position(restaurant.latLng).title(restaurant.restaurantName)
+			mMap.addMarker(markerOptions)
 
 		}
-
-
-		return suggestionList
 	}
 
 }

@@ -16,7 +16,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="email">email</string>
-    <string name="password">password</string>
+    <string name="password">password (min. 7 characters)</string>
     <string name="confirm_password">confirm password</string>
     <string name="signed">sign in</string>
     <string name="already_have_an_account_login">already have an account? Login</string>
@@ -33,4 +33,24 @@
     <string name="submit">submit</string>
     <string name="enter_your_username_or_email_adress_we_will_send_you_an_email_to_reset_your_password">Enter your username or email address and we will send you an email to reset your password</string>
     <string name="Your_username_is">Your username is:</string>
+    <string name="example_mail">example@gmail.com</string>
+    <string name="Successfully_signed_out">Successfully signed out</string>
+    <string name="Please_enter_email_adress.">Please enter email adress.</string>
+    <string name="Email_sent_successfully_to_reset_your_password">Email sent successfully to reset your password!</string>
+    <string name="Logging_In">Logging In</string>
+    <string name="User_already_logged_in">User already logged in</string>
+    <string name="Email_and_Password_cant_be_blank">Email and Password can\'t be blank</string>
+    <string name="Successfully_Logged_In">Successfully Logged In</string>
+    <string name="Log_In_failed">Log In failed</string>
+    <string name="Password_and_Confirm_Password_do_not_match">Password and Confirm Password do not match</string>
+    <string name="Successfully_Signed_Up">Successfully Signed Up</string>
+    <string name="Sign_Up_Failed">Sign Up Failed!</string>
+    <string name="You_are_not_logged_in">You are not logged in</string>
+    <string name="rating">rating</string>
+    <string name="radius">radius</string>
+    <string name="Sorting_by">Sorting by</string>
+    <string name="Your_Location">Your Location</string>
+    <string name="Added_to_favorites">Added to favorites</string>
+    <string name="Failed_to_add_to_fav_due_to">Failed to add to fav due to</string>
+    <string name="Removed_from_favorites">Removed from favorites</string>
 </resources>

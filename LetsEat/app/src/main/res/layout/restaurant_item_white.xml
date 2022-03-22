@@ -6,21 +6,21 @@
     android:layout_height="wrap_content"
     android:layout_margin="30sp"
     android:gravity="center"
-    android:background="@color/White"
+    android:background="@color/Red"
     >
     <RelativeLayout
         android:layout_width="300sp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5sp"
-        android:background="@drawable/ic_restaurant_item_container_red">
+        android:background="@drawable/ic_restaurant_item_container_white">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="10sp"
             android:layout_marginHorizontal="30sp"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:layout_marginVertical="10sp"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/restaurantName"
@@ -29,7 +29,7 @@
                 android:fontFamily="@font/mitr"
                 android:text="placeholder"
                 android:textAlignment="center"
-                android:textColor="@color/White"
+                android:textColor="@color/Red"
                 android:textSize="35sp" />
 
             <TextView
@@ -39,18 +39,17 @@
                 android:fontFamily="@font/mitr"
                 android:text="placeholder"
                 android:textAlignment="center"
-                android:textColor="@color/White"
+                android:textColor="@color/Red"
                 android:textSize="20sp" />
 
             <RatingBar
                 android:id="@+id/ratingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:theme="@style/RatingBar"
-                android:isIndicator="true"
                 android:clickable="false"
-                tools:ignore="SpeakableTextPresentCheck"
-                />
+                android:isIndicator="true"
+                android:theme="@style/RatingBar"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
                 android:id="@+id/distanceFromUser"
@@ -58,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/mitr"
                 android:text="distance"
-                android:textColor="@color/White" />
+                android:textColor="@color/Red" />
 
         </LinearLayout>
 

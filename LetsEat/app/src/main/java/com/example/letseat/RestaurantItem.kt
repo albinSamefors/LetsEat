@@ -6,7 +6,9 @@ data class RestaurantItem(
 	val id: Int,
 	val restaurantName: String,
 	val rating: Float,
-	val latLng: LatLng
+	val latLng: LatLng,
+	val adress: String,
+	val openNow : String
 ) {
 	override fun toString() = restaurantName
 }

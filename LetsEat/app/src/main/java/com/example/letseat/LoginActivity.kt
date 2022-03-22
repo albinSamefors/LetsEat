@@ -71,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
 		}
 
 		btnGoogle.setOnClickListener { view: View? ->
-			Toast.makeText(this, "Logging In", Toast.LENGTH_SHORT).show()
+			Toast.makeText(this, R.string.Logging_In, Toast.LENGTH_SHORT).show()
 			signInGoogle()
 		}
 
@@ -94,7 +94,9 @@ class LoginActivity : AppCompatActivity() {
 		val mFirebaseUser: FirebaseUser? = auth.currentUser
 		if (mFirebaseUser != null) {
 			//there is some user logged in
-			Toast.makeText(this, "User already logged in ", Toast.LENGTH_SHORT).show()
+			Toast.makeText(this, R.string.User_already_logged_in, Toast.LENGTH_SHORT).show()
+			val intent = Intent(this,MainActivity::class.java)
+			startActivity(intent)
 			finish()
 		}
 	}
@@ -104,7 +106,7 @@ class LoginActivity : AppCompatActivity() {
 		val pass = etPass.text.toString()
 		// check pass
 		if (email.isBlank() || pass.isBlank()) {
-			Toast.makeText(this, "Email and Password can't be blank", Toast.LENGTH_SHORT).show()
+			Toast.makeText(this, R.string.Email_and_Password_cant_be_blank, Toast.LENGTH_SHORT).show()
 			return
 		}
 		// calling signInWithEmailAndPassword(email, pass)
@@ -112,11 +114,11 @@ class LoginActivity : AppCompatActivity() {
 		// On successful response Display a Toast
 		auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(this) {
 			if (it.isSuccessful) {
-				Toast.makeText(this, "Successfully Logged In", Toast.LENGTH_SHORT).show()
+				Toast.makeText(this, R.string.Successfully_Logged_In, Toast.LENGTH_SHORT).show()
 				startActivity(Intent(this, MainActivity::class.java))
 				finish()
 			} else
-				Toast.makeText(this, "Log In failed ", Toast.LENGTH_SHORT).show()
+				Toast.makeText(this, R.string.Log_In_failed, Toast.LENGTH_SHORT).show()
 		}
 	}
 
