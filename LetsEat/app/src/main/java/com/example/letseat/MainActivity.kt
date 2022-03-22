@@ -298,12 +298,12 @@ class MainActivity : AppCompatActivity() {
 			if(sortingType == R.string.rating)
 			{
 				restaurantRepository.sortAfterRating()
-				Toast.makeText(this,R.string.Sorting_by+sortingType, Toast.LENGTH_SHORT).show()
+				Toast.makeText(this,resources.getString(R.string.Sorting_by)+sortingType, Toast.LENGTH_SHORT).show()
 			}
 			if(sortingType == R.string.radius)
 			{
 				restaurantRepository.sortAfterDistacne()
-				Toast.makeText(this,R.string.Sorting_by+sortingType, Toast.LENGTH_SHORT).show()
+				Toast.makeText(this,resources.getString(R.string.Sorting_by)+sortingType, Toast.LENGTH_SHORT).show()
 			}
 		}
 

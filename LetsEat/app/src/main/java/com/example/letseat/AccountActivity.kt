@@ -3,6 +3,8 @@ package com.example.letseat
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.google.android.gms.maps.model.LatLng
@@ -10,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.google.gson.JsonObject
 import org.json.JSONObject
@@ -26,7 +29,8 @@ class AccountActivity : AppCompatActivity() {
 
 	// creating variables for our list view.
 	private var listView: ListView? = null
-	private var restaurantMutableList = mutableListOf<RestaurantItem>()
+	var restaurantMutableList = mutableListOf<RestaurantItem>()
+	private val handler = Handler(Looper.getMainLooper())
 //	private val adapter = RestaurantListAdapter(this,R.layout.restaurant_item_white,restaurantMutableList,userLatLng )
 
 	val favouriteRepository = RestaurantRepository()
@@ -66,6 +70,15 @@ class AccountActivity : AppCompatActivity() {
 			finish()
 		}
 		initializeListView()
+		{
+			var adapter = RestaurantListAdapter(this,R.layout.restaurant_item_white,restaurantMutableList,userLatLng)
+			listView!!.adapter = adapter
+		}
+
+
+
+
+
 	}
 
 	override fun onStart() {
@@ -93,16 +106,17 @@ class AccountActivity : AppCompatActivity() {
 				}.show()
 		}
 	}
-	private fun initializeListView() {
+	private fun initializeListView(callback : () -> Unit)  {
 		// creating a new array adapter for our list view.
 
 		// below line is used for getting reference
 		// of our Firebase Database.
+		Thread(Runnable {
 		ref = FirebaseDatabase.getInstance("https://let-s-eat-c3632-default-rtdb.europe-west1.firebasedatabase.app/")
-			.getReference("users").child(firebaseAuth.currentUser!!.uid).child("Favorites")
-
+			.getReference("users").child(firebaseAuth.currentUser!!.uid)
+		var values = ref.child("Favorites")
 		ref.get().addOnSuccessListener {
-			for(child in it.children)
+			for(child in it.child("Favorites").children)
 			{
 				var restaurantLat = child.child("restaurantLat").value.toString().toDouble()
 
@@ -113,13 +127,42 @@ class AccountActivity : AppCompatActivity() {
 				var temp = RestaurantItem(child.child("restaurantId").value.toString().toInt(),child.child("restaurantName").value.toString(),child.child("restaurantRating").value.toString().toFloat(),restaurantLatLng,child.child("restaurantAddress").value.toString(),child.child("restaurantOpen").value.toString())
 				restaurantMutableList.add(temp)
 
+
+
 			}
+
+
 		}
+		}).start()
+
+
+		/*
 		ref.addValueEventListener( object : ValueEventListener {
 
 			override fun onDataChange(snapshot: DataSnapshot) {
 //				val temp = snapshot.getValue(String::class.java)
 				//	restaurantMutableList!!.add(snapshot.getValue(String::class.java))
+				var favourites = snapshot.child("Favorites")
+				for(restaurant in favourites.children) {
+					var restaurantLat =
+						restaurant.child("restaurantLat").value.toString()
+							.toDouble()
+
+
+					var restaurantLng =
+						restaurant.child("Favorites").child("restaurantLng").value.toString()
+							.toDouble()
+					var restaurantLatLng = LatLng(restaurantLat, restaurantLng)
+
+					var temp = RestaurantItem(restaurant.child("restaurantId").value.toString().toInt(),
+						restaurant.child("restaurantName").value.toString(),
+						restaurant.child("restaurantRating").value.toString().toFloat(),
+						restaurantLatLng,
+						restaurant.child("restaurantAddress").value.toString(),
+						restaurant.child("restaurantOpen").value.toString()
+					)
+					restaurantMutableList.add(temp)
+				}
 			}
 
 			override fun onCancelled(error: DatabaseError) {
@@ -156,6 +199,8 @@ class AccountActivity : AppCompatActivity() {
 
 
 
+
+
 				//favoriteJSON = JSONObject(favoriteString)
 
 
@@ -168,6 +213,14 @@ class AccountActivity : AppCompatActivity() {
 				// when the new child is added to our list we will be
 				// notifying our adapter that data has changed.
 	//			adapter.notifyDataSetChanged()
+				var restaurantLat = snapshot.child("restaurantLat").value.toString().toDouble()
+
+
+				var restaurantLng = snapshot.child("restaurantLng").value.toString().toDouble()
+				var restaurantLatLng  = LatLng(restaurantLat,restaurantLng)
+
+				var temp = RestaurantItem(snapshot.child("restaurantId").value.toString().toInt(),snapshot.child("restaurantName").value.toString(),snapshot.child("restaurantRating").value.toString().toFloat(),restaurantLatLng,snapshot.child("restaurantAddress").value.toString(),snapshot.child("restaurantOpen").value.toString())
+				restaurantMutableList.add(temp)
 			}
 
 			override fun onChildRemoved(snapshot: DataSnapshot) {
@@ -191,10 +244,12 @@ class AccountActivity : AppCompatActivity() {
 				// this method is called when we get any
 				// error from Firebase with error.
 			}
-		})
+		})*/
 		// below line is used for setting
 		// an adapter to our list view.
-		var adapter = RestaurantListAdapter(this,R.layout.restaurant_item_white,restaurantMutableList,userLatLng)
-		listView!!.adapter = adapter
+
+
+
 	}
+
 }
