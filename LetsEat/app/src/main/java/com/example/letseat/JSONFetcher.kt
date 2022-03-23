@@ -15,7 +15,7 @@ class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 	var mUserLatLng = userLatLng
 	var mRadius = radius
 	private var idList = ArrayList<String>()
-	var isDone = false;
+
 
 
 	 fun run(callback: () -> Unit) {
@@ -26,7 +26,7 @@ class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 		Thread(Runnable {
 
 
-			isDone = false
+
 			var url = URL(sUrl)
 			var httpURLConnection = url.openConnection() as HttpURLConnection
 			var inputStream = httpURLConnection.inputStream
@@ -82,7 +82,7 @@ class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 					}
 					else{
 						if(!exists) {
-							restaurantRepository.addRestaurant(id, name, latLng, rating, adress)
+							restaurantRepository.addRestaurant( name, latLng, rating, adress)
 						}
 					}
 
@@ -102,7 +102,6 @@ class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 
 
 									restaurantRepository.addRestaurant(
-										id,
 										name,
 										latLng,
 										rating,
@@ -115,7 +114,7 @@ class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 							else{
 								if(!exists) {
 									restaurantRepository.addRestaurant(
-										id,
+
 										name,
 										latLng,
 										rating,
@@ -133,7 +132,7 @@ class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 						}
 						else {
 							if(!exists) {
-							restaurantRepository.addRestaurant(id,name,latLng,rating,adress)
+							restaurantRepository.addRestaurant(name,latLng,rating,adress)
 							}
 							else
 							{

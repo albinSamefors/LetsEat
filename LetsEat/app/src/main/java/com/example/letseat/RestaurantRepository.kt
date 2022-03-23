@@ -2,21 +2,13 @@ package com.example.letseat
 
 import android.content.Context
 import android.location.Location
-import android.widget.ListView
-import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.common.api.internal.BackgroundDetector.initialize
-import com.google.android.gms.common.api.internal.GoogleServices.initialize
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.FetchPlaceRequest
-import com.google.android.libraries.places.api.net.PlacesClient
-import kotlinx.coroutines.GlobalScope
 
 
 //Placeholder class for creating restaurant items
 
 val restaurantRepository = RestaurantRepository()
+val favoriteRestaurantRepository = RestaurantRepository()
 
 class RestaurantRepository {
 	private lateinit var user: LatLng
@@ -26,10 +18,10 @@ class RestaurantRepository {
 		context = mContext
 	}
 
-	fun addRestaurant(placeID: String,name : String, latLng: LatLng, rating : Float,adress : String): Int {
+	fun addRestaurant(name : String, latLng: LatLng, rating : Float,adress : String): Int {
 
 		val id = when {
-			restaurants.count() == 0 -> 1
+			restaurants.count() == 0 -> 0
 			else -> restaurants.last().id + 1
 		}
 		restaurants.add(
@@ -46,10 +38,10 @@ class RestaurantRepository {
 
 		return id
 	}
-	fun addRestaurant(placeID: String,name : String, latLng: LatLng, rating : Float,adress : String, openingHours : Boolean): Int {
+	fun addRestaurant(name : String, latLng: LatLng, rating : Float,adress : String, openingHours : Boolean): Int {
 
 		val id = when {
-			restaurants.count() == 0 -> 1
+			restaurants.count() == 0 -> 0
 			else -> restaurants.last().id + 1
 		}
 		var openString = ""
@@ -71,6 +63,17 @@ class RestaurantRepository {
 
 			)
 		)
+
+
+		return id
+	}
+	fun addRestaurant(restaurantItem: RestaurantItem): Int {
+
+		val id = when {
+			restaurants.count() == 0 -> 0
+			else -> restaurants.last().id + 1
+		}
+		restaurants.add(restaurantItem)
 
 
 		return id
@@ -99,14 +102,14 @@ class RestaurantRepository {
 	fun getSpecificRestaurant(id : Int) : RestaurantItem
 	{
 		var tempId = -1
-		for(restaurant in restaurantRepository.restaurants)
+		for(restaurant in restaurants)
 		{
-			if((restaurant.id) == id+1)
+			if((restaurant.id) == id)
 			{
 				tempId = id
 			}
 		}
-		return restaurantRepository.restaurants[tempId]
+		return restaurants[tempId]
 	}
 	fun drop(id : Int)
 	{
@@ -144,6 +147,11 @@ class RestaurantRepository {
 	fun sortAfterRating()
 	{
 		restaurants.sortByDescending { it.rating }
+		var i = 0
+		for(restaurant in restaurants){
+			restaurant.id = i
+			i++
+		}
 	}
 	fun sortAfterDistacne()
 	{
@@ -159,6 +167,12 @@ class RestaurantRepository {
 
 
 		}
+		var i = 0
+		for(restaurant in restaurants){
+			restaurant.id = i
+			i++
+		}
+
 
 	}
 

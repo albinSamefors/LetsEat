@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity() {
 	private lateinit var permissionsLauncher: ActivityResultLauncher<Array<String>>
 	private lateinit var client: FusedLocationProviderClient
 	private lateinit var userLatLng: LatLng
-	private lateinit var debug: String
 	private lateinit var auth: FirebaseAuth
 	private var fineLocationPermissionGranted = false
 	private var coarseLocationPermissionGranted = false
@@ -116,6 +115,8 @@ class MainActivity : AppCompatActivity() {
 			loginButton.background = getDrawable(R.drawable.ic_baseline_account_circle_24)
 			loginButton.setOnClickListener {
 				val intent = Intent(this, AccountActivity::class.java)
+				intent.putExtra("userLat", userLatLng.latitude.toString())
+				intent.putExtra("userLng", userLatLng.longitude.toString())
 				startActivity(intent)
 				finish()
 			}
@@ -288,8 +289,10 @@ class MainActivity : AppCompatActivity() {
 			val listView = findViewById<ListView>(R.id.restaurantView)
 			listView.adapter = restaurantRepository.addRestaurantsOnScreen()
 			listView.setOnItemClickListener { parent, view, position, id ->
+
 				val intent = Intent(this, RestaurantActivity::class.java)
-				intent.putExtra("id", position)
+				intent.putExtra("id", restaurantRepository.getSpecificRestaurant(position).id)
+				intent.putExtra("isFavorite",false)
 				startActivity(intent)
 			}
 		}

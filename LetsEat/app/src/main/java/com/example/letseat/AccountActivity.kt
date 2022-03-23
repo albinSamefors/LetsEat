@@ -14,10 +14,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
-import com.google.gson.JsonObject
 import org.json.JSONObject
-import java.math.MathContext
-import kotlin.math.roundToLong
 
 class AccountActivity : AppCompatActivity() {
 	private lateinit var usernameTextView: TextView
@@ -29,11 +26,8 @@ class AccountActivity : AppCompatActivity() {
 
 	// creating variables for our list view.
 	private var listView: ListView? = null
-	var restaurantMutableList = mutableListOf<RestaurantItem>()
 	private val handler = Handler(Looper.getMainLooper())
-//	private val adapter = RestaurantListAdapter(this,R.layout.restaurant_item_white,restaurantMutableList,userLatLng )
 
-	val favouriteRepository = RestaurantRepository()
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_account)
@@ -41,7 +35,7 @@ class AccountActivity : AppCompatActivity() {
 		firebaseAuth = FirebaseAuth.getInstance()
 		usernameTextView = findViewById(R.id.tvUsername)
 		listView = findViewById(R.id.lvAccountView)
-		restaurantMutableList = ArrayList()
+
 
 		if(intent.hasExtra("userLat") && intent.hasExtra("userLng"))
 		{
@@ -71,8 +65,15 @@ class AccountActivity : AppCompatActivity() {
 		}
 		initializeListView()
 		{
-			var adapter = RestaurantListAdapter(this,R.layout.restaurant_item_white,restaurantMutableList,userLatLng)
+			var adapter = RestaurantListAdapter(this,R.layout.restaurant_item_white,
+				favoriteRestaurantRepository.getAllRestaurants(),userLatLng)
 			listView!!.adapter = adapter
+			listView!!.setOnItemClickListener { parent, view, position, id ->
+				val intent = Intent(this, RestaurantActivity::class.java)
+				intent.putExtra("id", favoriteRestaurantRepository.getSpecificRestaurant(position).id)
+				intent.putExtra("isFavorite",true)
+				startActivity(intent)
+			}
 		}
 
 
@@ -108,8 +109,6 @@ class AccountActivity : AppCompatActivity() {
 	}
 	private fun initializeListView(callback : () -> Unit)  {
 		// creating a new array adapter for our list view.
-		val adapter = RestaurantListAdapter(this,R.layout.restaurant_item_white, ,user)// ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, restaurantArrayList)
-
 		// below line is used for getting reference
 		// of our Firebase Database.
 		Thread(Runnable {
@@ -124,13 +123,14 @@ class AccountActivity : AppCompatActivity() {
 
 				var restaurantLng = child.child("restaurantLng").value.toString().toDouble()
 				var restaurantLatLng  = LatLng(restaurantLat,restaurantLng)
+				var isOpen = child.child("restaurantOpen").value.toString()
 
-				var temp = RestaurantItem(child.child("restaurantId").value.toString().toInt(),child.child("restaurantName").value.toString(),child.child("restaurantRating").value.toString().toFloat(),restaurantLatLng,child.child("restaurantAddress").value.toString(),child.child("restaurantOpen").value.toString())
-				restaurantMutableList.add(temp)
 
+				favoriteRestaurantRepository.addRestaurant(child.child("restaurantName").value.toString(),restaurantLatLng,child.child("restaurantRating").value.toString().toFloat(),child.child("restaurantAddress").value.toString())
 
 
 			}
+			callback()
 
 
 		}

@@ -18,6 +18,7 @@ class RestaurantActivity : AppCompatActivity() {
 
 	//retrieve restaurant id
 	private var restaurantId = -1
+	private var isFavorite = false
 	private lateinit var restaurantAddress: String
 	private lateinit var restaurantLat: String
 	private lateinit var restaurantLng: String
@@ -38,6 +39,12 @@ class RestaurantActivity : AppCompatActivity() {
 			val extras = intent.extras
 			restaurantId = extras!!.getInt("id")
 		}
+		if(intent.hasExtra("isFavorite"))
+		{
+			val extra = intent.extras
+			isFavorite = extra!!.getBoolean("isFavorite")
+
+		}
 
 
 
@@ -48,6 +55,33 @@ class RestaurantActivity : AppCompatActivity() {
 		var openNowView = findViewById<TextView>(R.id.openNowView)
 		titleView.text = ""
 		if(restaurantId!= -1) {
+			if(isFavorite){
+				var restaurant = favoriteRestaurantRepository.getSpecificRestaurant(restaurantId)
+				titleView.text = restaurant.restaurantName
+				ratingsBar.rating = restaurant.rating
+				adressView.text = restaurant.adress
+				if(restaurant.openNow != "Open" && restaurant.openNow != "Closed")
+				{
+					openNowView.text = "Dont Know"
+				}
+				else
+				{
+					openNowView.text = restaurant.openNow
+				}
+
+				restaurantAddress = restaurant.adress
+				restaurantLat = restaurant.latLng.latitude.toString()
+				restaurantLng = restaurant.latLng.longitude.toString()
+				restaurantOpen = restaurant.openNow
+				restaurantName = restaurant.restaurantName
+				restaurantRating = restaurant.rating.toString()
+
+			}
+			else
+			{
+
+
+
 			var restaurant = restaurantRepository.getSpecificRestaurant(restaurantId)
 			titleView.text = restaurant.restaurantName
 			ratingsBar.rating = restaurant.rating
@@ -67,6 +101,7 @@ class RestaurantActivity : AppCompatActivity() {
 			restaurantOpen = restaurant.openNow
 			restaurantName = restaurant.restaurantName
 			restaurantRating = restaurant.rating.toString()
+			}
 		}
 		//init firebase auth
 		firebaseAuth = FirebaseAuth.getInstance()
@@ -109,7 +144,7 @@ class RestaurantActivity : AppCompatActivity() {
 			.addValueEventListener(object : ValueEventListener {
 				override fun onDataChange(snapshot: DataSnapshot) {
 					isInMyFavorites = snapshot.exists()
-					if (isInMyFavorites) {
+					if (isInMyFavorites || isFavorite) {
 						//available in favorite
 						Log.d(TAG, "onDataChanged: available in favorites")
 						//set drawable to top icon
@@ -131,7 +166,7 @@ class RestaurantActivity : AppCompatActivity() {
 	private fun addToFavorites() {
 		//setup data to add to database
 		val hashMap = HashMap<String, Any>()
-		hashMap["restaurantId"] = restaurantId.toString()
+		//hashMap["restaurantId"] = restaurantId.toString()
 		hashMap["restaurantAddress"] = restaurantAddress
 		hashMap["restaurantLat"] = restaurantLat
 		hashMap["restaurantLng"] = restaurantLng
