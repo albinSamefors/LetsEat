@@ -14,6 +14,7 @@ import kotlin.math.nextDown
 
 class RestaurantListAdapter(context: Context, resource: Int, objects: MutableList<RestaurantItem>, userLatLng: LatLng) :
 	ArrayAdapter<RestaurantItem>(context, resource, objects) {
+
 	private val mContext = context
 	private val mResource = resource
 	private val user = userLatLng

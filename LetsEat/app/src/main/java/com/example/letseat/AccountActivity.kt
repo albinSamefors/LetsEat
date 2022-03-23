@@ -82,7 +82,7 @@ class AccountActivity : AppCompatActivity() {
 	}
 	private fun initializeListView() {
 		// creating a new array adapter for our list view.
-	//	val adapter = RestaurantListAdapter(this,R.layout.restaurant_item_white, ,user)// ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, restaurantArrayList)
+		val adapter = RestaurantListAdapter(this,R.layout.restaurant_item_white, ,user)// ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, restaurantArrayList)
 
 		// below line is used for getting reference
 		// of our Firebase Database.
