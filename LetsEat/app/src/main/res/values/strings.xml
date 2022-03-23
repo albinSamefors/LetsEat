@@ -46,4 +46,11 @@
     <string name="Successfully_Signed_Up">Successfully Signed Up</string>
     <string name="Sign_Up_Failed">Sign Up Failed!</string>
     <string name="You_are_not_logged_in">You are not logged in</string>
+    <string name="rating">rating</string>
+    <string name="radius">radius</string>
+    <string name="Sorting_by">Sorting by</string>
+    <string name="Your_Location">Your Location</string>
+    <string name="Added_to_favorites">Added to favorites</string>
+    <string name="Failed_to_add_to_fav_due_to">Failed to add to fav due to</string>
+    <string name="Removed_from_favorites">Removed from favorites</string>
 </resources>

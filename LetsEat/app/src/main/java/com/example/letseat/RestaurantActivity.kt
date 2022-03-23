@@ -19,7 +19,8 @@ class RestaurantActivity : AppCompatActivity() {
 	//retrieve restaurant id
 	private var restaurantId = -1
 	private lateinit var restaurantAddress: String
-	private lateinit var restaurantLatLng: String
+	private lateinit var restaurantLat: String
+	private lateinit var restaurantLng: String
 	private lateinit var restaurantOpen: String
 	private lateinit var restaurantRating: String
 	private lateinit var restaurantName: String
@@ -37,31 +38,7 @@ class RestaurantActivity : AppCompatActivity() {
 			val extras = intent.extras
 			restaurantId = extras!!.getInt("id")
 		}
-		if(intent.hasExtra("address"))
-		{
-			val extras = intent.extras
-			restaurantAddress = extras!!.getString("address","")
-		}
-		if(intent.hasExtra("latLng"))
-		{
-			val extras = intent.extras
-			restaurantLatLng = extras!!.getString("latLng").toString()
-		}
-		if(intent.hasExtra("open"))
-		{
-			val extras = intent.extras
-			restaurantOpen = extras!!.getString("open").toString()
-		}
-		if(intent.hasExtra("rating"))
-		{
-			val extras = intent.extras
-			restaurantRating = extras!!.getString("rating").toString()
-		}
-		if(intent.hasExtra("name"))
-		{
-			val extras = intent.extras
-			restaurantName = extras!!.getString("name").toString()
-		}
+
 
 
 		favoriteButton = findViewById<Button>(R.id.favoritButton)
@@ -85,7 +62,8 @@ class RestaurantActivity : AppCompatActivity() {
 			}
 
 			restaurantAddress = restaurant.adress
-			restaurantLatLng = restaurant.latLng.toString()
+			restaurantLat = restaurant.latLng.latitude.toString()
+			restaurantLng = restaurant.latLng.longitude.toString()
 			restaurantOpen = restaurant.openNow
 			restaurantName = restaurant.restaurantName
 			restaurantRating = restaurant.rating.toString()
@@ -155,7 +133,8 @@ class RestaurantActivity : AppCompatActivity() {
 		val hashMap = HashMap<String, Any>()
 		hashMap["restaurantId"] = restaurantId.toString()
 		hashMap["restaurantAddress"] = restaurantAddress
-		hashMap["restaurantLatLng"] = restaurantLatLng
+		hashMap["restaurantLat"] = restaurantLat
+		hashMap["restaurantLng"] = restaurantLng
 		hashMap["restaurantName"] = restaurantName
 		hashMap["restaurantOpen"] = restaurantOpen
 		hashMap["restaurantRating"] = restaurantRating
@@ -166,7 +145,7 @@ class RestaurantActivity : AppCompatActivity() {
 			.addOnSuccessListener {
 				//add to fav
 				Log.d(TAG, "addToFavorite: Added to fav")
-				Toast.makeText(this, "Added to favorites", Toast.LENGTH_SHORT).show()
+				Toast.makeText(this, R.string.Added_to_favorites, Toast.LENGTH_SHORT).show()
 			}
 			.addOnFailureListener { e ->
 				//failed to add to fav
@@ -185,7 +164,7 @@ class RestaurantActivity : AppCompatActivity() {
 			.removeValue()
 			.addOnSuccessListener {
 				Log.d(TAG, "removeFromFavorite: RemovedFromFav")
-				Toast.makeText(this, "Removed from favorites", Toast.LENGTH_SHORT).show()
+				Toast.makeText(this, R.string.Removed_from_favorites, Toast.LENGTH_SHORT).show()
 			}
 			.addOnFailureListener { e ->
 				Log.d(TAG, "removeFromFavorite: Failed to remove due to ${e.message}")
