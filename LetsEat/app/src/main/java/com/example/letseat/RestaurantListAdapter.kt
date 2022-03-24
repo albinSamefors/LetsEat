@@ -35,14 +35,14 @@ class RestaurantListAdapter(context: Context, resource: Int, objects: MutableLis
 		val distanceView: TextView = convertView.findViewById(R.id.distanceFromUser)
 		val openView = convertView.findViewById<TextView>(R.id.restaurantOpen)
 		var floatArray = floatArrayOf(0f)
-		var userLoc = Location("locationA")
-		var restaurantLocation = Location("locationB")
+		val userLoc = Location("locationA")
+		val restaurantLocation = Location("locationB")
 		userLoc.latitude = user.latitude
 		userLoc.longitude = user.longitude
 		restaurantLocation.latitude = getItem(position)!!.latLng.latitude
 		restaurantLocation.longitude = getItem(position)!!.latLng.longitude
 
-		var fDistanceToRestaurant = userLoc.distanceTo(restaurantLocation)
+		val fDistanceToRestaurant = userLoc.distanceTo(restaurantLocation)
 		titleView.text = name
 		// descriptionView.text = type
 		if(rating ==  0.0f)

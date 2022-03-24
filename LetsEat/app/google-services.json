@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "743663953925",
+    "firebase_url": "https://let-s-eat-c3632-default-rtdb.europe-west1.firebasedatabase.app/",
     "project_id": "let-s-eat-c3632",
     "storage_bucket": "let-s-eat-c3632.appspot.com"
   },
@@ -14,13 +15,21 @@
       },
       "oauth_client": [
         {
+          "client_id": "743663953925-p32qg8cut850lh6tdaf5bh0dnmval1ar.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.letseat",
+            "certificate_hash": "62ff75eacf12db962326d6506f025f91d92da28f"
+          }
+        },
+        {
           "client_id": "743663953925-mu0cl2vi33fk66q6homhnq4vtsrirtnp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC7oQf5q4hwRRmuaHXwoiRmk2TyC0oCfHk"
+          "current_key": "AIzaSyCAs04NDvYgfGcpe6JBx391GVbIU3qoyvk"
         }
       ],
       "services": {

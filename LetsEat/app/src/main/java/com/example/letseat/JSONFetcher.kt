@@ -27,10 +27,10 @@ class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 
 
 
-			var url = URL(sUrl)
-			var httpURLConnection = url.openConnection() as HttpURLConnection
-			var inputStream = httpURLConnection.inputStream
-			var bufferedReader = inputStream.bufferedReader()
+			val url = URL(sUrl)
+			val httpURLConnection = url.openConnection() as HttpURLConnection
+			val inputStream = httpURLConnection.inputStream
+			val bufferedReader = inputStream.bufferedReader()
 			var temp : String
 
 			idList.clear()
@@ -39,17 +39,17 @@ class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 				data = data + line
 			}
 			if (data.isNotEmpty()) {
-				var jsonObject = JSONObject(data)
-				var jsonArray = jsonObject.getJSONArray("results")
+				val jsonObject = JSONObject(data)
+				val jsonArray = jsonObject.getJSONArray("results")
 				for(i in 0 until jsonArray.length())
 				{
 					var exists = false;
 					val place = jsonArray.getJSONObject(i)
 					var id = place.getString("place_id")
-					var location = place.getJSONObject("geometry").getJSONObject("location")
-					var lat = location.getString("lat").toDouble()
-					var lng = location.getString("lng").toDouble()
-					var latLng = LatLng(lat,lng)
+					val location = place.getJSONObject("geometry").getJSONObject("location")
+					val lat = location.getString("lat").toDouble()
+					val lng = location.getString("lng").toDouble()
+					val latLng = LatLng(lat,lng)
 
 					var rating = 0f
 					if(place.has("rating"))
@@ -88,10 +88,10 @@ class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 
 					var bOpenNow = false
 
-					var userLocation = Location("userLocation")
+					val userLocation = Location("userLocation")
 					userLocation.latitude = mUserLatLng.latitude
 					userLocation.longitude = mUserLatLng.longitude
-					var restaurantLocation = Location("restaurantLocation")
+					val restaurantLocation = Location("restaurantLocation")
 					restaurantLocation.latitude = latLng.latitude
 					restaurantLocation.longitude = latLng.longitude
 

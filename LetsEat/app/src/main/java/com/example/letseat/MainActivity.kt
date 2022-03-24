@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 	private var fineLocationPermissionGranted = false
 	private var coarseLocationPermissionGranted = false
 	private var internetPermissionGranted = false
-	private var sortingType = R.string.rating
+	private var sortingType = "rating"
 
 
 	var progressValue: Int = 0
@@ -124,9 +124,9 @@ class MainActivity : AppCompatActivity() {
 		}
 
 		sortingButton.setOnClickListener{
-			if(sortingType == R.string.radius)
+			if(sortingType == resources.getString(R.string.radius))
 			{
-				sortingType = R.string.rating
+				sortingType = resources.getString(R.string.rating)
 				sortingButton.background = getDrawable(R.drawable.ic_baseline_star_24)
 				sortList()
 				updateRestaurantList()
@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity() {
 			}
 			else
 			{
-				sortingType = R.string.radius
+				sortingType = resources.getString(R.string.radius)
 				sortingButton.background = getDrawable(R.drawable.ic_baseline_directions_walk_24)
 				sortList()
 				updateRestaurantList()
@@ -179,7 +179,7 @@ class MainActivity : AppCompatActivity() {
 				override fun onStopTrackingTouch(bar: SeekBar?) {
 					restaurantRepository.dropAllRestaurants()
 					updateRestaurantList()
-					var jsonFetcher = JSONFetcher(
+					val jsonFetcher = JSONFetcher(
 						"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+
 								userLatLng.latitude +"%2C"+
 								userLatLng.longitude+"&radius="+
@@ -218,7 +218,7 @@ class MainActivity : AppCompatActivity() {
 						restaurantRepository.setUserLocation(userLatLng)
 						restaurantRepository.dropAllRestaurants()
 						updateRestaurantList()
-						var jsonFetcher = JSONFetcher(
+						val jsonFetcher = JSONFetcher(
 							"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+
 									userLatLng.latitude +"%2C"+
 									userLatLng.longitude+"&radius="+
@@ -288,12 +288,12 @@ class MainActivity : AppCompatActivity() {
 		}
 		fun sortList()
 		{
-			if(sortingType == R.string.rating)
+			if(sortingType == "rating")
 			{
 				restaurantRepository.sortAfterRating()
 				Toast.makeText(this,resources.getString(R.string.Sorting_by)+sortingType, Toast.LENGTH_SHORT).show()
 			}
-			if(sortingType == R.string.radius)
+			if(sortingType == "radius")
 			{
 				restaurantRepository.sortAfterDistacne()
 				Toast.makeText(this,resources.getString(R.string.Sorting_by)+sortingType, Toast.LENGTH_SHORT).show()

@@ -53,4 +53,5 @@
     <string name="Added_to_favorites">Added to favorites</string>
     <string name="Failed_to_add_to_fav_due_to">Failed to add to fav due to</string>
     <string name="Removed_from_favorites">Removed from favorites</string>
+    <string name="dont_know">Dont Know</string>
 </resources>

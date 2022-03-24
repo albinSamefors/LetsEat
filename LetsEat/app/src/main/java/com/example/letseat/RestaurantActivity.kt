@@ -48,10 +48,10 @@ class RestaurantActivity : AppCompatActivity() {
 
 
 		favoriteButton = findViewById<Button>(R.id.favoritButton)
-		var titleView = findViewById<TextView>(R.id.restaurantTitle)
-		var ratingsBar = findViewById<RatingBar>(R.id.restaurantRating)
-		var adressView = findViewById<TextView>(R.id.adressView)
-		var openNowView = findViewById<TextView>(R.id.openNowView)
+		val titleView = findViewById<TextView>(R.id.restaurantTitle)
+		val ratingsBar = findViewById<RatingBar>(R.id.restaurantRating)
+		val adressView = findViewById<TextView>(R.id.adressView)
+		val openNowView = findViewById<TextView>(R.id.openNowView)
 		titleView.text = ""
 		if(restaurantId!= -1) {
 			if(isInMyFavorites){
@@ -201,7 +201,7 @@ class RestaurantActivity : AppCompatActivity() {
 				Toast.makeText(this, R.string.Removed_from_favorites, Toast.LENGTH_SHORT).show()
 				favoriteRestaurantRepository.drop(restaurantId)
 				finish()
-				var accountRedirect = Intent(this,AccountActivity::class.java)
+				val accountRedirect = Intent(this,AccountActivity::class.java)
 				startActivity(accountRedirect)
 			}
 			.addOnFailureListener { e ->
