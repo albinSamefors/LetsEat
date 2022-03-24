@@ -18,7 +18,6 @@ class RestaurantActivity : AppCompatActivity() {
 
 	//retrieve restaurant id
 	private var restaurantId = -1
-	private var isFavorite = false
 	private lateinit var restaurantAddress: String
 	private lateinit var restaurantLat: String
 	private lateinit var restaurantLng: String
@@ -42,7 +41,7 @@ class RestaurantActivity : AppCompatActivity() {
 		if(intent.hasExtra("isFavorite"))
 		{
 			val extra = intent.extras
-			isFavorite = extra!!.getBoolean("isFavorite")
+			isInMyFavorites = extra!!.getBoolean("isFavorite")
 
 		}
 
@@ -55,7 +54,7 @@ class RestaurantActivity : AppCompatActivity() {
 		var openNowView = findViewById<TextView>(R.id.openNowView)
 		titleView.text = ""
 		if(restaurantId!= -1) {
-			if(isFavorite){
+			if(isInMyFavorites){
 				var restaurant = favoriteRestaurantRepository.getSpecificRestaurant(restaurantId)
 				titleView.text = restaurant.restaurantName
 				ratingsBar.rating = restaurant.rating
@@ -144,7 +143,7 @@ class RestaurantActivity : AppCompatActivity() {
 			.addValueEventListener(object : ValueEventListener {
 				override fun onDataChange(snapshot: DataSnapshot) {
 					isInMyFavorites = snapshot.exists()
-					if (isInMyFavorites || isFavorite) {
+					if (isInMyFavorites) {
 						//available in favorite
 						Log.d(TAG, "onDataChanged: available in favorites")
 						//set drawable to top icon
@@ -200,6 +199,10 @@ class RestaurantActivity : AppCompatActivity() {
 			.addOnSuccessListener {
 				Log.d(TAG, "removeFromFavorite: RemovedFromFav")
 				Toast.makeText(this, R.string.Removed_from_favorites, Toast.LENGTH_SHORT).show()
+				favoriteRestaurantRepository.drop(restaurantId)
+				finish()
+				var accountRedirect = Intent(this,AccountActivity::class.java)
+				startActivity(accountRedirect)
 			}
 			.addOnFailureListener { e ->
 				Log.d(TAG, "removeFromFavorite: Failed to remove due to ${e.message}")

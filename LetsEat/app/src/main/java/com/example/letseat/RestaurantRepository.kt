@@ -113,18 +113,9 @@ class RestaurantRepository {
 	}
 	fun drop(id : Int)
 	{
-		restaurantRepository.restaurants.removeAt(id)
+		restaurantRepository.restaurants[getSpecificRestaurant(id).id]
 	}
-	 fun cutOff(latLng: LatLng, radius : Int)
-	{
-		for(restaurants in restaurantRepository.restaurants)
-		{
-			if(distanceFromUser(latLng, restaurants.latLng) > radius)
-			{
-				restaurantRepository.drop(restaurants.id)
-			}
-		}
-	}
+
 	fun distanceFromUser(user : LatLng, restaurant : LatLng) : Int
 	{
 		val earthRadius = (6371 * 1000)
