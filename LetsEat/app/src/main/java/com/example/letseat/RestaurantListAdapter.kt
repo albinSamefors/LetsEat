@@ -44,7 +44,7 @@ class RestaurantListAdapter(context: Context, resource: Int, objects: MutableLis
 
 		val fDistanceToRestaurant = userLoc.distanceTo(restaurantLocation)
 		titleView.text = name
-		// descriptionView.text = type
+
 		if(rating ==  0.0f)
 		{
 			ratingView.isVisible = false
