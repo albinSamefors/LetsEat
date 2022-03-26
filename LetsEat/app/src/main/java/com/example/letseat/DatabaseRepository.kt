@@ -14,10 +14,10 @@ object DatabaseRepository{
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "createUserWithEmail:success")
-                    /*Toast.makeText(baseContext, "Database successful", Toast.LENGTH_SHORT).show()*/
+
                 } else {
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                    /*Toast.makeText(baseContext, "Database failed", Toast.LENGTH_SHORT).show()*/
+
                 }
             }
     }

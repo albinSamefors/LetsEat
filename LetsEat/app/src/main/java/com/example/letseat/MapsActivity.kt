@@ -234,7 +234,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 	 fun addRestaurantMarkers()
 	{
-	//restaurantRepository.cutOff(userLatLng,progressValue)
 		val circleOptions = CircleOptions()
 		circleOptions.center(userLatLng)
 		circleOptions.radius(progressValue.toDouble())

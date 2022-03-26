@@ -33,7 +33,6 @@ class LoginActivity : AppCompatActivity() {
 	private lateinit var tvForgotPassword: TextView
 
 	//google
-	//val RC_SIGN_IN: Int = 1
 	private lateinit var btnGoogle: SignInButton
 	private lateinit var mGoogleSignInClient: GoogleSignInClient
 	private val Req_Code: Int = 123

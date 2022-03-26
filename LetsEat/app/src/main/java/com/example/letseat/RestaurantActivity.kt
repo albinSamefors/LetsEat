@@ -165,7 +165,6 @@ class RestaurantActivity : AppCompatActivity() {
 	private fun addToFavorites() {
 		//setup data to add to database
 		val hashMap = HashMap<String, Any>()
-		//hashMap["restaurantId"] = restaurantId.toString()
 		hashMap["restaurantAddress"] = restaurantAddress
 		hashMap["restaurantLat"] = restaurantLat
 		hashMap["restaurantLng"] = restaurantLng

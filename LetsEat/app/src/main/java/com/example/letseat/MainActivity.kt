@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
 		val mapIntent = Intent(this, MapsActivity::class.java)
 
 
-		val logInIntent = Intent(this, LoginActivity::class.java)
+
 		val mapButton = findViewById<ImageButton>(R.id.mapButton)
 		val distanceBar = findViewById<SeekBar>(R.id.distanceBar)
 		val listView = findViewById<ListView>(R.id.restaurantView)
@@ -202,7 +202,7 @@ class MainActivity : AppCompatActivity() {
 
 	}
 
-		//////////////////////////THIS IS ALL SHIT
+		//////////////////////////
 		@SuppressLint("MissingPermission")
 		fun getCurrentPosition() {
 			val task: Task<Location> = client.lastLocation
@@ -242,9 +242,7 @@ class MainActivity : AppCompatActivity() {
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		private fun requestPermissions() {
-		//	coarseLocationPermissionGranted = ContextCompat.checkSelfPermission(
-		//		this, android.Manifest.permission.ACCESS_COARSE_LOCATION
-//			) == PackageManager.PERMISSION_GRANTED
+
 
 			fineLocationPermissionGranted = ContextCompat.checkSelfPermission(
 				this,
@@ -275,7 +273,6 @@ class MainActivity : AppCompatActivity() {
 		}
 
 		fun updateRestaurantList() {
-			//	restaurantRepository.cutOff(userLatLng,progressValue)
 			val listView = findViewById<ListView>(R.id.restaurantView)
 			listView.adapter = restaurantRepository.addRestaurantsOnScreen()
 			listView.setOnItemClickListener { parent, view, position, id ->

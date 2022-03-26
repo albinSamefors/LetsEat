@@ -21,7 +21,6 @@ class RestaurantListAdapter(context: Context, resource: Int, objects: MutableLis
 
 	override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 		val name: String = getItem(position)!!.restaurantName
-		//  val type : String = getItem(position)!!.restaurantType
 		val rating: Float = getItem(position)!!.rating
 		val distance: LatLng = getItem(position)!!.latLng
 
@@ -30,7 +29,6 @@ class RestaurantListAdapter(context: Context, resource: Int, objects: MutableLis
 
 
 		val titleView: TextView = convertView.findViewById(R.id.restaurantName)
-		// val descriptionView : TextView = convertView.findViewById(R.id.restaurantType)
 		val ratingView: RatingBar = convertView.findViewById(R.id.ratingBar)
 		val distanceView: TextView = convertView.findViewById(R.id.distanceFromUser)
 		val openView = convertView.findViewById<TextView>(R.id.restaurantOpen)
