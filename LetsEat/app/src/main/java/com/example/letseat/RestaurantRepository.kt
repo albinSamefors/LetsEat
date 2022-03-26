@@ -31,7 +31,7 @@ class RestaurantRepository {
 				rating,
 				latLng,
 				adress,
-				"Dont know"//ÄNDRA DENNA// TODO: ASS
+				"Dont know"
 			)
 		)
 
@@ -47,10 +47,10 @@ class RestaurantRepository {
 		var openString = ""
 		if(openingHours)
 		{
-			openString = "Open" //ÄNDRA// TODO: ASS
+			openString = "Open"
 		}
 		else{
-			openString = "Closed"// TODO: ASS
+			openString = "Closed"
 		}
 		restaurants.add(
 			RestaurantItem(

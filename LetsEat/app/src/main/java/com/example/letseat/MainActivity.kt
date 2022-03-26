@@ -21,7 +21,7 @@ import com.google.android.libraries.places.api.Places
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
-// TODO: Ändra så att alla färger hämtas ifrån temat istället för de hårdkodade färgerna Samt fixa darkmode
+
 class MainActivity : AppCompatActivity() {
 
 
@@ -124,9 +124,9 @@ class MainActivity : AppCompatActivity() {
 		}
 
 		sortingButton.setOnClickListener{
-			if(sortingType == resources.getString(R.string.radius))
+			if(sortingType == "radius")
 			{
-				sortingType = resources.getString(R.string.rating)
+				sortingType = "rating"
 				sortingButton.background = getDrawable(R.drawable.ic_baseline_star_24)
 				sortList()
 				updateRestaurantList()
@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity() {
 			}
 			else
 			{
-				sortingType = resources.getString(R.string.radius)
+				sortingType = "radius"
 				sortingButton.background = getDrawable(R.drawable.ic_baseline_directions_walk_24)
 				sortList()
 				updateRestaurantList()

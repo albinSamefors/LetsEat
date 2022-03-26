@@ -23,6 +23,8 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -34,6 +36,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 	private lateinit var mapFragment: SupportMapFragment
 	private lateinit var userLatLng: LatLng
 	private lateinit var placesClient: PlacesClient
+	private lateinit var auth: FirebaseAuth
 	var progressValue = 0
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -54,11 +57,29 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 			startActivity(intent)
 		}
 		val accountButton = findViewById<ImageButton>(R.id.AccountButton)
-		accountButton.setOnClickListener {
-			val intent = Intent(this, AccountActivity::class.java)
-			intent.putExtra("userLat", userLatLng.latitude.toString())
-			intent.putExtra("userLng", userLatLng.longitude.toString())
-			startActivity(intent)
+		auth = FirebaseAuth.getInstance()
+		val mFirebaseUser: FirebaseUser? = auth.currentUser
+		if (mFirebaseUser != null) {
+			//there is some user logged in
+			accountButton.background = getDrawable(R.drawable.ic_baseline_account_circle_24)
+			accountButton.setOnClickListener {
+				val intent = Intent(this, AccountActivity::class.java)
+				intent.putExtra("userLat", userLatLng.latitude.toString())
+				intent.putExtra("userLng", userLatLng.longitude.toString())
+				startActivity(intent)
+				finish()
+			}
+
+		}
+		else
+		{
+			accountButton.background = getDrawable(R.drawable.ic_baseline_login_24)
+			accountButton.setOnClickListener {
+				val intent = Intent(this, LoginActivity::class.java)
+				startActivity(intent)
+				finish()
+			}
+
 		}
 		client = LocationServices.getFusedLocationProviderClient(this)
 
@@ -75,7 +96,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 			) == PackageManager.PERMISSION_GRANTED
 		) {
 			getCurrentPosition()
-// TODO: Update the position with a set interval 
+
 		}
 		else {
 			// When permission denied
@@ -137,7 +158,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 							//init LatLng
 							userLatLng = LatLng(location.latitude, location.longitude)
 							val markerOptions =
-								MarkerOptions().position(userLatLng).title(R.string.Your_Location.toString())//TODO:Kanske funkar?? orginal är bara "Your location"
+								MarkerOptions().position(userLatLng).title(R.string.Your_Location.toString())
 
 
 
