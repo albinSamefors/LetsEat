@@ -12,7 +12,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.letseat.DatabaseRepository.updateUI
+import com.example.letseat.DatabaseRepository.updateUser
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -160,7 +160,7 @@ class LoginActivity : AppCompatActivity() {
 				if (task.isSuccessful) {
 					val newUser = User(account.idToken, null)
 					val user = auth.currentUser
-					updateUI(user, newUser)
+					updateUser(user, newUser)
 					val intent = Intent(this, MainActivity::class.java)
 					startActivity(intent)
 					finish()

@@ -9,7 +9,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.letseat.DatabaseRepository.updateUI
+import com.example.letseat.DatabaseRepository.updateUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -80,13 +80,13 @@ class RegistrationActivity : AppCompatActivity() {
                 Log.d(TAG, "createUserWithEmail:success")
                 Toast.makeText(this, R.string.Successfully_Signed_Up, Toast.LENGTH_SHORT).show()
                 val user = auth.currentUser
-                updateUI(user, newUser)
+                updateUser(user, newUser)
                 startActivity(Intent (this, MainActivity::class.java))
                 finish()
             } else {
                 Log.w(TAG, "createUserWithEmail:failure", task.exception)
                 Toast.makeText(this, R.string.Sign_Up_Failed, Toast.LENGTH_SHORT).show()
-                updateUI(null, newUser)
+                updateUser(null, newUser)
             }
         }
     }

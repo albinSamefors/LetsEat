@@ -14,18 +14,17 @@ import com.google.firebase.ktx.Firebase
 
 
 class AccountActivity : AppCompatActivity() {
-	private lateinit var usernameTextView: TextView
+	private lateinit var emailTextView: TextView
 	private lateinit var firebaseAuth: FirebaseAuth
 	private lateinit var ref: DatabaseReference
 	private lateinit var userLatLng : LatLng
-	// creating variables for our list view.
 	private var listView: ListView? = null
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_account)
-		//initiation
+		//Initializing Firebase authentication
 		firebaseAuth = FirebaseAuth.getInstance()
-		usernameTextView = findViewById(R.id.tvUsername)
+		emailTextView = findViewById(R.id.textViewEmail)
 		listView = findViewById(R.id.lvAccountView)
 		if(intent.hasExtra("userLat") && intent.hasExtra("userLng"))
 		{
@@ -75,10 +74,10 @@ class AccountActivity : AppCompatActivity() {
 	override fun onStart() {
 		super.onStart()
 
-		val mFirebaseUser: FirebaseUser? = firebaseAuth.currentUser
-		if (mFirebaseUser != null) {
+		val firebaseUser: FirebaseUser? = firebaseAuth.currentUser
+		if (firebaseUser != null) {
 			//there is some user logged in
-			usernameTextView.text = mFirebaseUser.email
+			emailTextView.text = firebaseUser.email
 		} else {
 			//no one logged in
 			AlertDialog.Builder(this)
@@ -108,14 +107,10 @@ class AccountActivity : AppCompatActivity() {
 		ref.get().addOnSuccessListener {
 			for(child in it.child("Favorites").children)
 			{
-				var restaurantLat = child.child("restaurantLat").value.toString().toDouble()
-
-
-				var restaurantLng = child.child("restaurantLng").value.toString().toDouble()
-				var restaurantLatLng  = LatLng(restaurantLat,restaurantLng)
+				val restaurantLat = child.child("restaurantLat").value.toString().toDouble()
+				val restaurantLng = child.child("restaurantLng").value.toString().toDouble()
+				val restaurantLatLng  = LatLng(restaurantLat,restaurantLng)
 				var isOpen = child.child("restaurantOpen").value.toString()
-
-
 				favoriteRestaurantRepository.addRestaurant(child.child("restaurantName").value.toString(),restaurantLatLng,child.child("restaurantRating").value.toString().toFloat(),child.child("restaurantAddress").value.toString())
 
 
