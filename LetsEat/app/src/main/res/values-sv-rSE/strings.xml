@@ -51,4 +51,7 @@
     <string name="Added_to_favorites">"Tillagd till favoriter "</string>
     <string name="Failed_to_add_to_fav_due_to">Det gick inte att lägga till i favvo pga</string>
     <string name="Removed_from_favorites">"Borttagen från favoriter "</string>
+    <string name="dont_know">Vet ej</string>
+    <string name="google_auth_failure_message">Google misslyckades med att logga in. Försök igen!</string>
+    <string name="example_mail">example@gmail.com</string>
 </resources>

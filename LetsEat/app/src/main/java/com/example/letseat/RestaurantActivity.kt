@@ -18,12 +18,7 @@ class RestaurantActivity : AppCompatActivity() {
 
 	//retrieve restaurant id
 	private var restaurantId = -1
-	private lateinit var restaurantAddress: String
-	private lateinit var restaurantLat: String
-	private lateinit var restaurantLng: String
-	private lateinit var restaurantOpen: String
-	private lateinit var restaurantRating: String
-	private lateinit var restaurantName: String
+	private lateinit var restaurant : RestaurantItem
 
 	//will hold a boolean value to indicate either is in current users favorites list or not
 	private var isInMyFavorites = false
@@ -42,11 +37,7 @@ class RestaurantActivity : AppCompatActivity() {
 		{
 			val extra = intent.extras
 			isInMyFavorites = extra!!.getBoolean("isFavorite")
-
 		}
-
-
-
 		favoriteButton = findViewById<Button>(R.id.favoritButton)
 		val titleView = findViewById<TextView>(R.id.restaurantTitle)
 		val ratingsBar = findViewById<RatingBar>(R.id.restaurantRating)
@@ -55,7 +46,7 @@ class RestaurantActivity : AppCompatActivity() {
 		titleView.text = ""
 		if(restaurantId!= -1) {
 			if(isInMyFavorites){
-				var restaurant = favoriteRestaurantRepository.getSpecificRestaurant(restaurantId)
+				restaurant = favoriteRestaurantRepository.getSpecificRestaurant(restaurantId)
 				titleView.text = restaurant.restaurantName
 				ratingsBar.rating = restaurant.rating
 				adressView.text = restaurant.adress
@@ -67,39 +58,22 @@ class RestaurantActivity : AppCompatActivity() {
 				{
 					openNowView.text = restaurant.openNow
 				}
-
-				restaurantAddress = restaurant.adress
-				restaurantLat = restaurant.latLng.latitude.toString()
-				restaurantLng = restaurant.latLng.longitude.toString()
-				restaurantOpen = restaurant.openNow
-				restaurantName = restaurant.restaurantName
-				restaurantRating = restaurant.rating.toString()
-
 			}
 			else
 			{
+				var restaurant = restaurantRepository.getSpecificRestaurant(restaurantId)
+				titleView.text = restaurant.restaurantName
+				ratingsBar.rating = restaurant.rating
+				adressView.text = restaurant.adress
+				if(restaurant.openNow != "Open" && restaurant.openNow != "Closed")
+				{
+					openNowView.text = resources.getString(R.string.dont_know)
+				}
+				else
+				{
+					openNowView.text = restaurant.openNow
+				}
 
-
-
-			var restaurant = restaurantRepository.getSpecificRestaurant(restaurantId)
-			titleView.text = restaurant.restaurantName
-			ratingsBar.rating = restaurant.rating
-			adressView.text = restaurant.adress
-			if(restaurant.openNow != "Open" && restaurant.openNow != "Closed")
-			{
-				openNowView.text = "Dont Know"
-			}
-			else
-			{
-				openNowView.text = restaurant.openNow
-			}
-
-			restaurantAddress = restaurant.adress
-			restaurantLat = restaurant.latLng.latitude.toString()
-			restaurantLng = restaurant.latLng.longitude.toString()
-			restaurantOpen = restaurant.openNow
-			restaurantName = restaurant.restaurantName
-			restaurantRating = restaurant.rating.toString()
 			}
 		}
 		//init firebase auth
@@ -115,7 +89,8 @@ class RestaurantActivity : AppCompatActivity() {
 			if (firebaseAuth.currentUser == null) {
 				//user not logged in, can not use favorite function
 				Toast.makeText(this, R.string.You_are_not_logged_in, Toast.LENGTH_SHORT).show()
-			} else {
+			}
+			else {
 				//user logged in, can use function
 				if (isInMyFavorites) {
 					//already in fav, remove
@@ -155,7 +130,6 @@ class RestaurantActivity : AppCompatActivity() {
 						favoriteButton.setCompoundDrawablesRelativeWithIntrinsicBounds(0,R.drawable.ic_baseline_favorite_border_red,0,0)
 					}
 				}
-
 				override fun onCancelled(error: DatabaseError) {
 					Log.d(TAG, "onDataChanged: Failed to read value")
 				}
@@ -165,12 +139,12 @@ class RestaurantActivity : AppCompatActivity() {
 	private fun addToFavorites() {
 		//setup data to add to database
 		val hashMap = HashMap<String, Any>()
-		hashMap["restaurantAddress"] = restaurantAddress
-		hashMap["restaurantLat"] = restaurantLat
-		hashMap["restaurantLng"] = restaurantLng
-		hashMap["restaurantName"] = restaurantName
-		hashMap["restaurantOpen"] = restaurantOpen
-		hashMap["restaurantRating"] = restaurantRating
+		hashMap["restaurantAddress"] = restaurant.adress
+		hashMap["restaurantLat"] = restaurant.latLng.latitude.toString()
+		hashMap["restaurantLng"] = restaurant.latLng.longitude.toString()
+		hashMap["restaurantName"] = restaurant.restaurantName
+		hashMap["restaurantOpen"] = restaurant.openNow
+		hashMap["restaurantRating"] = restaurant.rating.toString()
 
 		//save to database
 		val ref = FirebaseDatabase.getInstance("https://let-s-eat-c3632-default-rtdb.europe-west1.firebasedatabase.app/").getReference("users")

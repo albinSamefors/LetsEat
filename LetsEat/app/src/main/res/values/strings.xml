@@ -27,14 +27,14 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="forgot_password">Forgot password</string>
-    <string name="enter_your_username_or_email_address_we_will_send_you_an_email_to_reset_your_password">Enter your username or email adress and we will send you an email to reset your password</string>
+    <string name="enter_your_username_or_email_address_we_will_send_you_an_email_to_reset_your_password">Enter your username or email address and we will send you an email to reset your password</string>
     <string name="email_id">Email id</string>
     <string name="submit">submit</string>
     <string name="enter_your_username_or_email_adress_we_will_send_you_an_email_to_reset_your_password">Enter your username or email address and we will send you an email to reset your password</string>
     <string name="Your_username_is">Your username is:</string>
     <string name="example_mail">example@gmail.com</string>
     <string name="Successfully_signed_out">Successfully signed out</string>
-    <string name="Please_enter_email_adress.">Please enter email adress.</string>
+    <string name="Please_enter_email_adress.">Please enter email address.</string>
     <string name="Email_sent_successfully_to_reset_your_password">Email sent successfully to reset your password!</string>
     <string name="Logging_In">Logging In</string>
     <string name="User_already_logged_in">User already logged in</string>
@@ -53,4 +53,5 @@
     <string name="Failed_to_add_to_fav_due_to">Failed to add to fav due to</string>
     <string name="Removed_from_favorites">Removed from favorites</string>
     <string name="dont_know">Dont Know</string>
+    <string name="google_auth_failure_message">Google Authentication failed. Try again!</string>
 </resources>

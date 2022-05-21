@@ -3,7 +3,9 @@
 package com.example.letseat
 
 import android.content.Intent
+import android.nfc.Tag
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -23,7 +25,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 
-@Suppress("DEPRECATION", "DEPRECATION")
+
 class LoginActivity : AppCompatActivity() {
 
 	private lateinit var tvRedirectSignUp: TextView
@@ -146,7 +148,7 @@ class LoginActivity : AppCompatActivity() {
 				firebaseAuthWithGoogle(account)
 			}
 		} catch (e: ApiException) {
-			Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show()
+			Log.d("ApiException", e.toString())
 		}
 	}
 
@@ -155,14 +157,18 @@ class LoginActivity : AppCompatActivity() {
 		val credential = GoogleAuthProvider.getCredential(account.idToken, null)
 		auth.signInWithCredential(credential)
 			.addOnCompleteListener { task ->
-			if (task.isSuccessful) {
-				val newUser = User(account.idToken, null)
-				val user = auth.currentUser
-				updateUI(user, newUser)
-				val intent = Intent(this, MainActivity::class.java)
-				startActivity(intent)
-				finish()
+				if (task.isSuccessful) {
+					val newUser = User(account.idToken, null)
+					val user = auth.currentUser
+					updateUI(user, newUser)
+					val intent = Intent(this, MainActivity::class.java)
+					startActivity(intent)
+					finish()
 			}
 		}
+		auth.signInWithCredential(credential)
+			.addOnFailureListener {
+				Toast.makeText(this,R.string.google_auth_failure_message,Toast.LENGTH_SHORT).show()
+			}
 	}
 }

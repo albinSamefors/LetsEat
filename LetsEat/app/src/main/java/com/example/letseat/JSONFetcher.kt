@@ -9,9 +9,9 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 
-class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
-	var sUrl = mUrl
-	var data = ""
+class JSONFetcher(url: String, userLatLng: LatLng, radius : Int){
+	private var mUrl = url
+	var jsonString = ""
 	var mUserLatLng = userLatLng
 	var mRadius = radius
 	private var idList = ArrayList<String>()
@@ -20,33 +20,30 @@ class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 
 	 fun run(callback: () -> Unit) {
 
-		//GlobalScope.launch(Dispatchers.IO)
 		val mainHandler = Handler(Looper.getMainLooper())
 
 		Thread(Runnable {
 
 
 			//Uses the url to establish connection
-			val url = URL(sUrl)
+			val url = URL(mUrl)
 			val httpURLConnection = url.openConnection() as HttpURLConnection
 			val inputStream = httpURLConnection.inputStream
 			val bufferedReader = inputStream.bufferedReader()
-			var temp : String
 
 			idList.clear()
 			for(line in bufferedReader.lines())
 			{
-				data = data + line
+				jsonString += line
 			}
-			if (data.isNotEmpty()) {
-				val jsonObject = JSONObject(data)
+			if (jsonString.isNotEmpty()) {
+				val jsonObject = JSONObject(jsonString)
 				val jsonArray = jsonObject.getJSONArray("results")
 				for(i in 0 until jsonArray.length())
 				{
 					//Places all restaurant objects into restaurant repository list
 					var exists = false;
 					val place = jsonArray.getJSONObject(i)
-					var id = place.getString("place_id")
 					val location = place.getJSONObject("geometry").getJSONObject("location")
 					val lat = location.getString("lat").toDouble()
 					val lng = location.getString("lng").toDouble()
@@ -65,17 +62,15 @@ class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 						{
 							exists = true
 						}
-
-
 					}
-					var adress = ""
+					var address = ""
 					//Certain controlls for less common fields
 					if(place.has("vicinity"))
 					{
-						 adress = place.getString("vicinity")
+						 address = place.getString("vicinity")
 					}
 					else{
-						adress = ""
+						address = ""
 					}
 					var openNow = "";
 					if(place.has("opening_hours"))
@@ -84,12 +79,10 @@ class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 					}
 					else{
 						if(!exists) {
-							restaurantRepository.addRestaurant( name, latLng, rating, adress)
+							restaurantRepository.addRestaurant( name, latLng, rating, address)
 						}
 					}
-
 					var bOpenNow = false
-
 					val userLocation = Location("userLocation")
 					userLocation.latitude = mUserLatLng.latitude
 					userLocation.longitude = mUserLatLng.longitude
@@ -101,13 +94,11 @@ class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 						if(openNow == "true" || openNow == "false") {
 							if(openNow == "true") {
 								if(!exists) {
-
-
 									restaurantRepository.addRestaurant(
 										name,
 										latLng,
 										rating,
-										adress,
+										address,
 										true
 									)
 								}
@@ -120,7 +111,7 @@ class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 										name,
 										latLng,
 										rating,
-										adress,
+										address,
 										false
 									)
 								}
@@ -129,12 +120,10 @@ class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 									continue
 								}
 							}
-
-
 						}
 						else {
 							if(!exists) {
-							restaurantRepository.addRestaurant(name,latLng,rating,adress)
+							restaurantRepository.addRestaurant(name,latLng,rating,address)
 							}
 							else
 							{
@@ -147,11 +136,7 @@ class JSONFetcher(mUrl: String, userLatLng: LatLng, radius : Int){
 						continue
 					}
 				}
-
-
 			}
-
-
 			mainHandler.post{
 				callback()
 			}

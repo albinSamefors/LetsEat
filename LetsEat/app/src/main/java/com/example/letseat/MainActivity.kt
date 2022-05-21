@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
 	private var coarseLocationPermissionGranted = false
 	private var internetPermissionGranted = false
 	private var sortingType = "rating"
+	private val permissionRequestCode = 44
 
 
 	var progressValue: Int = 0
@@ -76,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 			ActivityCompat.requestPermissions(
 				this,
 				arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-				44
+				permissionRequestCode
 			)
 		}
 
@@ -87,14 +89,13 @@ class MainActivity : AppCompatActivity() {
 
 		val mapButton = findViewById<ImageButton>(R.id.mapButton)
 		val distanceBar = findViewById<SeekBar>(R.id.distanceBar)
-		val listView = findViewById<ListView>(R.id.restaurantView)
 		val distanceView = findViewById<TextView>(R.id.distanceView)
 		val loginButton = findViewById<ImageButton>(R.id.logInButton)
 		val sortingButton = findViewById<ImageButton>(R.id.sortingButton)
 
 
 		mapButton.setOnClickListener {
-			mapIntent.putExtra("radius", progressValue)
+			mapIntent.putExtra(resources.getString(R.string.radius), progressValue)
 			startActivity(mapIntent)
 			finish()
 		}
@@ -102,7 +103,7 @@ class MainActivity : AppCompatActivity() {
 		val mFirebaseUser: FirebaseUser? = auth.currentUser
 		if (mFirebaseUser != null) {
 			//there is some user logged in
-			loginButton.background = getDrawable(R.drawable.ic_baseline_account_circle_24)
+			loginButton.background = AppCompatResources.getDrawable(this,R.drawable.ic_baseline_account_circle_24)
 			loginButton.setOnClickListener {
 				val intent = Intent(this, AccountActivity::class.java)
 				intent.putExtra("userLat", userLatLng.latitude.toString())
@@ -114,7 +115,7 @@ class MainActivity : AppCompatActivity() {
 		}
 		else
 		{
-			loginButton.background = getDrawable(R.drawable.ic_baseline_login_24)
+			loginButton.background = AppCompatResources.getDrawable(this,R.drawable.ic_baseline_login_24)
 			loginButton.setOnClickListener {
 				val intent = Intent(this, LoginActivity::class.java)
 				startActivity(intent)
@@ -127,7 +128,7 @@ class MainActivity : AppCompatActivity() {
 			if(sortingType == "radius")
 			{
 				sortingType = "rating"
-				sortingButton.background = getDrawable(R.drawable.ic_baseline_star_24)
+				sortingButton.background = AppCompatResources.getDrawable(this,R.drawable.ic_baseline_star_24)
 				sortList()
 				updateRestaurantList()
 
@@ -135,7 +136,7 @@ class MainActivity : AppCompatActivity() {
 			else
 			{
 				sortingType = "radius"
-				sortingButton.background = getDrawable(R.drawable.ic_baseline_directions_walk_24)
+				sortingButton.background = AppCompatResources.getDrawable(this,R.drawable.ic_baseline_directions_walk_24)
 				sortList()
 				updateRestaurantList()
 			}
@@ -144,18 +145,12 @@ class MainActivity : AppCompatActivity() {
 		}
 
 
-
-
-
 		val restaurantItem = ArrayAdapter(
 			this,
 			android.R.layout.simple_list_item_1,
 			android.R.id.text1,
 			restaurantRepository.getAllRestaurants()
 		)
-
-
-
 
 			//Seekbar setup
 			progressValue =
