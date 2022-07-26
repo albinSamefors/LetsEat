@@ -34,7 +34,7 @@
     <string name="Your_username_is">Ditt användarnamn är:</string>
     <string name="Successfully_signed_out">Utloggning lyckad</string>
     <string name="Please_enter_email_adress.">Vänligen ange e-postadress.</string>
-    <string name="Email_sent_successfully_to_reset_your_password">"E-post har skickats för att återställa ditt lösenord! "</string>
+    <string name="Email_sent_successfully_to_reset_your_password">"E-post har skickats för att återställa ditt lösenord!"</string>
     <string name="Logging_In">"Loggar in "</string>
     <string name="User_already_logged_in">"Användaren är redan inloggad "</string>
     <string name="Email_and_Password_cant_be_blank">"E-post och lösenord får inte vara tomma "</string>

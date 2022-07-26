@@ -23,8 +23,6 @@ class JSONFetcher(url: String, userLatLng: LatLng, radius : Int){
 		val mainHandler = Handler(Looper.getMainLooper())
 
 		Thread(Runnable {
-
-
 			//Uses the url to establish connection
 			val url = URL(mUrl)
 			val httpURLConnection = url.openConnection() as HttpURLConnection
@@ -42,7 +40,7 @@ class JSONFetcher(url: String, userLatLng: LatLng, radius : Int){
 				for(i in 0 until jsonArray.length())
 				{
 					//Places all restaurant objects into restaurant repository list
-					var exists = false;
+					var exists = false
 					val place = jsonArray.getJSONObject(i)
 					val location = place.getJSONObject("geometry").getJSONObject("location")
 					val lat = location.getString("lat").toDouble()
