@@ -54,4 +54,5 @@
     <string name="Removed_from_favorites">Removed from favorites</string>
     <string name="dont_know">Dont Know</string>
     <string name="google_auth_failure_message">Google Authentication failed. Try again!</string>
+    <string name="database_url" translatable="false">https://let-s-eat-c3632-default-rtdb.europe-west1.firebasedatabase.app/</string>
 </resources>

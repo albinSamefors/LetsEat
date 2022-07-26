@@ -26,7 +26,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/accountListViewButton"
+        android:id="@+id/restaurantListButton"
         android:layout_width="45sp"
         android:layout_height="45sp"
         android:layout_marginStart="24dp"
@@ -54,7 +54,7 @@
         app:srcCompat="@drawable/ic_baseline_mapwhite_24" />
 
     <Button
-        android:id="@+id/btnLogout"
+        android:id="@+id/logOutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="172dp"
@@ -75,7 +75,7 @@
         android:text="@string/Your_username_is"
         android:textColor="@color/White"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnLogout"
+        app:layout_constraintBottom_toTopOf="@+id/logOutButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_box"
         app:layout_constraintVertical_bias="0.315" />
@@ -88,7 +88,7 @@
         android:text="@string/example_mail"
         android:textColor="@color/White"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnLogout"
+        app:layout_constraintBottom_toTopOf="@+id/logOutButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -106,7 +106,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogout"
+        app:layout_constraintTop_toBottomOf="@+id/logOutButton"
         tools:ignore="SpeakableTextPresentCheck">
 
 
